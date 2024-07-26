@@ -12,6 +12,8 @@
     - [Part 03: Advanced](#part-03-advanced)
     - [Part 04: Professional Dev](#part-04-professional-dev)
     - [Part 05: Next.js](#part-05-nextjs)
+  - [Lessons Learned](#lessons-learned)
+    - [Building Our First React App](#building-our-first-react-app)
   - [Author](#author)
 
 ## Course Overview
@@ -41,6 +43,29 @@
 ### Part 05: Next.js
 
 - This part is all about taking React to the server and taking advantage of its most cutting-edge features using powerful and super popular Next.js framework.
+
+## Lessons Learned
+
+### Building Our First React App
+
+- [Code Sandbox](https://codesandbox.io/)
+- React component - it is essentially a piece of the user interface.
+- A component in React is really just a function. These functions i.e. components can return something called JSX, which is a syntax that looks like HTML that will basically describe what we can see on the screen.
+- State
+  - State is the most fundamental concept of React.
+  - Whenever we need something to change in the user interface, we change the state.
+  - `useState` hook
+    - `useState` is a function in React library which returns an array.
+    - Where on the first position of that array we have the value of the state, and the second value is a setter function - a function that we can use to update the piece of state.
+  - Whenever the piece of state is updated, the user interface will also be updated.
+- Adding JavaScript to JSX
+- `useEffect` hook
+  - It takes two arguments. First is the function that we want to execute on initial load of the component; and second is the dependency array and we will learn about that later.
+  - For now, just make sure you have an empty array as the second argument in the `useEffect` hook.
+- In React, we try to divide user interface into multiple components.
+- It is a convention in React to capitalize component names.
+- props
+  - props are basically just like parameters to a function.
 
 ## Author
 
