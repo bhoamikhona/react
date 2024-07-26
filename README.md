@@ -13,6 +13,7 @@
 
 - [Section 01](./Section%2001): Introduction
 - [Section 02](./Section%2002): Part 01 Introduction - React Fundamentals
+- [Section 03](./Section%2003): A First Look at React
 
 ## Author
 
