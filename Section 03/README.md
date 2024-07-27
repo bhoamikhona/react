@@ -7,9 +7,103 @@
 - [Section 03: A First Look at React](#section-03-a-first-look-at-react)
   - [Table of Content](#table-of-content)
   - [Lessons Learned](#lessons-learned)
+    - [Why Do Frontend Frameworks Exist?](#why-do-frontend-frameworks-exist)
+      - [The Rise of Single Page Applications](#the-rise-of-single-page-applications)
+      - [Single-Page Applications With Vanilla JavaScript?](#single-page-applications-with-vanilla-javascript)
+      - [Keeping UI In-Sync With Data](#keeping-ui-in-sync-with-data)
+      - [Single-Page Applications With Vanilla JavaScript?](#single-page-applications-with-vanilla-javascript-1)
+      - [Why do Frontend Frameworks Exist?](#why-do-frontend-frameworks-exist-1)
   - [Author](#author)
 
 ## Lessons Learned
+
+### Why Do Frontend Frameworks Exist?
+
+- Before we start learning about React, let's actually ask ourselves one very important question. Why do frontend frameworks like React actually exist in the first place? Why not simply use Vanilla JavaScript to build our apps?
+- Let's answer that question in this lesson and we are going to start at the very beginning by reviewing how website used to be built in the past, how we transitioned to a new way and how that lead to the rise of frontend frameworks.
+
+#### The Rise of Single Page Applications
+
+- ![image](https://github.com/user-attachments/assets/7209fbc9-685b-404c-a603-78dde1a99d0c)
+- Back in the day, before around 2010, all websites were always rendered on the server.
+- In server-side rendering, a website is basically assembled on the backend i.e. on a web server based on data and templates.
+- The resulting HTML, CSS, and JS code is then sent to the client side i.e. to the web browser that requested the page.
+- The browser then simply take this code and basically paints it onto the screen.
+- A typical example of server-side rendered websites are all websites built with WordPress.
+- Now the JavaScript that used to be included in these websites was initially only to add some dynamics to the page, like, simple animations, hover effects, and more things like that.
+- And usually a very popular library at the time called jQuery was used for this because it made JS work the exact same way across all browsers back then.
+- However, over time, developers started writing more and more JavaScript code to be executed by the browser, until at some point these became fully fledged web applications, which then led to the rise of so-called <ins>single page applications</ins>.
+- So these are basically web pages that are rendered on the client, not on the server.
+- In client-side rendering, basically the work of rendering a webpage is shifted from the server to the client.
+- So now we don't call these webpages anymore but, web applications.
+- A web application still needs data, which usually comes from the backend in the form of an API.
+- The application consumes this API data and renders a screen for each view of the application.
+- These single page applications essentially feel as if you were using a native desktop or phone application.
+- So you can click on links or submit forms without the page ever re-loading.
+- So, you are technically always on the same page and therefore the name, single page application.
+- NOTE: Server side rendering is actually making a comeback right now.
+- So, it is slowly getting modern again, driven by frameworks that are built on top of modern client-side rendering frameworks such as Next.js, Remix, etc.
+- In either case, we still need to learn how to build single page applications of course, but do we want to do so in with Vanilla JavaScript?
+
+#### Single-Page Applications With Vanilla JavaScript?
+
+- ![image](https://github.com/user-attachments/assets/867141a9-9b53-4d32-8b11-8d2985cb49a8)
+- No, we do not want to do that because there are actually several problems with using Vanilla JavaScript to build large scale applications, as we will see in a moment.
+- But first, let's establish that building any frontend application is really all about handling data and then displaying that data in a nice user interface.
+- That's basically all a web application does, if you think about it.
+- So it receives data, changes the data as the user interacts with the app, and it always displays the current data on the screen.
+- What this means is that the most important task of a single page app and really of any application and website is to keep the user interface in-sync with the data i.e. to make sure that the UI always displays the current state of the data.
+- As it turns out, displaying the correct data and making sure that it stays correct overtime is actually a really hard problem to solve.
+- To understand why that is, let's take a look at the Airbnb application.
+
+#### Keeping UI In-Sync With Data
+
+- ![image](https://github.com/user-attachments/assets/0fe780c8-1de4-4042-8f9d-7a7dcde25a69)
+- In this interface, we can identify a few pieces of data.
+- First, we have a list of apartments, then we have a search bar, and we have some data about the filters that are being applied; and we also have a piece of data on the map which indicates whether the search should be updated as the user moves the map.
+- All this is the data that the app depends on.
+- In real-world Airbnb app, there is just so much data - this list (above) is not even all of it.
+- Anyway, as we know, all of this data needs to be kept in-sync with the user interface, and also with the other pieces of data, because they are all kind of interconnected.
+- For example, when we change the data about location or dates, then the UI needs to show those new dates and also the list of apartments needs to be updated.
+- Another example, the map needs to show the location of the apartments therefore, when the apartments change, the map must also change.
+- The same thing should happen the other way around.
+- So, when the map is moved, the list of apartments should change as well; but this should happen only if the user has clicked on check box on the map.
+- So, these pieces of data are even more interconnected and it can become a real mess.
+
+> [!NOTE]
+>
+> In a real world app, we call each of these pieces of data, a piece of state.
+
+- Based on the examples that we see, we would say that without a framework it would be virtually impossible to keep this huge amount of data in-sync with the super complex UI.
+- But, you still might be wondering, why? Why would it be so hard to build something like this with vanilla JS?
+
+#### Single-Page Applications With Vanilla JavaScript?
+
+- ![image](https://github.com/user-attachments/assets/54305f68-810c-4991-95ad-aa57b81b2ec9)
+- It comes down to two big aspects.
+- First, building a complex frontend with vanilla JavaScript alone requires large amounts of direct DOM traversing and manipulation.
+- Like in the code you can see in the image above - where we have manual element selection, class toggling, DOM traversing and even manipulation of text and CSS styles.
+- This is guaranteed to become an absolute nightmare in a complex app like Airbnb, because our code would be extremely complex and really hard to understand, and we will probably just end up with a huge mess of entangled spaghetti code.
+- So this is the first problem.
+- The second big problem is that in typical Vanilla JavaScript apps, state such as simple text or numbers are often times simply stored right in the DOM; so, right in the HTML elements themselves, rather than in a central place in the application.
+- The result is that we end up with many parts of the app accessing and changing the DOM state directly, which makes the spaghetti code even harder to understand; and even worse, it will most certainly introduce many bugs into our application.
+- You could of course try to solve these problems on your own but then, you will just end of creating your own framework, which will most likely be way worse than all the well established frameworks that already exist.
+- So at this point, you might as well just use a battle tested framework like React.
+- Now that we know why it is so hard to write a single page app with just JavaScript, we can answer the fundamental question that we asked in the beginning: Why do frontend frameworks actually exist?
+
+#### Why do Frontend Frameworks Exist?
+
+- ![image](https://github.com/user-attachments/assets/2daec773-87c6-4507-ba09-ab0c3dceabc0)
+- We kind of already answered that question over the course of this lesson.
+- So the big fundamental reason why these frameworks exist is because keeping a user interface in-sync with data is really hard, and it is a lot of work too.
+- So basically, frameworks like Angular, React, or Vue take this hard work of synchronizing data with the user interface away from us developers.
+- So, they solve this really hard problem so that we developers can focus on the data and on building our user interfaces themselves.
+- Now, different frameworks have different approaches to doing this, but they are all similar in the fact that they keep UI and data in-sync over time.
+- Another extremely valuable thing that frameworks give us, is the fact that they basically enforce a correct way of structuring and writing code.
+- So essentially, the authors of each of these frameworks came up with a good way of structuring applications, so that other developers can then follow these conventions as well, to build better applications with hopefully a lot less spaghetti code.
+- Finally, frameworks give developers, and especially teams a consistent way of building web applications.
+- This way, everyone on the team will build their part of the app in the same style as everyone else, which will in the end, create a more consistent code base and product.
+- This is why modern web development is all about JavaScript frameworks.
 
 ## Author
 
