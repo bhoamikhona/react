@@ -193,11 +193,6 @@ function Message(props) {
 </html>
 ```
 
-- Already, the codes above show us the very first difference between the two philosophies.
-- In vanilla JS, in the script, we need to manually select all of the three DOM elements viz advice element, button, and count element. For that, all of them needed to have their respective classes.
-- In React, there is no need of adding class to select those elements; also, we are nowhere manually selecting them.
-- In vanilla JS, we still have two pieces which we can call state viz we have a count value set to 0 and an advice variable.
-
 | React                                                                                                                                               | Vanilla JS                                                                                                                                                                                                                                                                     |
 | --------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | JavaScript is handling everything - even JSX                                                                                                        | HTML is in-charge.                                                                                                                                                                                                                                                             |
