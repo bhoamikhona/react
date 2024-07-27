@@ -13,6 +13,7 @@
       - [Keeping UI In-Sync With Data](#keeping-ui-in-sync-with-data)
       - [Single-Page Applications With Vanilla JavaScript?](#single-page-applications-with-vanilla-javascript-1)
       - [Why do Frontend Frameworks Exist?](#why-do-frontend-frameworks-exist-1)
+    - [React vs. Vanilla JavaScript](#react-vs-vanilla-javascript)
   - [Author](#author)
 
 ## Lessons Learned
@@ -104,6 +105,112 @@
 - Finally, frameworks give developers, and especially teams a consistent way of building web applications.
 - This way, everyone on the team will build their part of the app in the same style as everyone else, which will in the end, create a more consistent code base and product.
 - This is why modern web development is all about JavaScript frameworks.
+
+### React vs. Vanilla JavaScript
+
+- To get a first feeling for how React keeps the user interface in-sync with state, let's quickly compare the advice app that we built in the first section, with a Vanilla JS implementation of the same application.
+
+```javascript
+// React
+import { useEffect, useState } from "react";
+
+export default function App() {
+  const [advice, setAdvice] = useState("");
+  const [count, setCount] = useState(0);
+
+  async function getAdvice() {
+    const res = await fetch("https://api.adviceslip.com/advice");
+    const data = await res.json();
+    setAdvice(data.slip.advice);
+    setCount((c) => c + 1);
+  }
+
+  useEffect(function () {
+    getAdvice();
+  }, []);
+
+  return (
+    <div>
+      <h1>{advice}</h1>
+      <button onClick={getAdvice}>Get advice</button>
+      <Message count={count} />
+    </div>
+  );
+}
+
+function Message(props) {
+  return (
+    <p>
+      You have read <strong>{props.count}</strong> pieces of advice
+    </p>
+  );
+}
+```
+
+```javascript
+// Vanilla JavaScript
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Vanilla JS Advice</title>
+  </head>
+  <body>
+    <h1 class="advice"></h1>
+    <button class="btn">Get advice</button>
+    <p>You have read <strong class="count"></strong> pieces of advice</p>
+
+    <script>
+      // Manually selecting DOM elements (which require a class or ID in markup)
+      const adviceEl = document.querySelector(".advice");
+      const btnEl = document.querySelector(".btn");
+      const countEl = document.querySelector(".count");
+
+      const getAdvice = async function () {
+        const res = await fetch("https://api.adviceslip.com/advice");
+        const data = await res.json();
+
+        // Updating values
+        advice = data.slip.advice;
+        count = count + 1;
+
+        // Manually updating DOM elements
+        countEl.textContent = count;
+        adviceEl.textContent = advice;
+      };
+
+      // Setting initial values
+      let count = 0;
+      let advice;
+      getAdvice();
+
+      // Attaching an event listener
+      btnEl.addEventListener("click", getAdvice);
+    </script>
+  </body>
+</html>
+```
+
+- Already, the codes above show us the very first difference between the two philosophies.
+- In vanilla JS, in the script, we need to manually select all of the three DOM elements viz advice element, button, and count element. For that, all of them needed to have their respective classes.
+- In React, there is no need of adding class to select those elements; also, we are nowhere manually selecting them.
+- In vanilla JS, we still have two pieces which we can call state viz we have a count value set to 0 and an advice variable.
+
+| React                                                                                                                                               | Vanilla JS                                                                                                                                                                                                                                                                     |
+| --------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| JavaScript is handling everything - even JSX                                                                                                        | HTML is in-charge.                                                                                                                                                                                                                                                             |
+| We don't need to manually select any element. Consequently, we don't need to add class names in order to select them.                               | We need to manually select the DOM elements using their classes to keep them updated.                                                                                                                                                                                          |
+| We use the `onClick` attribute to get an advice.                                                                                                    | We first need to manually select the button using its class name to attach an event listener to it to trigger the `getAdvice()` function.                                                                                                                                      |
+| In the `getAdvice()` function we don't need to update the DOM elements, we simply update the state and it takes care of updating the DOM on itself. | In the `getAdvice()` function, simply updating the vairables `count` and `advice` is not enough. We need to select their respective elements in the DOM and set their `textContent` with `advice` and `count` variables. So, we need to manually update the state and the DOM. |
+
+- This really is a fundamental difference and a fundamental shift in how we build frontend applications.
+- You might argue that in this very small example, doing this is not a lot of work, and maybe it might not even be necessary to learn React.
+- Of course, we would not need React to build something really small and simply such as our example, but as soon as we get just a little bit bigger than this, it starts getting kind of out of control.
+- We would have to select tons of elements and we would really need to create a lot of extra code that, with React, we don't have to. This is because it automatically takes care of keeping the data in-sync with the user interface.
+- That's really the main thing that you need to keep in mind from this lesson and from the previous one.
+- Feel free to analyze all the differences that exist in the two codes above, because just with those, you can really see the two different philosophies at work.
 
 ## Author
 
