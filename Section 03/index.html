@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hello, React!</title>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!-- REACT LIBRARY CDNs -->
+
+    <!-- 
+    The first library is the core React library.
+    It works with components, state, and all the other React stuff.
+    So, it is basically the interface of how to interact with React.
+     -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+
+    <!-- 
+    This is React DOM, which is basically the rendering layer which can render React
+    components into the DOM.
+
+    Since we want to render in the browser, we need to use React DOM.
+    
+    But, React can actually be rendered in other enviornments, for example, as native
+    applications using React Native.
+    -->
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <!-- PURE REACT -->
+    <script>
+      function App() {
+        // const time = new Date().toLocaleTimeString();
+        const [time, setTime] = React.useState(new Date().toLocaleTimeString());
+
+        React.useEffect(function () {
+          setInterval(function () {
+            setTime(new Date().toLocaleTimeString());
+          }, 1000);
+        }, []);
+
+        // The `React` namespace comes from the first React library that we imported above.
+        // At this point we are just creating the element, not inserting it into the DOM.
+        return React.createElement(
+          "header",
+          null,
+          `Hello, React! It's ${time}`
+        );
+      }
+
+      // ReactDOM namespaces comes from the second library we imported above.
+      // First we create the root element with `createRoot()`
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      // Using the `render()` we insert the App component inside the root element.
+      root.render(React.createElement(App));
+    </script>
+  </body>
+</html>

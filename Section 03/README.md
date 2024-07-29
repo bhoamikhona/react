@@ -23,6 +23,7 @@
       - [React was Created by Facebook](#react-was-created-by-facebook)
       - [Summary](#summary)
     - [Setting Up Our Development Environment](#setting-up-our-development-environment)
+    - [Pure React](#pure-react)
   - [Author](#author)
 
 ## Lessons Learned
@@ -325,6 +326,16 @@ function Message(props) {
 - VS Code Extensions
 - VS Code Settings
 - Snippets
+
+### Pure React
+
+- Pure React - How to write React code without any modern tooling and build step i.e. right inside a regular HTML file.
+- React is based on components; and a component is basically just a function that starts with a capital letter.
+- `createElement(type, props, ...children)` - lets you create a React element. It serves as an alternative to writing JSX.
+- `createRoot(domNode, options?)` - lets you create a root to display React components inside a browser DOM node.
+- `root.render()` - call `root.render()` to display a piece of JSX ("React node") into the React root's browser DOM node.
+- `React.useState()`
+- `React.useEffect()`
 
 ## Author
 
