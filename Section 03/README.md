@@ -24,6 +24,7 @@
       - [Summary](#summary)
     - [Setting Up Our Development Environment](#setting-up-our-development-environment)
     - [Pure React](#pure-react)
+    - [A Quick Look at React's Official Documentation](#a-quick-look-at-reacts-official-documentation)
   - [Author](#author)
 
 ## Lessons Learned
@@ -336,6 +337,18 @@ function Message(props) {
 - `root.render()` - call `root.render()` to display a piece of JSX ("React node") into the React root's browser DOM node.
 - `React.useState()`
 - `React.useEffect()`
+
+### A Quick Look at React's Official Documentation
+
+- Important React Docs Pages to Keep in Mind for Later:
+  - [Escape Hatches](https://react.dev/learn/escape-hatches)
+    - NOTE: The "You might not need an effect" and "Removing effect dependencies" are going to come in handy when we learn advanced part of `useEffect`.
+    - [You Might Not Need an Effect](https://react.dev/learn/you-might-not-need-an-effect)
+    - [Removing Effect Dependencies](https://react.dev/learn/removing-effect-dependencies)
+  - [React Reference Section](https://react.dev/reference/react)
+    - In the reference section, they basically explain every single method or every single function that exists in React.
+    - So, it can act like a reference point to learn more about any topic related to React along with its example - just like MDN docs for JavaScript.
+    - So, you can keep this React Reference Docs open at all times while you are learning.
 
 ## Author
 
