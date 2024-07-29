@@ -11,9 +11,14 @@
 - [Section 04: Review of Essential JavaScript for React](#section-04-review-of-essential-javascript-for-react)
   - [Table of Content](#table-of-content)
   - [Lessons Learned](#lessons-learned)
+    - [Destructuring Objects and Arrays](#destructuring-objects-and-arrays)
   - [Author](#author)
 
 ## Lessons Learned
+
+### Destructuring Objects and Arrays
+
+- Setting up Quokka
 
 ## Author
 
