@@ -25,6 +25,9 @@
     - [Setting Up Our Development Environment](#setting-up-our-development-environment)
     - [Pure React](#pure-react)
     - [A Quick Look at React's Official Documentation](#a-quick-look-at-reacts-official-documentation)
+    - [Setting Up a New React Project: The Options](#setting-up-a-new-react-project-the-options)
+      - [The Two Options For Setting Up A React Project](#the-two-options-for-setting-up-a-react-project)
+      - [What About React Frameworks?](#what-about-react-frameworks)
   - [Author](#author)
 
 ## Lessons Learned
@@ -349,6 +352,57 @@ function Message(props) {
     - In the reference section, they basically explain every single method or every single function that exists in React.
     - So, it can act like a reference point to learn more about any topic related to React along with its example - just like MDN docs for JavaScript.
     - So, you can keep this React Reference Docs open at all times while you are learning.
+
+### Setting Up a New React Project: The Options
+
+- As we just learned, in the real-world we don't just write React apps in a single JavaScript file without any tooling.
+- So, let's now learn about the options that we have to set up a brand new React project.
+
+#### The Two Options For Setting Up A React Project
+
+- ![image](https://github.com/user-attachments/assets/6c064967-051b-4fab-9a02-c2efde4abe6a)
+- For now, the two most important options are the Create-React-App tool or a build tool called Vite.
+- Create-React-App is basically a complete starter kit for React applications that was developed many years ago in order to make it really easy for developers to scaffold new React apps.
+- What's really nice about this is that all the common development tools are already pre-configured out of the box specifically for React.
+- So an app created with Create-React-App automatically comes with a development server webpack for module bundling, and of course, important developer tools, which include a linter like ESLint, a code formatter like Prettier, a testing library like Jest, and of course, Babel for enabling the latest JavaScript features.
+- All of this sounds greate but, the problem with Create-React-App is that, as mentioned before, it was developed many years ago.
+- So, it uses some slow and kind of outdated technologies under the hood, and in particular, the webpack bundler.
+- So, the team behind Create-React-App has really stopped innovating, and therefore, right now, the recommendation is not to use Create-React-App for real-world projects anymore.
+- It is however, still a perfectly fine way to get started quickly with a new React app for tutorials, courses, or simple experiments.
+- Therefore, we will actually use Create-React-App for most of the course - for all the small learning projects that we are going to build together.
+- You might have read all the articles that say that Create-React-App is dead and that you should never use it again.
+- But that's only true for building real apps.
+- For learning, it is still 100% fine because you will not encounter the problems that large scale apps will face, like slow refresh times.
+- Now, if you do want to build real-world applications with React, as we will do by the end of the course, then Vite is the perfect choice.
+- Vite is actually quite different from Create-React-App as it is basically a modern build tool.
+- So, a bit like modern webpack but, which happens to also contain a starter template for setting up brand new React applications.
+- However, in a React app created with Vite, you will have to manually set up many important developer tools, such as ESLint, Prettier, a testing library, etc.
+- And the most annoying and painful of those is setting up ESLint to play nice with React.
+- That can be a bit of work and it can go wrong.
+- So, this is the reason why it is still recommended to use Create-React-App for tutorials - when we just want to get up and running as quickly as possible.
+- Now, if we have all this additional work to set up our tools, then why even use Vite in the first place?
+- Well, the reason is that it's just extremely fast to automatically refresh the page when the code changes - which is what we call hot module replacement.
+- Also, bundling is extremely fast too, which for large scale applications can really make a difference because when you have to wait one or two seconds for each page refresh, it can become really, very annoying over time.
+- But with Vite, the page will update almost instantly each time that we save our code and want to see the changes on our screen.
+- So in summary, we will use Create-React-App for most small apps in this course and then move on to Vite for the last couple of projects to make them a bit more real-world and more modern as well.
+
+#### What About React Frameworks?
+
+- ![image](https://github.com/user-attachments/assets/66362f45-337a-428f-9806-d338ffe28345)
+- Now, if you have spent any time looking at React documentation, you might have read that the React team now advises developers to use a so-called React framework like Next.js or Remix to build new projects.
+- So in fact, we have even more options to set up a new React project than the ones that we just talked about.
+- We are going to talk about what React frameworks are throughout the course but for now, all you need to know is that a framework like Next.js contains solutions for things like routing, data fetching, and server-side rendering.
+- So, things that React itself does not provide easily out of the box.
+- Essentially, a React framework is a framework built on top of the React library and which is going to make it even easier to build applications than with just Vanilla React itself.
+- This sounds great for some applications.
+- However, many people think that developers telling developers to always immediately go for a React framework is not the best idea and not always necessary.
+- Vanilla React apps i.e. apps built only using React still have a very important place too.
+- So, forcing this opinion on everyone seems kind of strange, but again, we will discuss this later on.
+- In any case, this advice makes sense for building actual production ready products, but not for learning React, which is, of course, what we are trying to do.
+- So even if at some point you want to learn Next.js as well, you still need to learn React first.
+- So, all this is to say that you should not worry about this recommendation for now.
+- For now, let's just learn React and set up new projects with Create-React-App first and then with Vite in the bigger projects.
+- With all this being said, let's now go create our very first real React application.
 
 ## Author
 
