@@ -150,7 +150,7 @@ console.log(
   `/******************* DESTRUCTURING OBJECTS AND ARRAYS *******************/`
 );
 
-const book = getBook(2);
+const book = getBook(1);
 console.log(book);
 
 // const title = book.title;
@@ -164,5 +164,29 @@ console.log(title, author, genres);
 // const primaryGenre = genres[0];
 // const secondaryGenre = genres[1];
 
-const [primaryGenre, secondaryGenre] = genres;
-console.log(primaryGenre, secondaryGenre);
+// const [primaryGenre, secondaryGenre] = genres;
+// console.log(primaryGenre, secondaryGenre);
+
+/************************************************************************/
+/************************* REST/SPREAD OPERATOR *************************/
+/************************************************************************/
+console.log(
+  `/************************* REST/SPREAD OPERATOR *************************/`
+);
+
+const [primaryGenre, secondaryGenre, ...otherGenres] = genres;
+console.log(primaryGenre, secondaryGenre, otherGenres);
+
+const newGenres = ["epic fantasy", ...genres];
+console.log(newGenres);
+
+const updatedBook = {
+  ...book,
+
+  // Adding a new property
+  moviePublicationDate: "2001-12-19",
+
+  // overriding an existing property
+  pages: 1210,
+};
+console.log(updatedBook);

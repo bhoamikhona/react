@@ -12,6 +12,7 @@
   - [Table of Content](#table-of-content)
   - [Lessons Learned](#lessons-learned)
     - [Destructuring Objects and Arrays](#destructuring-objects-and-arrays)
+    - [Rest/Spread Operator](#restspread-operator)
   - [Author](#author)
 
 ## Lessons Learned
@@ -19,6 +20,8 @@
 ### Destructuring Objects and Arrays
 
 - Setting up Quokka
+
+### Rest/Spread Operator
 
 ## Author
 
