@@ -14,6 +14,7 @@
     - [Destructuring Objects and Arrays](#destructuring-objects-and-arrays)
     - [Rest/Spread Operator](#restspread-operator)
     - [Template Literals](#template-literals)
+    - [Ternaries Instead of if/else Statements](#ternaries-instead-of-ifelse-statements)
   - [Author](#author)
 
 ## Lessons Learned
@@ -25,6 +26,8 @@
 ### Rest/Spread Operator
 
 ### Template Literals
+
+### Ternaries Instead of if/else Statements
 
 ## Author
 
