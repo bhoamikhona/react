@@ -13,6 +13,7 @@
   - [Lessons Learned](#lessons-learned)
     - [Destructuring Objects and Arrays](#destructuring-objects-and-arrays)
     - [Rest/Spread Operator](#restspread-operator)
+    - [Template Literals](#template-literals)
   - [Author](#author)
 
 ## Lessons Learned
@@ -22,6 +23,8 @@
 - Setting up Quokka
 
 ### Rest/Spread Operator
+
+### Template Literals
 
 ## Author
 
