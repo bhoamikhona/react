@@ -28,6 +28,7 @@
     - [Setting Up a New React Project: The Options](#setting-up-a-new-react-project-the-options)
       - [The Two Options For Setting Up A React Project](#the-two-options-for-setting-up-a-react-project)
       - [What About React Frameworks?](#what-about-react-frameworks)
+    - [Setting Up A Project With Create-React-App](#setting-up-a-project-with-create-react-app)
   - [Author](#author)
 
 ## Lessons Learned
@@ -403,6 +404,20 @@ function Message(props) {
 - So, all this is to say that you should not worry about this recommendation for now.
 - For now, let's just learn React and set up new projects with Create-React-App first and then with Vite in the bigger projects.
 - With all this being said, let's now go create our very first real React application.
+
+### Setting Up A Project With Create-React-App
+
+- Create-React-App is a command-line interface tool.
+- `npx create-react-app app-name` - This command will create a folder called `app-name` and in that folder install all the files that we need to use React.
+- Going through the installed files and folder structure of the project.
+  - Most of the development work will happen inside the **src** folder.
+  - The **public** folder is where all the assets that will end up in the final application go. Assets such as images, favicon, and index.html.
+
+> [!NOTE]
+>
+> All of the files and the entire file structure that has been created by Create-React-App has been created in a way that its developers thought was best. But it could be completely different.
+
+- To start a Create-React-App, we can use its "start" script in package.json. So, we can literally say `npm run start` or `npm start` in the command line.
 
 ## Author
 
