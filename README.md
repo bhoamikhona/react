@@ -14,6 +14,7 @@
 - [Section 01](./Section%2001): Introduction
 - [Section 02](./Section%2002): Part 01 Introduction - React Fundamentals
 - [Section 03](./Section%2003): A First Look at React
+- [Section 04](./Section%2004): Review of Essential JavaScript for React
 
 ## Author
 
