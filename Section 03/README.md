@@ -22,6 +22,7 @@
       - [React is Extremely Popular](#react-is-extremely-popular)
       - [React was Created by Facebook](#react-was-created-by-facebook)
       - [Summary](#summary)
+    - [Setting Up Our Development Environment](#setting-up-our-development-environment)
   - [Author](#author)
 
 ## Lessons Learned
@@ -315,6 +316,15 @@ function Message(props) {
   - Second, React is really good at keeping the user interface in-sync with state by re-rendering, or in other words, by reacting when the state of one of the component changes.
 - And as you will see later, React does all this by employing something called virtual DOM, a Fiber tree, one-way data flow, and many other techniques that we will study throughout this course.
 - Now that you have a rough overview of what React actually is, let's setup our development environment so that we can finally start writing some serious code.
+
+### Setting Up Our Development Environment
+
+- [VS Code](https://code.visualstudio.com/) & Configuring it
+- [Google Chrome](https://play.google.com/store/apps/details?id=com.android.chrome&hl=en_IN&pli=1)
+- [NodeJS](https://nodejs.org/en)
+- VS Code Extensions
+- VS Code Settings
+- Snippets
 
 ## Author
 
