@@ -150,7 +150,7 @@ console.log(
   `/******************* DESTRUCTURING OBJECTS AND ARRAYS *******************/`
 );
 
-const book = getBook(2);
+const book = getBook(1);
 console.log(book);
 
 // const title = book.title;
@@ -242,3 +242,34 @@ summary = `${title}, a ${pages}-page long book, was written by ${author} and pub
 )}. The book has${hasMovieAdaptation ? "" : " not"} been adapted as a movie.`;
 
 console.log(summary);
+
+/************************************************************************/
+/********** SHORT-CIRCUITING AND LOGICAL OPERATORS: &&, ||, ?? **********/
+/************************************************************************/
+console.log(
+  `/********** SHORT-CIRCUITING AND LOGICAL OPERATORS: &&, ||, ?? **********/`
+);
+
+console.log(true && "some string");
+console.log(false && "some string");
+
+console.log(hasMovieAdaptation && "This book has a movie");
+
+// falsy values: 0, '', null, undefined, NaN
+console.log("bhoami" && "some string");
+console.log(0 && "some string");
+
+console.log(true || "some string");
+console.log(false || "some string");
+
+console.log(book.translations.spanish);
+
+const spanishTranslation = book.translations.spanish || "NOT TRANSLATED";
+console.log(spanishTranslation);
+
+console.log(book.reviews.librarything.reviewsCount);
+
+const countWrong = book.reviews.librarything.reviewsCount || "no data";
+console.log(countWrong);
+
+const count = book.reviews.librarything.reviewsCount ?? "no data";

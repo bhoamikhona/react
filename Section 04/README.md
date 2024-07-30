@@ -16,6 +16,7 @@
     - [Template Literals](#template-literals)
     - [Ternaries Instead of if/else Statements](#ternaries-instead-of-ifelse-statements)
     - [Arrow Functions](#arrow-functions)
+    - [Short-Circuiting and Logical Operators: \&\&, ||, ??](#short-circuiting-and-logical-operators---)
   - [Author](#author)
 
 ## Lessons Learned
@@ -31,6 +32,15 @@
 ### Ternaries Instead of if/else Statements
 
 ### Arrow Functions
+
+### Short-Circuiting and Logical Operators: &&, ||, ??
+
+- Falsy Values:
+  - `0`
+  - `""`
+  - `undefined`
+  - `null`
+  - `NaN`
 
 ## Author
 
