@@ -15,6 +15,7 @@
     - [Rest/Spread Operator](#restspread-operator)
     - [Template Literals](#template-literals)
     - [Ternaries Instead of if/else Statements](#ternaries-instead-of-ifelse-statements)
+    - [Arrow Functions](#arrow-functions)
   - [Author](#author)
 
 ## Lessons Learned
@@ -28,6 +29,8 @@
 ### Template Literals
 
 ### Ternaries Instead of if/else Statements
+
+### Arrow Functions
 
 ## Author
 
