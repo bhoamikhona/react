@@ -150,7 +150,7 @@ console.log(
   `/******************* DESTRUCTURING OBJECTS AND ARRAYS *******************/`
 );
 
-const book = getBook(1);
+const book = getBook(3);
 console.log(book);
 
 // const title = book.title;
@@ -267,9 +267,24 @@ console.log(book.translations.spanish);
 const spanishTranslation = book.translations.spanish || "NOT TRANSLATED";
 console.log(spanishTranslation);
 
-console.log(book.reviews.librarything.reviewsCount);
+// console.log(book.reviews.librarything.reviewsCount);
 
-const countWrong = book.reviews.librarything.reviewsCount || "no data";
-console.log(countWrong);
+// const countWrong = book.reviews.librarything.reviewsCount || "no data";
+// console.log(countWrong);
 
-const count = book.reviews.librarything.reviewsCount ?? "no data";
+// const count = book.reviews.librarything.reviewsCount ?? "no data";
+
+/***********************************************************************/
+/************************** OPTIONAL CHAINING **************************/
+/***********************************************************************/
+console.log(
+  `/************************** OPTIONAL CHAINING **************************/`
+);
+
+function getTotalReviewCount(book) {
+  const goodread = book.reviews?.goodreads?.reviewsCount ?? 0;
+  const librarything = book.reviews?.librarything?.reviewsCount ?? 0;
+  return goodread + librarything;
+}
+
+console.log(getTotalReviewCount(book));

@@ -17,6 +17,7 @@
     - [Ternaries Instead of if/else Statements](#ternaries-instead-of-ifelse-statements)
     - [Arrow Functions](#arrow-functions)
     - [Short-Circuiting and Logical Operators: \&\&, ||, ??](#short-circuiting-and-logical-operators---)
+    - [Optional Chaining](#optional-chaining)
   - [Author](#author)
 
 ## Lessons Learned
@@ -41,6 +42,8 @@
   - `undefined`
   - `null`
   - `NaN`
+
+### Optional Chaining
 
 ## Author
 
