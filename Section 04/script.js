@@ -330,3 +330,13 @@ const adventureBooks = books
   .map((book) => book.title);
 
 console.log(adventureBooks);
+
+/***********************************************************************/
+/*********************** THE ARRAY REDUCE METHOD ***********************/
+/***********************************************************************/
+console.log(
+  `/*********************** THE ARRAY REDUCE METHOD ***********************/`
+);
+
+const pagesAllBooks = books.reduce((sum, book) => sum + book.pages, 0);
+console.log(pagesAllBooks);

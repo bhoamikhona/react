@@ -20,6 +20,7 @@
     - [Optional Chaining](#optional-chaining)
     - [The Array map Method](#the-array-map-method)
     - [The Array filter Method](#the-array-filter-method)
+    - [The Array reduce Method](#the-array-reduce-method)
   - [Author](#author)
 
 ## Lessons Learned
@@ -50,6 +51,8 @@
 ### The Array map Method
 
 ### The Array filter Method
+
+### The Array reduce Method
 
 ## Author
 
