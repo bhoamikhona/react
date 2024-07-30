@@ -311,3 +311,22 @@ const essentialData = books.map((book) => ({
 }));
 
 console.log(essentialData);
+
+/***********************************************************************/
+/*********************** THE ARRAY FILTER METHOD ***********************/
+/***********************************************************************/
+console.log(
+  `/*********************** THE ARRAY FILTER METHOD ***********************/`
+);
+
+const longBooksWithMovie = books
+  .filter((book) => book.pages > 500)
+  .filter((book) => book.hasMovieAdaptation);
+
+console.log(longBooksWithMovie);
+
+const adventureBooks = books
+  .filter((book) => book.genres.includes("adventure"))
+  .map((book) => book.title);
+
+console.log(adventureBooks);

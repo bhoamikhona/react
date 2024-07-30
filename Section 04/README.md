@@ -19,6 +19,7 @@
     - [Short-Circuiting and Logical Operators: \&\&, ||, ??](#short-circuiting-and-logical-operators---)
     - [Optional Chaining](#optional-chaining)
     - [The Array map Method](#the-array-map-method)
+    - [The Array filter Method](#the-array-filter-method)
   - [Author](#author)
 
 ## Lessons Learned
@@ -47,6 +48,8 @@
 ### Optional Chaining
 
 ### The Array map Method
+
+### The Array filter Method
 
 ## Author
 
