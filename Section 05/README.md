@@ -8,6 +8,7 @@
   - [Table of Content](#table-of-content)
   - [Lessons Learned](#lessons-learned)
     - [Rendering The Root Component and Strict Mode](#rendering-the-root-component-and-strict-mode)
+    - [Before We Start Coding: Debugging](#before-we-start-coding-debugging)
   - [Author](#author)
 
 ## Lessons Learned
@@ -24,6 +25,16 @@
   - The only thing that it does is that during development it will render all the components twice in order to find certain bugs.
   - Also, React will check if we are using outdated parts of the React API.
   - So, strict mode is nothing groundbreaking but, it is still a good idea to always activate it when we develop React applications.
+
+### Before We Start Coding: Debugging
+
+- Make sure the app is running.
+- Try hard re-loading the browser.
+- If the app is running but, it is not updating as you code, stop and re-start the app.
+- Keep the chrome developers tool console open all the time when developing.
+- Google the errors that appear, check stack overflow.
+- Always work with ESLint.
+- Check the problems tab and output tab (for prettier and ESLint) in the VS code.
 
 ## Author
 
