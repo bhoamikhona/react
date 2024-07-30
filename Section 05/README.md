@@ -7,9 +7,23 @@
 - [Section 05: Working With Components, Props, and JSX](#section-05-working-with-components-props-and-jsx)
   - [Table of Content](#table-of-content)
   - [Lessons Learned](#lessons-learned)
+    - [Rendering The Root Component and Strict Mode](#rendering-the-root-component-and-strict-mode)
   - [Author](#author)
 
 ## Lessons Learned
+
+### Rendering The Root Component and Strict Mode
+
+- Root Component
+  - `ReactDOM.createRoot()`
+    - `createRoot()` lets you create a root to display React components inside a browser DOM node.
+  - `root.render()`
+    - Call `root.render()` to display a piece of JSX ("React node") into the React root's browser DOM node.
+- Strict Mode
+  - It is really not a big deal.
+  - The only thing that it does is that during development it will render all the components twice in order to find certain bugs.
+  - Also, React will check if we are using outdated parts of the React API.
+  - So, strict mode is nothing groundbreaking but, it is still a good idea to always activate it when we develop React applications.
 
 ## Author
 
