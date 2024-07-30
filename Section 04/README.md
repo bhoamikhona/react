@@ -22,6 +22,7 @@
     - [The Array filter Method](#the-array-filter-method)
     - [The Array reduce Method](#the-array-reduce-method)
     - [The Array sort Method](#the-array-sort-method)
+    - [Working With Immutable Arrays](#working-with-immutable-arrays)
   - [Author](#author)
 
 ## Lessons Learned
@@ -67,6 +68,8 @@
   - For sorting it in an ascending way: `(a, b) => a - b`
   - For sorting it in a descending way: `(a, b) => b - a`
 - `slice()`
+
+### Working With Immutable Arrays
 
 ## Author
 

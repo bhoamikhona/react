@@ -361,3 +361,30 @@ const sortedByPages = books
   .sort((a, b) => a.pages - b.pages)
   .map((book) => book.title);
 console.log(sortedByPages);
+
+/***********************************************************************/
+/******************** WORKING WITH IMMUTABLE ARRAYS ********************/
+/***********************************************************************/
+console.log(
+  `/******************** WORKING WITH IMMUTABLE ARRAYS ********************/`
+);
+
+// 1) Add a book object to array
+const newBook = {
+  id: 6,
+  title: "Harry Potter and the Chamber of Secrets",
+  author: "J. K. Rowling",
+};
+
+const booksAfterAdd = [...books, newBook];
+console.log(booksAfterAdd);
+
+// 2) Delete a book object from array
+const booksAfterDelete = booksAfterAdd.filter((book) => book.id !== 3);
+console.log(booksAfterDelete);
+
+// 3) Update book object in the array
+const booksAfterUpdate = booksAfterDelete.map((book) =>
+  book.id === 1 ? { ...book, pages: 1210 } : book
+);
+console.log(booksAfterUpdate);
