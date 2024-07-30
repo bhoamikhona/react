@@ -18,6 +18,7 @@
     - [Arrow Functions](#arrow-functions)
     - [Short-Circuiting and Logical Operators: \&\&, ||, ??](#short-circuiting-and-logical-operators---)
     - [Optional Chaining](#optional-chaining)
+    - [The Array map Method](#the-array-map-method)
   - [Author](#author)
 
 ## Lessons Learned
@@ -44,6 +45,8 @@
   - `NaN`
 
 ### Optional Chaining
+
+### The Array map Method
 
 ## Author
 
