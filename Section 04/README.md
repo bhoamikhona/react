@@ -24,6 +24,7 @@
     - [The Array sort Method](#the-array-sort-method)
     - [Working With Immutable Arrays](#working-with-immutable-arrays)
     - [Asynchronous JavaScript: Promises](#asynchronous-javascript-promises)
+    - [Asynchronous JavaScript: Async/Await](#asynchronous-javascript-asyncawait)
   - [Author](#author)
 
 ## Lessons Learned
@@ -73,6 +74,8 @@
 ### Working With Immutable Arrays
 
 ### Asynchronous JavaScript: Promises
+
+### Asynchronous JavaScript: Async/Await
 
 ## Author
 
