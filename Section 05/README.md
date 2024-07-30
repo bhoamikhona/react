@@ -10,6 +10,7 @@
     - [Rendering The Root Component and Strict Mode](#rendering-the-root-component-and-strict-mode)
     - [Before We Start Coding: Debugging](#before-we-start-coding-debugging)
     - [Components as Building Blocks](#components-as-building-blocks)
+    - [Creating and Reusing a Component](#creating-and-reusing-a-component)
   - [Author](#author)
 
 ## Lessons Learned
@@ -69,6 +70,30 @@
 - So, a component tree like this is perfect to understand these kinds of relationships between components.
 - This is all you need to know about components for now.
 - We will go really deep into some important concepts like re-usability later, but for now, let's start to put some of these concepts into practice.
+
+### Creating and Reusing a Component
+
+- In React, we write new components using functions.
+- There are two important rules when we write components as functions:
+  - First, the function name needs to start with an uppercase letter.
+  - Second, the function needs to return some markup - usually in the form of JSX but, we can even return nothing by returning `null`.
+- Each component can only return exactly one element. So, if you want to return more than one element, wrap those elements inside a `<div>`.
+
+> [!NOTE]
+>
+> By nesting components, we do not mean we write the component function inside another component function.
+>
+> NOTE that nesting component function declarations will work but, it is a very bad idea for reasons that we will learn later.
+>
+> What it actually means is that we call/use one component inside of another.
+
+> [!TIP]
+>
+> All the assets of the app goes into the public folder.
+>
+> This is because the Webpack i.e. the module bundler will then automatically get them from there.
+
+- To re-use a component, we simply call/use it several times.
 
 ## Author
 
