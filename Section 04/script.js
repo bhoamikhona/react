@@ -340,3 +340,24 @@ console.log(
 
 const pagesAllBooks = books.reduce((sum, book) => sum + book.pages, 0);
 console.log(pagesAllBooks);
+
+/***********************************************************************/
+/************************ THE ARRAY SORT METHOD ************************/
+/***********************************************************************/
+console.log(
+  `/************************ THE ARRAY SORT METHOD ************************/`
+);
+
+const arr = [3, 7, 1, 9, 6];
+
+// NOTE: For sorting it in an ascending way: `a - b`
+// NOTE: For sorting it in a descending way: `b - a`
+const sorted = arr.slice().sort((a, b) => b - a);
+console.log(sorted);
+console.log(arr);
+
+const sortedByPages = books
+  .slice()
+  .sort((a, b) => a.pages - b.pages)
+  .map((book) => book.title);
+console.log(sortedByPages);

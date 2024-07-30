@@ -21,6 +21,7 @@
     - [The Array map Method](#the-array-map-method)
     - [The Array filter Method](#the-array-filter-method)
     - [The Array reduce Method](#the-array-reduce-method)
+    - [The Array sort Method](#the-array-sort-method)
   - [Author](#author)
 
 ## Lessons Learned
@@ -50,9 +51,22 @@
 
 ### The Array map Method
 
+- `map()`
+
 ### The Array filter Method
 
+- `filter()`
+
 ### The Array reduce Method
+
+- `reduce()`
+
+### The Array sort Method
+
+- `sort()`
+  - For sorting it in an ascending way: `(a, b) => a - b`
+  - For sorting it in a descending way: `(a, b) => b - a`
+- `slice()`
 
 ## Author
 
