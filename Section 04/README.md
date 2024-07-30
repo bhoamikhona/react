@@ -23,6 +23,7 @@
     - [The Array reduce Method](#the-array-reduce-method)
     - [The Array sort Method](#the-array-sort-method)
     - [Working With Immutable Arrays](#working-with-immutable-arrays)
+    - [Asynchronous JavaScript: Promises](#asynchronous-javascript-promises)
   - [Author](#author)
 
 ## Lessons Learned
@@ -70,6 +71,8 @@
 - `slice()`
 
 ### Working With Immutable Arrays
+
+### Asynchronous JavaScript: Promises
 
 ## Author
 

@@ -388,3 +388,16 @@ const booksAfterUpdate = booksAfterDelete.map((book) =>
   book.id === 1 ? { ...book, pages: 1210 } : book
 );
 console.log(booksAfterUpdate);
+
+/***********************************************************************/
+/****************** ASYNCHRONOUS JAVASCRIPT: PROMISES ******************/
+/***********************************************************************/
+console.log(
+  `/****************** ASYNCHRONOUS JAVASCRIPT: PROMISES ******************/`
+);
+
+fetch(`https://jsonplaceholder.typicode.com/todos`)
+  .then((res) => res.json())
+  .then((data) => console.log(data));
+
+console.log("bhoami");
