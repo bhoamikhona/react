@@ -11,6 +11,7 @@
     - [Before We Start Coding: Debugging](#before-we-start-coding-debugging)
     - [Components as Building Blocks](#components-as-building-blocks)
     - [Creating and Reusing a Component](#creating-and-reusing-a-component)
+    - [What is JSX?](#what-is-jsx)
   - [Author](#author)
 
 ## Lessons Learned
@@ -94,6 +95,53 @@
 > This is because the Webpack i.e. the module bundler will then automatically get them from there.
 
 - To re-use a component, we simply call/use it several times.
+
+### What is JSX?
+
+- We have written some pieces of JSX in this course already but, what actually is JSX and why is it such a big deal in React?
+- ![image](https://github.com/user-attachments/assets/fb26c1b1-e75d-449c-b707-aea7d09f735f)
+- When we first talked about components, we talked about how a component contains its own data, logic, and appearance; and that makes sense because if a component is a piece of the user interface, it means that we must be able to describe exactly what that component looks like.
+- That's where JSX comes into play.
+- JSX is a declarative syntax that we use to describe what components look like and how they work based on their data and logic.
+- So, it is all about the component's appearance.
+- In practice, this means that each component must return one block of JSX, which React will then use to render the component on the UI.
+- Looking at the code (in the image above), this JSX looks a lot like HTML.
+- But in fact, JSX is an extension of JavaScript, which allows us to combine parts of HTML, CSS, and JavaScript all into one block of code.
+- Basically, we can write HTML and embed some pieces of JavaScript where necessary, for example, to reference some JavaScript variables.
+- We can even reference other React components so that we can then combine, nest, and re-use multiple components.
+- But now, you might be thinking if React is a JavaScript framework then how will it understand this HTML looking code?
+- Remember that JSX is just an extensionof JavaScript, which means that there is a simple way of converting JSX to JavaScript.
+- ![image](https://github.com/user-attachments/assets/054bee55-9af4-4d62-9d78-972df0b19c50)
+- This is done by a tool called Babel, which was automatically included in our application by Create-React-App.
+- The result of this conversion looks something like what is shown in the image above - where each JSX element was converted to `React.createElement()` function call.
+- This hopefully looks familiar to you because this is the function that is used in our index.js file and also, we used it in our Pure React lesson in Section 03.
+- Anyway, this conversion is necessary because browsers of cource, do not understand JSX. They only understand HTML.
+- So behind the scenes, all the JSX that we write is converted into many nested `React.createElement()` function calls.
+- These function calls are what in the end, create the HTML elements that we see on the screen.
+- What this means is that we could actually use React without JSX at all.
+- So, we could just manually write these `createElement()` functions instead of JSX but, that doesn't look like a lot of fun.
+- It also makes the code really hard to read and to understand.
+- So, everyone just uses JSX.
+- Now that we know what JSX is all about, let's go back to the first point where we say that JSX is a declarative syntax.
+- What does it actually mean that JSX is declarative?
+- ![image](https://github.com/user-attachments/assets/19b3a61b-368d-4f08-abf6-bebd0876afb2)
+- Well, before we can understand what declarative means, we first have to review what imperative means.
+- When we try to build UIs using vanilla JS, we will by default use an imperative approach.
+- This means that we manually select elements, traverse the DOM, and attach event handlers to elements.
+- Then each time something happens in the app like a button click, we give the browser step-by-step intstructions on how to mutate those DOM elements until we reach the desired updated UI.
+- So in the imperative approach, we basically tell the browser exactly how to do things.
+- However, doing this in a complex app is completely unfeasible for all the reasons that we have learned about before.
+- And remember that that's the reason why frameworks like React exist in the first place; and it is the reason why React chose to use a declarative approach to building user interfaces.
+- A declarative approach is to simply describe what the UI should look like at all times, always based on the current data that is in the component.
+- We will soon learn that this data is props and state.
+- Again, we use JSX to describe the UI based on props and state.
+- All that happens without any DOM manipulation at all.
+- So, there are no `querySelector()`, no `addEventListener()`, no `classList`, no `textContent` proeprties anywhere to be seen here.
+- This is because of the fact that React is a huge abstraction away from the DOM so that we developers, never have to touch the DOM directly.
+- Instead, we think of the UI as a reflection of the current data and let React automatically synchronize the UI with that data.
+- In essence, the difference between imperative and declarative is that in the declarative approach, we use JSX to tell React what we want to see on the screen but now how to achieve it step-by-step.
+- React can figure that out on its own.
+- This has many, many advantages as we will see throughout the course.
 
 ## Author
 
