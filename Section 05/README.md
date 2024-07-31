@@ -12,6 +12,7 @@
     - [Components as Building Blocks](#components-as-building-blocks)
     - [Creating and Reusing a Component](#creating-and-reusing-a-component)
     - [What is JSX?](#what-is-jsx)
+    - [Creating More Components](#creating-more-components)
   - [Author](#author)
 
 ## Lessons Learned
@@ -142,6 +143,8 @@
 - In essence, the difference between imperative and declarative is that in the declarative approach, we use JSX to tell React what we want to see on the screen but now how to achieve it step-by-step.
 - React can figure that out on its own.
 - This has many, many advantages as we will see throughout the course.
+
+### Creating More Components
 
 ## Author
 
