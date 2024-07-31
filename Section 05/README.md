@@ -13,6 +13,7 @@
     - [Creating and Reusing a Component](#creating-and-reusing-a-component)
     - [What is JSX?](#what-is-jsx)
     - [Creating More Components](#creating-more-components)
+    - [JavaScript Logic in Components](#javascript-logic-in-components)
   - [Author](#author)
 
 ## Lessons Learned
@@ -145,6 +146,8 @@
 - This has many, many advantages as we will see throughout the course.
 
 ### Creating More Components
+
+### JavaScript Logic in Components
 
 ## Author
 
