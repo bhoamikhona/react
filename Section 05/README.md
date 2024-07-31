@@ -16,6 +16,7 @@
     - [JavaScript Logic in Components](#javascript-logic-in-components)
     - [Separation of Concerns](#separation-of-concerns)
     - [Styling React Applications](#styling-react-applications)
+    - [Passing and Receiving Props](#passing-and-receiving-props)
   - [Author](#author)
 
 ## Lessons Learned
@@ -210,6 +211,28 @@
 > The styles that we import from an external CSS file are global styles. So, they are not scoped to each particular component.
 >
 > This works fine for for small apps, but we will also use something called styled components later, in another project. Then we will have CSS that really only belongs to one single component.
+
+### Passing and Receiving Props
+
+- Props is essentially how we pass data between components. In particular, from parent component to child components.
+- So, we can imagine props being a communication channel between a parent and a child component.
+- To pass props, we do it in two steps:
+  - First, we pass the props into the component.
+  - Second, we receive the props in the component that we pass them into.
+
+> [!NOTE]
+>
+> Prop stands for property.
+
+> [!TIP]
+>
+> When you want to pass something as a prop that is not a string. For example, you want to pass in an integer, enter JS mode with `{}` and simply write the value inside it. Example: `<Pizza price={12}/>`
+>
+> The `12` will be passed as an integer, and not as a string.
+>
+> In fact, you can pass in anything as a prop. You can pass in arrays or objects or even other React components.
+>
+> So, props are really powerful and one of the most fundamental things in React.
 
 ## Author
 
