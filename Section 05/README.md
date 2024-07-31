@@ -15,6 +15,7 @@
     - [Creating More Components](#creating-more-components)
     - [JavaScript Logic in Components](#javascript-logic-in-components)
     - [Separation of Concerns](#separation-of-concerns)
+    - [Styling React Applications](#styling-react-applications)
   - [Author](#author)
 
 ## Lessons Learned
@@ -195,6 +196,20 @@
 - But now, many years later, we all got used to it and it works just great.
 - So, having all the information about a certain component in one single place, really does work in an amazing way.
 - So in conclusion, React does have separation of concerns, just a different separation of concerns.
+
+### Styling React Applications
+
+- Inline CSS using the `style` attribute
+  - All of the CSS properties are camel cased.
+- External CSS File
+  - Importing an external CSS File.
+  - In JSX, we cannot use the `class` attribute that we use in HTML. This is because in JavaScript the keyword `class` is reserved for classes for OOP paradigm. Instead, we use `className` when we want to appoint a CSS class to a JSX element.
+
+> [!NOTE]
+>
+> The styles that we import from an external CSS file are global styles. So, they are not scoped to each particular component.
+>
+> This works fine for for small apps, but we will also use something called styled components later, in another project. Then we will have CSS that really only belongs to one single component.
 
 ## Author
 
