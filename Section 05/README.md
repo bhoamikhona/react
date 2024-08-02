@@ -22,6 +22,7 @@
       - [Props are Read-Only!](#props-are-read-only)
       - [One-Way Data Flow](#one-way-data-flow)
     - [The Rules of JSX](#the-rules-of-jsx)
+    - [Rendering Lists](#rendering-lists)
   - [Author](#author)
 
 ## Lessons Learned
@@ -321,6 +322,24 @@
   - The second implication of the fact that JSX produces an expression is that we can write JSX anywhere inside a component. For example, we can assign a piece of JSX to a variable. We can also use it inside an if/else statement, pass it into functions and many other things.
 - Finally, a piece of JSX can only have one root element i.e. one parent element.
 - If you need more than that, for example, when you need to return two elements from a component, you can use something called a React Fragment, which we will talk about later.
+
+### Rendering Lists
+
+- Rendering lists is one of the most common things that we do in all React applications.
+- What do we mean by rendering lists?
+- Rendering a list is when we have an array and we want to create one component for each element of the array.
+- To do so, we usually use the `map()` method.
+- Each time we render a list with the `map()` method, each of the item that gets rendered needs a unique `key` property.
+- `key` is basically a prop that is internal to React, which it needs in order for some performance optimizations.
+- For now, this is not important. We will learn about the `key` in a greater detail later.
+
+> [!NOTE]
+>
+> You might think that instead of `map()` we can simply use `forEach()` because it sounds a bit more logical for rendering a component for each of the elements in the array but, that doesn't work.
+>
+> The reason is simple because `forEach()` is just meant for iterating over an array and it does not return us an array instead it just does a computation or performs an operation as you iterate over the elements of the array. This won't render a list of elements in the array as you expect for the reason mentioned above.
+>
+> Instead you should make use of the `map()` method for mapping over the array and then for each object that is in the array we transform it into a JSX element so that the same can be rendered in the UI. The `map()` as we know does the transformation and it returns a new array of JSX elements which is what gets rendered in the UI.
 
 ## Author
 
