@@ -23,6 +23,7 @@
       - [One-Way Data Flow](#one-way-data-flow)
     - [The Rules of JSX](#the-rules-of-jsx)
     - [Rendering Lists](#rendering-lists)
+    - [Conditional Rendering With \&\&](#conditional-rendering-with-)
   - [Author](#author)
 
 ## Lessons Learned
@@ -340,6 +341,35 @@
 > The reason is simple because `forEach()` is just meant for iterating over an array and it does not return us an array instead it just does a computation or performs an operation as you iterate over the elements of the array. This won't render a list of elements in the array as you expect for the reason mentioned above.
 >
 > Instead you should make use of the `map()` method for mapping over the array and then for each object that is in the array we transform it into a JSX element so that the same can be rendered in the UI. The `map()` as we know does the transformation and it returns a new array of JSX elements which is what gets rendered in the UI.
+>
+> How does this array of JSX gets rendered onto UI is abstracted away from us. But you can google around and see its mechanism if you want.
+
+### Conditional Rendering With &&
+
+- Another very important technique that we use all the time in React development is conditional rendering.
+- So in this lesson, and the next two, we will talk about 3 ways of rendering some JSX, or even an entire component, based on a condition - starting in this lesson with the `&&` operator.
+
+> [!NOTE]
+>
+> React does not render `true` or `false` boolean values onto DOM.
+>
+> So, if you enter JavaScript mode in JSX and try to render `true` or `false`, you will see nothing being rendered on the UI.
+>
+> That's why conditional rendering works.
+>
+> If the first part of the AND conditional operator is `true` then it simply renders the second part, otherwise, nothing is rendered on the UI.
+
+- When rendering a list with a conditional operator, if the array is an empty array then the list will still get rendered onto the screen with empty HTML elements i.e. HTML elements with no content in them.
+- This is because an empty array is still a truthy value.
+- In that case, we need to check for the length of the array and use that condition to render the second part of the conditional operator.
+- But this will not work as we want it to work. This is because the AND operator will simply not evaluate the second part of the conditional operator is the first part is a falsy value. In the case of checking the length of an empty array, the value is 0 i.e. a falsy value. So, it will simply return 0. So, 0 will be rendered onto the UI.
+- This does not happen with a `true` or `false` boolean values i.e. those do not get rendered onto UI. However if they are truthy or falsy values, those will get rendered. Keep a note of that.
+- As a conclusion, the first part of an AND operator should never, ever result into a falsy value. It should result into a true `true` boolean value.
+- So to work around that, instead of checking for `array.length && JSX`, we should check for this: `array.length > 0 && JSX`.
+- This will give us the result we are looking for.
+- Now because of this behavior of the AND operator, that we just talked about, many people believe that we shouldn't use the AND operator to do conditional rendering.
+- However, if you know what you are doing then that shouldn't be a problem. In fact it can come in quite handy sometimes.
+- Having said that, the ternary operator is more preferable to do conditional rendering, so, in the next lesson, that's what we will learn.
 
 ## Author
 
