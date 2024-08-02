@@ -26,6 +26,7 @@
     - [Conditional Rendering With \&\&](#conditional-rendering-with-)
     - [Conditional Rendering With Ternaries](#conditional-rendering-with-ternaries)
     - [Conditional Rendering With Multiple Returns](#conditional-rendering-with-multiple-returns)
+    - [Extracting JSX Into A New Component](#extracting-jsx-into-a-new-component)
   - [Author](#author)
 
 ## Lessons Learned
@@ -388,6 +389,8 @@
 - As a conculsion of the three lessons on conditional rendering, it is recommended to use the ternary operator whenever you need to return some piece of JSX based on a condition.
 - When you want to return a completely different component, you can use if/else statement inside the component to return a component accordingly i.e. use multiple return statements.
 - Throughout this course you will learn which of these options is the best simply by practicing and using them in different situations over and over again.
+
+### Extracting JSX Into A New Component
 
 ## Author
 
