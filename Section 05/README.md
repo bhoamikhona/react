@@ -21,6 +21,7 @@
       - [Reviewing Props](#reviewing-props)
       - [Props are Read-Only!](#props-are-read-only)
       - [One-Way Data Flow](#one-way-data-flow)
+    - [The Rules of JSX](#the-rules-of-jsx)
   - [Author](#author)
 
 ## Lessons Learned
@@ -299,6 +300,27 @@
 - Finally, two-way data binding is usually less efficient i.e. it is less performant to implement.
 - That sounds great but, you might be wondering, what if you wanted to pass some data up to a parent component?
 - There is a clever way to do that but, we will learn about that in the next section.
+
+### The Rules of JSX
+
+- Many beginners get quite confused when they start using JSX in their own code.
+- In fact, JSX can be a bit tricky to understand and to master.
+- So, let's quickly check out the rules of how JSX works.
+- ![image](https://github.com/user-attachments/assets/a7c3300e-ae0b-463b-b3b9-5e285b8211cf)
+- There are some general JSX rules and there are some rules about how JSX is different from HTML.
+- Starting with generals rules, you should know that JSX works essentially just like HTML. So, it has a very similar syntax.
+- However, we can enter a JavaScript mode by using curly braces anywhere in the markup where a value, like text or an attribute is expected.
+- In this JavaScript mode, we can place any JavaScript expression i.e. anything that produces a value.
+- We can reference variables, create arrays or objects, we can loop over array using the `map()` method or we can use operators like the ternary operator.
+- What's not allowed are statements. So in JSX, you cannot use things like if/else statement, for loops, a switch statement or any other statement.
+- What's super important to understand is that a piece of JSX produces a JavaScript expression.
+- In other words, a piece of JSX is just like any other JavaScript expression.
+- This makes sense because we already learned that JSX is simply converted to a `createElement()` function call, which is in-fact also an expression.
+- This fact has two important implications:
+  - First, it means that we can place other pieces of JSX inside the curly braces i.e. inside the JS mode. Again, this is only possible because we can put any JS expression inside those curly braces. This includes the expressions produced by JSX.
+  - The second implication of the fact that JSX produces an expression is that we can write JSX anywhere inside a component. For example, we can assign a piece of JSX to a variable. We can also use it inside an if/else statement, pass it into functions and many other things.
+- Finally, a piece of JSX can only have one root element i.e. one parent element.
+- If you need more than that, for example, when you need to return two elements from a component, you can use something called a React Fragment, which we will talk about later.
 
 ## Author
 
