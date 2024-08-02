@@ -24,6 +24,7 @@
     - [The Rules of JSX](#the-rules-of-jsx)
     - [Rendering Lists](#rendering-lists)
     - [Conditional Rendering With \&\&](#conditional-rendering-with-)
+    - [Conditional Rendering With Ternaries](#conditional-rendering-with-ternaries)
   - [Author](#author)
 
 ## Lessons Learned
@@ -370,6 +371,12 @@
 - Now because of this behavior of the AND operator, that we just talked about, many people believe that we shouldn't use the AND operator to do conditional rendering.
 - However, if you know what you are doing then that shouldn't be a problem. In fact it can come in quite handy sometimes.
 - Having said that, the ternary operator is more preferable to do conditional rendering, so, in the next lesson, that's what we will learn.
+
+### Conditional Rendering With Ternaries
+
+- With the ternary operator, if you don't want to return any JSX from the third part (or second part), you can simply use `null`.
+- The advantage of using a ternary operator is that based on certain condition, we can display and alternative UI.
+- For example, if we are diplaying time for when a restaurant is open, we display an "open" message for when it is open and when it is closed, we can display the "closed" message.
 
 ## Author
 
