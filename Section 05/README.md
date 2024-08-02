@@ -27,6 +27,7 @@
     - [Conditional Rendering With Ternaries](#conditional-rendering-with-ternaries)
     - [Conditional Rendering With Multiple Returns](#conditional-rendering-with-multiple-returns)
     - [Extracting JSX Into A New Component](#extracting-jsx-into-a-new-component)
+    - [Destructuring Props](#destructuring-props)
   - [Author](#author)
 
 ## Lessons Learned
@@ -391,6 +392,10 @@
 - Throughout this course you will learn which of these options is the best simply by practicing and using them in different situations over and over again.
 
 ### Extracting JSX Into A New Component
+
+### Destructuring Props
+
+- All components receive the `props` object, even if we don't pass them. It will simply be an empty object.
 
 ## Author
 
