@@ -28,6 +28,7 @@
     - [Conditional Rendering With Multiple Returns](#conditional-rendering-with-multiple-returns)
     - [Extracting JSX Into A New Component](#extracting-jsx-into-a-new-component)
     - [Destructuring Props](#destructuring-props)
+    - [React Fragments](#react-fragments)
   - [Author](#author)
 
 ## Lessons Learned
@@ -396,6 +397,14 @@
 ### Destructuring Props
 
 - All components receive the `props` object, even if we don't pass them. It will simply be an empty object.
+
+### React Fragments
+
+- A React Fragment `<></>` basically lets us group some elements without leaving any trace in the HTML tree i.e. in the DOM.
+- Sometimes we need to add a `key` to a React Fragment so then, we need to write it like this: `<React.Fragment></React.Fragment>`. Then you can add the `key` like so: `<React.Fragment key='1'></React.Fragment>`
+  - Make sure you have `React` imported from the `"react"` library for this.
+  - This result is exactly the same as simply using `<></>` - we use this simple version when we don't need a `key`.
+- Essentially React Fragment is a very simple concept that basically allows us to have more than just one element inside a piece of JSX.
 
 ## Author
 
