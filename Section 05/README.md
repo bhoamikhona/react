@@ -29,6 +29,7 @@
     - [Extracting JSX Into A New Component](#extracting-jsx-into-a-new-component)
     - [Destructuring Props](#destructuring-props)
     - [React Fragments](#react-fragments)
+    - [Setting Classes and Text Conditionally](#setting-classes-and-text-conditionally)
   - [Author](#author)
 
 ## Lessons Learned
@@ -405,6 +406,8 @@
   - Make sure you have `React` imported from the `"react"` library for this.
   - This result is exactly the same as simply using `<></>` - we use this simple version when we don't need a `key`.
 - Essentially React Fragment is a very simple concept that basically allows us to have more than just one element inside a piece of JSX.
+
+### Setting Classes and Text Conditionally
 
 ## Author
 
