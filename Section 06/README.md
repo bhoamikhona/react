@@ -7,9 +7,14 @@
 - [Section 06: State, Events, and Forms - Interactive Components](#section-06-state-events-and-forms---interactive-components)
   - [Table of Content](#table-of-content)
   - [Lessons Learned](#lessons-learned)
+    - [Let's Build a Steps Component](#lets-build-a-steps-component)
   - [Author](#author)
 
 ## Lessons Learned
+
+### Let's Build a Steps Component
+
+- If the data, for example an array, doesn't depend on anything that is inside a component then it should be located outside of the component. This is because otherwise each time that the component is executed, the data will be created again. But, we will learn about this more, later.
 
 ## Author
 
