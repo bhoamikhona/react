@@ -30,6 +30,7 @@
     - [Destructuring Props](#destructuring-props)
     - [React Fragments](#react-fragments)
     - [Setting Classes and Text Conditionally](#setting-classes-and-text-conditionally)
+    - [Section Summary](#section-summary)
   - [Author](#author)
 
 ## Lessons Learned
@@ -408,6 +409,42 @@
 - Essentially React Fragment is a very simple concept that basically allows us to have more than just one element inside a piece of JSX.
 
 ### Setting Classes and Text Conditionally
+
+### Section Summary
+
+- ![image](https://github.com/user-attachments/assets/54fb212a-1c9e-4687-a094-08bf74ec5eab)
+- First of all, we learned that components are the building blocks of any user interface in React.
+- Each component is a self-contained piece of the user interface, which includes its own data, its own JavaScript logic, and its own appearance.
+- In practical terms, we write this appearance using a declarative syntax that's called JSX; and it is this block of JSX that ultimately gets returned from each component.
+- This JSX is what's going to describe exactly what the user will see on the screen when they use the application.
+- Any piece of JSX can contain some markup, basically in the form of HTML.
+- It can contain some CSS, which in this section we wrote using the `style` prop.
+- So, we use the `style` prop and then passed an object in there, which contained some CSS code.
+- Also, usually JSX contains some JavaScript inside curly braces, which we can call "entering the JavaScript mode". So, it is basically like writing JavaScript right inside of HTML.
+- So, this is basically everything that a component contains or can contain, and how we write it - using JSX.
+- Now a complete application is usually composed out of many different components, which are then organized into a component tree like the one shown in the image above.
+- In a component tree like this, the components that are at the top of the tree have included or used the components that are below them, which makes them their parent component.
+- For example, the App component is the parent component of Header, Menu, and Footer. Therefore, Header, Menu, and Footer are the child components of App.
+- At the same time, Menu is a parent compoenent of Pizza, and Footer is the parent component of Order.
+- So obviously, a component can be a parent and a child at the same time.
+- In order to share data between compoenents, parent components can pass data into a direct child component using `props`.
+- So, for each value that we want to pass down, we simply define one `prop` - which is short for property.
+- So, using props, we can configure components as we wish.
+- For example, in our pizza-menu application, we rendered many different pizzas by creating one pizza component and then passing in different pizza objects into that component i.e. rendering it multiple times with a different prop.
+- It is very important to understand that props can only be passed down the tree i.e. only from parents to children, but never the other way around.
+- Something that we do all the time in React applications is to render multiple components of the same type by looping over an array.
+- This is what we call creating a list.
+- So, in the pizza-menu application that we just built, we created a list of pizzas by looping over the pizza array using the JavaScript `map()` method.
+- So in react, there is nothing special to create lists. All we need to know is the `map()` method that's available on all JavaScript arrays.
+- Our JavaScript knowledge is more than enough to loop over an array in order to create lists of components of the same type.
+- Finally, we also learned about conditional rendering.
+- So, that's another thing that we do all the time in order to render components only when certain conditions are met.
+- Just like rendering lists, we can conditionally render components by using common JavaScript tools that we already know, for example, the AND operator, the ternary operator, and also using multiple returns.
+- So, these are the more practical things that we just learned and that we applied to the project that we have been building.
+- We also learned some more theoretical stuff like the difference between imperative and declarative approaches.
+- We learned about separation of concerns.
+- We learned exactly about why we cannot mutate props, which is important.
+- We also learned some more theories that we won't go deep into now - you can re-watch those lesson if you need to brush-up.
 
 ## Author
 
