@@ -7,6 +7,7 @@
 - [React](#react)
   - [Table of Content](#table-of-content)
   - [Sections](#sections)
+  - [Projects](#projects)
   - [Author](#author)
 
 ## Sections
@@ -16,6 +17,11 @@
 - [Section 03](./Section%2003): A First Look at React
 - [Section 04](./Section%2004): Review of Essential JavaScript for React
 - [Section 05](./Section%2005): Working With Components, Props, and JSX
+
+## Projects
+
+- [Pizza Menu](https://pizza-menu-olive.vercel.app/)
+- [Profile Card](https://profile-card-nu-liart.vercel.app/)
 
 ## Author
 
