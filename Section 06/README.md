@@ -10,6 +10,7 @@
     - [Let's Build a Steps Component](#lets-build-a-steps-component)
     - [Handling Events The React Way](#handling-events-the-react-way)
     - [What is State in React?](#what-is-state-in-react)
+    - [Creating A State Variable With useState](#creating-a-state-variable-with-usestate)
   - [Author](#author)
 
 ## Lessons Learned
@@ -100,6 +101,24 @@ function App() {
   - Second, state allows developers to persist local variables between multiple renders and re-renders.
 - So, if you think about it, state is basically a tool; and it is in-fact the most powerful tool that we have in the world of React.
 - So, understanding how state works and what it does i.e. understanding the mechanics of state will unlock the power of React development for you.
+
+### Creating A State Variable With useState
+
+- In order to use state in practice in a component, we do it in 3 steps.
+- First, we create a new state variable.
+  - To do so, we use the `useState()` functin that React provides us.
+  - Make sure that `useState` is imported from the React library in order to use it.
+  - The `useState()` function takes in an argument. This argument is going to be the default value of the state variable it is used for.
+  - This `useState()` function returns an array with two elements in it. The first position of this array holds the default value that we pass into the `useState()` function, and the second position holds a function which we can use to update our state variable.
+  - So, we immediately destructure this array to use the variable and the function, like so: `const [step, setStep] = useState(1)`
+- Second we use it in code, usually in JSX.
+- Third, we then update the piece of state in some event handler.
+  - In the event handler, we simply use the function that is held in the second position of the array that is returned by `useState()` to update the state variable. For example `setStep(step + 1)`
+- NOTE: The `useState()` function is what we call a hook in React.
+- We can identify hooks because they start with the `use` keyword.
+- So, all the React functions that start with `use`, for example `useReducer`, `useState`, `useEffect` are all hooks; and we will learn what a React hook is a bit later.
+- For now, all you need to know is that we can only call hooks like `useState` on the top level of the component function. We cannot call hooks inside an if-statement, or inside another function, or inside a loop. If we do that, we will immediately get an error.
+- Another important thing about state is that we should really only update state using the setter function returned to us by the `useState` hook, not manually.
 
 ## Author
 
