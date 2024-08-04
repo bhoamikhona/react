@@ -11,6 +11,7 @@
     - [Handling Events The React Way](#handling-events-the-react-way)
     - [What is State in React?](#what-is-state-in-react)
     - [Creating A State Variable With useState](#creating-a-state-variable-with-usestate)
+    - [Don't Set State Manually!](#dont-set-state-manually)
   - [Author](#author)
 
 ## Lessons Learned
@@ -119,6 +120,29 @@ function App() {
 - So, all the React functions that start with `use`, for example `useReducer`, `useState`, `useEffect` are all hooks; and we will learn what a React hook is a bit later.
 - For now, all you need to know is that we can only call hooks like `useState` on the top level of the component function. We cannot call hooks inside an if-statement, or inside another function, or inside a loop. If we do that, we will immediately get an error.
 - Another important thing about state is that we should really only update state using the setter function returned to us by the `useState` hook, not manually.
+
+### Don't Set State Manually!
+
+When we try to update a state manually instead of using the function returned from `useState`, like this:
+
+```javascript
+let [step, setStep] = useState(1);
+
+function handleClick() {
+  step = step + 1;
+}
+```
+
+- React doesn't give us an error but, when we click the button which we are using the event handler, simply nothing happens.
+- The reason for that is that React has no way of knowing that `step = step + 1` is trying to update the state.
+- So, React has no magic way of knowing that the `step` in `step = step + 1` is a state variable and that `step = step + 1` is trying to update it.
+- That's why React provided the setter function from `useState` - which is a functional way of updating the state value, but without mutating it.
+- Because in `step = step + 1` we are directly mutating the `step` variable.
+- But React is all about immutability.
+- Therefore, we can only update the state using the tools that React gives us.
+- So, the `setStep` setter function is tied to the `step` state variable in `let [step, setStep] = useState(1)`.
+- So, when we use the functional way of updating the state, then React knows that the `step` state variable should be updated.
+- In conclusion, always treat state as immutable in React i.e. as something that you cannot change directly but that you can change using the tools that React gives us i.e. the setter function.
 
 ## Author
 
