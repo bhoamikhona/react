@@ -11,6 +11,7 @@
     - [Handling Events The React Way](#handling-events-the-react-way)
     - [What is State in React?](#what-is-state-in-react)
     - [Creating A State Variable With useState](#creating-a-state-variable-with-usestate)
+    - [Don't Set State Manually!](#dont-set-state-manually)
   - [Author](#author)
 
 ## Lessons Learned
@@ -119,6 +120,14 @@ function App() {
 - So, all the React functions that start with `use`, for example `useReducer`, `useState`, `useEffect` are all hooks; and we will learn what a React hook is a bit later.
 - For now, all you need to know is that we can only call hooks like `useState` on the top level of the component function. We cannot call hooks inside an if-statement, or inside another function, or inside a loop. If we do that, we will immediately get an error.
 - Another important thing about state is that we should really only update state using the setter function returned to us by the `useState` hook, not manually.
+
+### Don't Set State Manually!
+
+- When we try to update a state variable manually, React has no way of knowing that it is a state variable and that we are trying to update it.
+- So, we should always use the setter function that provided to use by `useState` to update the state.
+  - This setter function is the functional way of updating the state value, but without mutating it & React is all about immutability.
+- We should use the setter funcion because the it is essentially tied to the state variable.
+- In conclusion, always treat state as immutable in React i.e. as something that you cannot change directly, but that you can only change using the tools that React gives us i.e. by using the setter function.
 
 ## Author
 

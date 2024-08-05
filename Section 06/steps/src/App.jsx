@@ -8,6 +8,7 @@ const messages = [
 
 export default function App() {
   const [step, setStep] = useState(1);
+  const [test, setTest] = useState({ name: "Bhoami" });
 
   function handlePrevious() {
     if (step > 1) setStep(step - 1);
@@ -15,6 +16,26 @@ export default function App() {
 
   function handleNext() {
     if (step < 3) setStep(step + 1);
+
+    /**
+     * BAD PRACTICE
+     *
+     * This is a bad practice because sometimes in more complex
+     * situations, this won't work.
+     *
+     * In general, mutating objects like this, especially in a framework
+     * like React, which is all about immutability and functional state
+     * updates, is bad practice.
+     *
+     * Never do this.
+     */
+    // test.name = "Jonas";
+
+    /**
+     * If you really want to update the `test` object, just use its
+     * setter function.
+     */
+    setTest({ name: "Jonas" });
   }
 
   return (
@@ -26,6 +47,7 @@ export default function App() {
       </div>
       <p className="message">
         Step {step}: {messages[step - 1]}
+        {test.name}
       </p>
       <div className="buttons">
         <button
