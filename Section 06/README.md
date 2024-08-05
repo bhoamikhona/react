@@ -13,6 +13,7 @@
     - [Creating A State Variable With useState](#creating-a-state-variable-with-usestate)
     - [Don't Set State Manually!](#dont-set-state-manually)
     - [The Mechanics of State](#the-mechanics-of-state)
+    - [Adding Another Piece of State](#adding-another-piece-of-state)
   - [Author](#author)
 
 ## Lessons Learned
@@ -128,6 +129,78 @@ function App() {
 - So, we should always use the setter function that provided to use by `useState` to update the state.
   - This setter function is the functional way of updating the state value, but without mutating it & React is all about immutability.
 - We should use the setter funcion because the it is essentially tied to the state variable.
+
+```javascript
+import React, { useState } from "react";
+
+const messages = [
+  "Learn React ⚛️",
+  "Apply for jobs 💼",
+  "Invest your new income 🤑",
+];
+
+export default function App() {
+  const [step, setStep] = useState(1);
+  const [test, setTest] = useState({ name: "Bhoami" });
+
+  function handlePrevious() {
+    if (step > 1) setStep(step - 1);
+  }
+
+  function handleNext() {
+    if (step < 3) setStep(step + 1);
+
+    /**
+     * BAD PRACTICE
+     *
+     * This is a bad practice because sometimes in more complex
+     * situations, this won't work.
+     *
+     * In general, mutating objects like this, especially in a framework
+     * like React, which is all about immutability and functional state
+     * updates, is bad practice.
+     *
+     * Never do this.
+     */
+    // test.name = "Jonas";
+
+    /**
+     * If you really want to update the `test` object, just use its
+     * setter function.
+     */
+    setTest({ name: "Jonas" });
+  }
+
+  return (
+    <div className="steps">
+      <div className="numbers">
+        <div className={step >= 1 ? "active" : ""}>1</div>
+        <div className={step >= 2 ? "active" : ""}>2</div>
+        <div className={step >= 3 ? "active" : ""}>3</div>
+      </div>
+      <p className="message">
+        Step {step}: {messages[step - 1]}
+        {test.name}
+      </p>
+      <div className="buttons">
+        <button
+          style={{ backgroundColor: "#7950f2", color: "#fff" }}
+          onClick={handlePrevious}
+        >
+          Previous
+        </button>
+        <button
+          style={{ backgroundColor: "#7950f2", color: "#fff" }}
+          onClick={handleNext}
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  );
+}
+```
+
 - In conclusion, always treat state as immutable in React i.e. as something that you cannot change directly, but that you can only change using the tools that React gives us i.e. by using the setter function.
 
 ### The Mechanics of State
@@ -167,6 +240,12 @@ function App() {
 - With this, we have come full-circle from the first lesson about why frameworks exist.
 - There we learned that frameworks exist to keep UI in-sync with data.
 - So now, we have learned a bit better regarding how React does that.
+
+### Adding Another Piece of State
+
+- In our [steps application](./steps/src/App.jsx), when we click on the close button and change the value of the `isOpen` piece of state, note how the value of `step` piece of state is retained.
+- For example, if the current value of `step` is 2, and then we toggle the `isOpen` state, the value of `step` is retained through those re-renders of the component.
+- That's why we say that state is like a memory of the component. It can hold this information over time even though we render and re-render it over and over again.
 
 ## Author
 
