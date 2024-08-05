@@ -12,6 +12,7 @@
     - [What is State in React?](#what-is-state-in-react)
     - [Creating A State Variable With useState](#creating-a-state-variable-with-usestate)
     - [Don't Set State Manually!](#dont-set-state-manually)
+    - [The Mechanics of State](#the-mechanics-of-state)
   - [Author](#author)
 
 ## Lessons Learned
@@ -128,6 +129,44 @@ function App() {
   - This setter function is the functional way of updating the state value, but without mutating it & React is all about immutability.
 - We should use the setter funcion because the it is essentially tied to the state variable.
 - In conclusion, always treat state as immutable in React i.e. as something that you cannot change directly, but that you can only change using the tools that React gives us i.e. by using the setter function.
+
+### The Mechanics of State
+
+- We just saw the power of state by using the `useState` function, but now let's get a better understanding of how exactly state works in React.
+- Let's start from a fundamental React principle that we have already discussed earlier.
+- ![image](https://github.com/user-attachments/assets/6098a15b-40d4-4023-aeb0-f5a078b36790)
+- Remember how we learned that in React we do not manipulate the DOM directly when we want to update a component's view.
+- React is declarative, not imperative, so we never touch the DOM in our code.
+- But if that's the case, then this leads us to the question of, how do we update the component on the screen whenever some data changes or whenever we need to respond to some event like a click?
+- We already know that the answer to this question is state, but here we are trying to derive it from first principles.
+- Anyway, to answer that question, we need to understand another fundamental React principle, which is the fact that React updates a component view by re-rendering that entire component whenever the underlying data changes.
+- As soon as will reach the section about how React works behind the scenes, we will learn exact what actually happens inside React when a component re-renders.
+- For now, just know that re-rendering basically means that React calls the component function again each time the component is rendered.
+- Conceptually we can imagine this as React removing the entire view and replacing it with a new one each time a re-render needs to happen.
+- ![re-rendering-view](https://github.com/user-attachments/assets/15990609-07e3-4e54-b277-a30627e18c4c)
+- But again, we will learn exactly what happens, later.
+- React preserves the component state throughout re-renders. So, even though a component can be rendered time and time again, the state will not be reset unless the component disappears from the UI entirely, which is what we call <ins>unmounting</ins>.
+- Speaking of state, it is when state is updated that a component is automatically re-rendered.
+- ![image](https://github.com/user-attachments/assets/f9d062f0-5611-49b9-bb8e-a03fdcd2a3f5)
+- So, let's imagine that there is an event handler in the view, for example, on a button that the user can click.
+- The moment that button is clicked, we can update a piece of state in our component using the setter function coming from the `useState` hook - just like we did in the last lesson.
+- Then when React sees that the state has been changed, it will automatically re-render the component, which will result in an updated view for this component.
+- For a more real example, we can look at the simple [advice app](../Section%2001/react-first-app-advice/src/App.jsx) that we built right in the first section of the course.
+- ![image](https://github.com/user-attachments/assets/b3bd02e1-6c4a-413f-9b77-a43f079bffd8)
+- In that application, each time we click the "Get Advice" button, a new piece of advice is fetched from the API.
+- When that data arrives, we store that data in the advice state variable. So, we update the `advice` state.
+- Let's suppose that the new advice is "Quality beats quantity.". React will notice the state change and re-render the component.
+- So, it will remove the old one and display the new updated component view on the screen.
+- With this hopefully the mechanics of state in React are very clear to you.
+- In conclusion, as React developers, whenever we want to update a component view, we update its state.
+- React will then react to that update and do its thing.
+- In fact, this whole mechanism is so fundamental to React that it is actually the reason why React is called "React" in the first place.
+- ![image](https://github.com/user-attachments/assets/402590ab-49db-48ad-8502-5bf9f3e99fda)
+- On a high level, moving from component level to the application level, React reacts to state changes by re-rendering the user interface.
+- That's the main thing that it does and therefore, it was decided to call this library <ins>React</ins>.
+- With this, we have come full-circle from the first lesson about why frameworks exist.
+- There we learned that frameworks exist to keep UI in-sync with data.
+- So now, we have learned a bit better regarding how React does that.
 
 ## Author
 
