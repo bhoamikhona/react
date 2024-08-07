@@ -16,6 +16,10 @@
     - [Adding Another Piece of State](#adding-another-piece-of-state)
     - [React Developer Tools](#react-developer-tools)
     - [Updating State Based on Current State](#updating-state-based-on-current-state)
+    - [More Thoughts About State + State Guidelines](#more-thoughts-about-state--state-guidelines)
+      - [One Component, One State](#one-component-one-state)
+      - [UI As A Function Of State](#ui-as-a-function-of-state)
+      - [In Practical Terms...](#in-practical-terms)
   - [Author](#author)
 
 ## Lessons Learned
@@ -393,6 +397,54 @@ export default function App() {
 - We can just pass in the state value.
 - But in order to be safe for future updates or when working with co-workers, it is best to update the state in a more safe way i.e. by using a callback function.
 - So from now on, we will use a callback function to update state when we are trying to update it based on its current value.
+
+### More Thoughts About State + State Guidelines
+
+- As we finish this first dive into state, let's learn a few more important things about state, as well as some practical guidelines.
+
+#### One Component, One State
+
+- ![image](https://github.com/user-attachments/assets/f749fbac-9c18-4437-a9fb-49d84f20f324)
+- First of all, there is one important technical detail that you should be aware of, and this might seem obvious but, it is still worth mentioning.
+- That is the fact that each component really has and manages its own state.
+- So, even if we render the same component multiple times on one page, each of these component instances will operate independently from all the other ones.
+- In this example (in the image above), the three counter components all start with a piece of state called `score`, which will be initially set to 0.
+- Then, if one of the buttons is clicked, that increases the score by one for each click, but only in that component.
+- The state in all the other components stays the same.
+- So again, if we change the state in one of the components, that won't affect the other components at all.
+- So, the same thing is going to happen when we click on one of the other buttons, or even when one of the components is removed from the UI entirely.
+- So, state really is isolated inside of each component.
+
+#### UI As A Function Of State
+
+- ![image](https://github.com/user-attachments/assets/070d26a9-0314-4e26-a441-68352111ec2d)
+- If we analyze everything that we just learned about state, we can come to conclusion that we can basically think of the entire application view i.e. the entire user interface, as a function of state.
+- In other words, the entire UI is always a representation of all the current states in all components.
+- Taking this idea even one step further, a React application is fundamentally all about changing state over time, and of course, also correctly displaying that state at all times.
+- This is really what the declarative approach to building user interfaces is all about.
+- So, instead of viewing UI as explicit DOM manipulations with state, we now view a UI as a reflection of data changing over time.
+- And as you know by now, we describe that reflection of data using state, event handlers, and JSX.
+- So, we describe the UI and React does the rest.
+- This might all sound a bit philosophical at this point in your journey, but as you become more and mroe experienced in building React apps and working with state, you will truly and deeply understand everything we learned in this lesson.
+
+#### In Practical Terms...
+
+- ![image](https://github.com/user-attachments/assets/255a70a9-53ca-4e5c-a598-044a25ca5545)
+- Now to finish let's go through some guidelines on how to use state in practice.
+- These guidelines are for you to keep as a reference.
+
+1. You should create a new state variable for any data that a component should keep track of over time. The easy way to figure this out is to think of variables that need to change at some point in the future. So, if you are used to building apps in Vanilla JavaScript, those would be variables defined with `let` or `var`, or also an array or an object that you mutate over the application's lifecycle. So in React, you use state for those.
+2. Another way of figuring out when you need state is this: Whenever you want something in a component to be dynamic, create a piece of state related to that "thing", and then update the state when the "thing" should change. In other words, when you need it to be dynamic.
+   1. Since this "thing" is a bit abstract, let's think of a modal window that can either be open or closed.
+   2. For a modal window, we can create a state variable called `isOpen` that will keep track of whether the modal is currently open or not.
+   3. Then, when it is true, we display the window on the screen, and if it is false, we hide it.
+3. Whenever you want to change the way a component looks like, or the data that it displays, just update its state, which you usually do inside an event handler function.
+4. When you are actually building your components, it is going to be useful to always imagine the components view i.e. the component rendered on the screen, as a reflection of state changing and evolving over time.
+5. Finally, there is one common mistake that many beginners make, which is to use state for every single variable that you need in a component, but that's really not necessary. So, do not use state for variables that do not trigger a re-render. This is because it will just cause unnecessary re-renders which can cause performance issues. So, it is very common to need some variables that are not state and for those, you can just use regular variables defined with `const`.
+
+- This is the first set of guidelines about state, which should be more than enough for now.
+- So, if you truly internalize these, then building React applications in the future should be a lot easier for you.
+- This is because mastering state is the most difficult part of learning React, but once you overcome this hurdle and truly internalize when you need state and how it all works, it will unlock React development for you.
 
 ## Author
 
