@@ -15,6 +15,7 @@
     - [The Mechanics of State](#the-mechanics-of-state)
     - [Adding Another Piece of State](#adding-another-piece-of-state)
     - [React Developer Tools](#react-developer-tools)
+    - [Updating State Based on Current State](#updating-state-based-on-current-state)
   - [Author](#author)
 
 ## Lessons Learned
@@ -258,6 +259,140 @@ export default function App() {
 - Let's understand the components part of the tool.
 - Components, as the name suggests, is for showing a component tree.
 - So, it will essentially show all of the components with which our app is built; and on right side bar, it has all the states and props that a specific component uses.
+
+### Updating State Based on Current State
+
+- It is very common that we update a state variable based on the current value of that state.
+- So, let's now learn how to best do that.
+
+```javascript
+import React, { useState } from "react";
+
+export default function App() {
+  const [step, setStep] = useState(1);
+
+  function handlePrevious() {
+    setStep(step - 1);
+  }
+
+  function handleNext() {
+    setStep(step + 1);
+  }
+
+  return (
+    <div>
+      <p>{step}</p>
+      <button onClick={handlePrevious}>previous</button>
+      <button onClick={handleNext}>next</button>
+    </div>
+  );
+}
+```
+
+- In the example above we are updating state based on teh current state. For example in the `handleNext()` function we are taking the current state and adding 1 to it.
+- So, this is what we mean by "updating state based on the current state".
+- The way we are doing it right now is working just fine.
+- But, let's now imagine that after a few months, we come back to this app and then we want to change something.
+- Let's say that we want the `handleNext()` function to actually move forward twice. So, let's say that we want to set the `step` state twice, like so:
+
+```javascript
+import React, { useState } from "react";
+
+export default function App() {
+  const [step, setStep] = useState(1);
+
+  function handlePrevious() {
+    setStep(step - 1);
+  }
+
+  function handleNext() {
+    // setting the `step` state twice
+    setStep(step + 1);
+    setStep(step + 1);
+  }
+
+  return (
+    <div>
+      <p>{step}</p>
+      <button onClick={handlePrevious}>previous</button>
+      <button onClick={handleNext}>next</button>
+    </div>
+  );
+}
+```
+
+- This is perfectly fine, we can call the same function twice.
+- Now ideally, what this should do is to increase the value of `step` by 2 each time we click the `next` button.
+- However, when we actually click the `next` button, it only increases the `step` state value by 1.
+- We will go into detail regarding why this happens.
+- But for now, all you need to know is that when you are trying to update a state based on its current state, we shouldn't do it the way we did above.
+- Instead, we should pass in a callback function in the `setStep()` function instead of a value.
+- This callback function will recieve the current value of the state as an argument.
+  - There are multiple conventions on how to name this argument.
+  - We can call it `step` but, that might create confusion.
+  - We can also call it `curStep` or `s`.
+  - For now, let's just call it `s` i.e. just an abbreviation.
+
+```javascript
+import React, { useState } from "react";
+
+export default function App() {
+  const [step, setStep] = useState(1);
+
+  function handlePrevious() {
+    // using a callback function
+    setStep((s) => s - 1);
+  }
+
+  function handleNext() {
+    // using a callback function
+    setStep((s) => s + 1);
+    setStep((s) => s + 1);
+  }
+
+  return (
+    <div>
+      <p>{step}</p>
+      <button onClick={handlePrevious}>previous</button>
+      <button onClick={handleNext}>next</button>
+    </div>
+  );
+}
+```
+
+- This will now work the exact same way as before.
+- So, the view now updates in the same way as before but, this is now a bit more correct because now if we click on the `next` button, we can see that the value of step is increased by 2 instead of 1.
+- In the `handleNext()` function, in the first `setStep(s => s + 1)`, we update the step by 1 and then return that state.
+- So, in the second `setStep(s => s + 1)`, the step is already increased by 1 and then we increase it by 1 more and returns that so, overall this updates the state by 2.
+- So, in order to be safe for future updates, it is a good idea to always use a callback function like we did above when we want to update state based on the current value of that state.
+- When we are not setting state based on the current state, then of course we can just pass in the value as normal, like so:
+
+```javascript
+import React, { useState } from "react";
+
+export default function App() {
+  const [user, setUser] = useState({ name: "Bhoami" });
+
+  function handleClick() {
+    // Here we are passing an entirely new object.
+    // We are not updating the state value based on current state value
+    // So, we can just pass in the value as normal.
+    setUser({ name: "Janine" });
+  }
+
+  return (
+    <div>
+      <h1>{user.name}</h1>
+      <button onClick={handleClick}>Change Name</button>
+    </div>
+  );
+}
+```
+
+- So, in this case we need no callback.
+- We can just pass in the state value.
+- But in order to be safe for future updates or when working with co-workers, it is best to update the state in a more safe way i.e. by using a callback function.
+- So from now on, we will use a callback function to update state when we are trying to update it based on its current value.
 
 ## Author
 
