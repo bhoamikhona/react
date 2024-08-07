@@ -14,6 +14,7 @@
     - [Don't Set State Manually!](#dont-set-state-manually)
     - [The Mechanics of State](#the-mechanics-of-state)
     - [Adding Another Piece of State](#adding-another-piece-of-state)
+    - [React Developer Tools](#react-developer-tools)
   - [Author](#author)
 
 ## Lessons Learned
@@ -246,6 +247,17 @@ export default function App() {
 - In our [steps application](./steps/src/App.jsx), when we click on the close button and change the value of the `isOpen` piece of state, note how the value of `step` piece of state is retained.
 - For example, if the current value of `step` is 2, and then we toggle the `isOpen` state, the value of `step` is retained through those re-renders of the component.
 - That's why we say that state is like a memory of the component. It can hold this information over time even though we render and re-render it over and over again.
+
+### React Developer Tools
+
+- The React team built dev tools specific for React which can be extremely helpful when working with state. You can find more info [here](https://react.dev/learn/react-developer-tools).
+- [React Developer Tools Chrome Extension](https://chromewebstore.google.com/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi)
+- There are two parts of the React Dev Tools:
+  - Components
+  - Profiler (We will come back to profiler later in the course)
+- Let's understand the components part of the tool.
+- Components, as the name suggests, is for showing a component tree.
+- So, it will essentially show all of the components with which our app is built; and on right side bar, it has all the states and props that a specific component uses.
 
 ## Author
 
