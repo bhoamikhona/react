@@ -20,6 +20,7 @@
       - [One Component, One State](#one-component-one-state)
       - [UI As A Function Of State](#ui-as-a-function-of-state)
       - [In Practical Terms...](#in-practical-terms)
+    - [A Vanilla JavaScript Implementation](#a-vanilla-javascript-implementation)
   - [Author](#author)
 
 ## Lessons Learned
@@ -445,6 +446,11 @@ export default function App() {
 - This is the first set of guidelines about state, which should be more than enough for now.
 - So, if you truly internalize these, then building React applications in the future should be a lot easier for you.
 - This is because mastering state is the most difficult part of learning React, but once you overcome this hurdle and truly internalize when you need state and how it all works, it will unlock React development for you.
+
+### A Vanilla JavaScript Implementation
+
+- Comparing the [React version of the steps application](./steps/src/App.jsx) to a [Vanilla JS version of the steps application](./steps-vanilla-js.html)
+- NOTE: The button for opening and closing the component is not included in the Vanilla JS implementation.
 
 ## Author
 
