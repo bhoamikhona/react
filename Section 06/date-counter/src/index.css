@@ -1,0 +1,114 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.6rem;
+  font-family: "Space Mono", monospace;
+
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #c4e4e7;
+}
+
+.main {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 3rem;
+
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 2rem;
+  box-shadow: 0rem 0.4rem 0.8rem 0 rgba(0, 0, 0, 0.2);
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex: 1;
+}
+
+.step-div,
+.count-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.text {
+  width: 10rem;
+  text-align: center;
+  color: #00474a;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+}
+
+.btn {
+  background-color: #00474a;
+  color: #fff;
+  border: none;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 1rem;
+  font: inherit;
+  font-weight: 700;
+  font-size: 2rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn:hover {
+  cursor: pointer;
+  background-color: #26c2ae;
+  color: #00474a;
+}
+
+.btn.reset {
+  width: 100%;
+  text-transform: uppercase;
+}
+
+.right {
+  background-color: #00474a;
+  padding: 2rem;
+  border-radius: 2rem;
+  flex: 1;
+}
+
+.date {
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.date-top {
+  color: #9fe8df;
+  font-size: 1.6rem;
+}
+
+.date-bottom {
+  color: #fff;
+  font-size: 5rem;
+  width: 20rem;
+}
