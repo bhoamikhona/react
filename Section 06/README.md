@@ -31,6 +31,7 @@
     - [Starting A New Project: The "Far Away" Travel List](#starting-a-new-project-the-far-away-travel-list)
     - [Building The Layout](#building-the-layout)
     - [Rendering The Items List](#rendering-the-items-list)
+    - [Building a Form and Handling Submissions](#building-a-form-and-handling-submissions)
   - [Author](#author)
 
 ## Lessons Learned
@@ -469,6 +470,8 @@ export default function App() {
 ### Building The Layout
 
 ### Rendering The Items List
+
+### Building a Form and Handling Submissions
 
 ## Author
 
