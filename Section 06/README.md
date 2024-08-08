@@ -22,6 +22,7 @@
       - [In Practical Terms...](#in-practical-terms)
     - [A Vanilla JavaScript Implementation](#a-vanilla-javascript-implementation)
     - [Starting A New Project: The "Far Away" Travel List](#starting-a-new-project-the-far-away-travel-list)
+    - [Building The Layout](#building-the-layout)
   - [Author](#author)
 
 ## Lessons Learned
@@ -456,6 +457,8 @@ export default function App() {
 ### Starting A New Project: The "Far Away" Travel List
 
 - Overview of what we are going to build.
+
+### Building The Layout
 
 ## Author
 
