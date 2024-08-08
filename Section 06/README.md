@@ -21,6 +21,7 @@
       - [UI As A Function Of State](#ui-as-a-function-of-state)
       - [In Practical Terms...](#in-practical-terms)
     - [A Vanilla JavaScript Implementation](#a-vanilla-javascript-implementation)
+    - [Starting A New Project: The "Far Away" Travel List](#starting-a-new-project-the-far-away-travel-list)
   - [Author](#author)
 
 ## Lessons Learned
@@ -451,6 +452,10 @@ export default function App() {
 
 - Comparing the [React version of the steps application](./steps/src/App.jsx) to a [Vanilla JS version of the steps application](./steps-vanilla-js.html)
 - NOTE: The button for opening and closing the component is not included in the Vanilla JS implementation.
+
+### Starting A New Project: The "Far Away" Travel List
+
+- Overview of what we are going to build.
 
 ## Author
 
