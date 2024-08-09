@@ -32,6 +32,7 @@
     - [Building The Layout](#building-the-layout)
     - [Rendering The Items List](#rendering-the-items-list)
     - [Building a Form and Handling Submissions](#building-a-form-and-handling-submissions)
+    - [Controlled Elements](#controlled-elements)
   - [Author](#author)
 
 ## Lessons Learned
@@ -472,6 +473,25 @@ export default function App() {
 ### Rendering The Items List
 
 ### Building a Form and Handling Submissions
+
+### Controlled Elements
+
+- Let's now learn about yet another fundamental React concept which is controlled elements.
+- We will learn what they are and how we use them.
+- To start, what we need to understand is that by default these input fields i.e. the input field and select element maintain their own state inside the DOM - basically inside the HTML element itself.
+- This makes it hard to read their values and it also leaves this state in the DOM, which for many reasons is not ideal.
+- In React, we usually like to keep all the states in just one central place i.e. inside the React application and not inside the DOM.
+- In order to do that we use a technique called controlled elements.
+- With this technique, it is React who controls and owns the state of these input fields and no longer the DOM.
+- Since we want to keep this data inside the application, what that means is that we need some state.
+- This is because the form data changes over time and we also want to maintain our application in-sync with it.
+- So, in order to implement the controlled elements technique, we follow 3 steps:
+  - First, we create a piece of state.
+  - Second, we use that state as a value of the input field.
+  - Third, listen for the change event on the input field.
+    - Basically, whenever we type something in the input field, the change event is fired off and we can react to that event with the `onChange` event handler.
+- With this it is React who is in charge of the state and of the entire element. That's the reason why this technique is called controlled element.
+- Basically, the whole idea of the controlled elements is to allow React to keep our components state in-sync with the state of the DOM form elemens.
 
 ## Author
 
