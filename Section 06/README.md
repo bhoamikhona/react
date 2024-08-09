@@ -28,12 +28,14 @@
       - [UI As A Function Of State](#ui-as-a-function-of-state)
       - [In Practical Terms...](#in-practical-terms)
     - [A Vanilla JavaScript Implementation](#a-vanilla-javascript-implementation)
+    - [Challenge 01 - Date Counter (v1)](#challenge-01---date-counter-v1)
     - [Starting A New Project: The "Far Away" Travel List](#starting-a-new-project-the-far-away-travel-list)
     - [Building The Layout](#building-the-layout)
     - [Rendering The Items List](#rendering-the-items-list)
     - [Building a Form and Handling Submissions](#building-a-form-and-handling-submissions)
     - [Controlled Elements](#controlled-elements)
     - [State vs. Props](#state-vs-props)
+    - [Exercise 01 - Flashcards](#exercise-01---flashcards)
   - [Author](#author)
 
 ## Lessons Learned
@@ -465,6 +467,8 @@ export default function App() {
 - Comparing the [React version of the steps application](./steps/src/App.jsx) to a [Vanilla JS version of the steps application](./steps-vanilla-js.html)
 - NOTE: The button for opening and closing the component is not included in the Vanilla JS implementation.
 
+### Challenge 01 - Date Counter (v1)
+
 ### Starting A New Project: The "Far Away" Travel List
 
 - Overview of what we are going to build.
@@ -511,6 +515,10 @@ export default function App() {
 - This is a very important connection between state and props that you should keep in mind.
 - Finally, while state is used by developers to make components interactive, props are used to give the parent component the ability to configure their child components.
 - Basically, props can be seen as settings in child components, which the parent component can define as they wish.
+
+### Exercise 01 - Flashcards
+
+- We use `null` as the initial value of state when we want none of the cards (in the flashcards project) to be selected in the beginning.
 
 ## Author
 
