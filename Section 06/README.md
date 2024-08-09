@@ -33,6 +33,7 @@
     - [Rendering The Items List](#rendering-the-items-list)
     - [Building a Form and Handling Submissions](#building-a-form-and-handling-submissions)
     - [Controlled Elements](#controlled-elements)
+    - [State vs. Props](#state-vs-props)
   - [Author](#author)
 
 ## Lessons Learned
@@ -492,6 +493,24 @@ export default function App() {
     - Basically, whenever we type something in the input field, the change event is fired off and we can react to that event with the `onChange` event handler.
 - With this it is React who is in charge of the state and of the entire element. That's the reason why this technique is called controlled element.
 - Basically, the whole idea of the controlled elements is to allow React to keep our components state in-sync with the state of the DOM form elemens.
+
+### State vs. Props
+
+- A very common beginner question or sometimes even an interview question is "What is the difference between state and props?"
+- We actually already learned almost everything to answer that question, but, let's still make the difference between state and props crystal clear in this lesson, which will also serve as a nice summary to this entire section.
+- ![image](https://github.com/user-attachments/assets/bcfbaf44-3860-406b-a9b2-85a1efb70645)
+- As we already know, state is internal data i.e. data that is owned by the component in which it is declared. We can see that nicely in the code examples in the image above.
+- On the other hand, props is external data i.e. data that is owned by the parent component.
+- You can think of props as function parameters i.e. as a communication channel between parent and child components where parents can pass data into children.
+- State on the other hand, can be thought of as the component's memory because it can hold data over time, across mutliple re-renders.
+- State can be updated by the component itself and this will then cause the component to be re-rendered by React.
+- Therefore, we use this mechanism of state to make components interactive.
+- On the other hand, props work very differently. They are read-only, so they cannot be modified by the component that is receiving them.
+- However, when the child component receives new updated props, that will also cause the component to re-render.
+- Whenever a piece of state is passed as a prop, when that state updates, both components are re-rendered i.e. the component that owns the state and the component that receives the state.
+- This is a very important connection between state and props that you should keep in mind.
+- Finally, while state is used by developers to make components interactive, props are used to give the parent component the ability to configure their child components.
+- Basically, props can be seen as settings in child components, which the parent component can define as they wish.
 
 ## Author
 
