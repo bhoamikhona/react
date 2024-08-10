@@ -23,6 +23,10 @@
 
 - [Pizza Menu](https://pizza-menu-olive.vercel.app/)
 - [Profile Card](https://profile-card-nu-liart.vercel.app/)
+- [Steps](https://steps-olive.vercel.app/)
+- [Flashcards](https://flashcards-psi-ten.vercel.app/)
+- [Date Counter](https://date-counter-two.vercel.app/)
+- [Travel List](https://travel-list-section-06.vercel.app/)
 
 ## Author
 
