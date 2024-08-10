@@ -24,6 +24,15 @@ body {
 
 .main {
   display: flex;
+  flex-direction: column;
+  gap: 10rem;
+  min-width: 40rem;
+}
+
+.counter {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
   align-items: stretch;
   justify-content: center;
   gap: 3rem;
@@ -40,19 +49,18 @@ body {
   align-items: center;
   justify-content: center;
   gap: 2rem;
-  flex: 1;
 }
 
 .step-div,
 .count-div {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  gap: 1rem;
   width: 100%;
 }
 
 .text {
-  width: 10rem;
   text-align: center;
   color: #00474a;
   font-weight: 700;
@@ -88,7 +96,6 @@ body {
   background-color: #00474a;
   padding: 2rem;
   border-radius: 2rem;
-  flex: 1;
 }
 
 .date {
@@ -111,4 +118,47 @@ body {
   color: #fff;
   font-size: 5rem;
   width: 20rem;
+}
+
+.step-range {
+  appearance: none;
+  background: #9fe8df;
+  border-radius: 2rem;
+  height: 1rem;
+  cursor: pointer;
+  width: 100%;
+}
+
+.step-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 100%;
+  background: #00474a;
+  transition: all 0.3s ease-in-out;
+}
+
+.step-range:hover::-webkit-slider-thumb {
+  background: #0e686d;
+}
+
+.step-label {
+  margin-left: 1rem;
+}
+
+.step-input {
+  font: inherit;
+  border: none;
+  background-color: #f3f8fa;
+  color: #00474a;
+  font-weight: 700;
+  font-size: 1.5rem;
+  height: 100%;
+  padding: 1rem;
+  outline: none;
+  border-radius: 0.5rem;
+}
+
+.step-input::placeholder {
+  color: rgb(127, 156, 159);
 }

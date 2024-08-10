@@ -36,6 +36,7 @@
     - [Controlled Elements](#controlled-elements)
     - [State vs. Props](#state-vs-props)
     - [Exercise 01 - Flashcards](#exercise-01---flashcards)
+    - [Challenge 02 - Date Counter (v2)](#challenge-02---date-counter-v2)
   - [Author](#author)
 
 ## Lessons Learned
@@ -519,6 +520,8 @@ export default function App() {
 ### Exercise 01 - Flashcards
 
 - We use `null` as the initial value of state when we want none of the cards (in the flashcards project) to be selected in the beginning.
+
+### Challenge 02 - Date Counter (v2)
 
 ## Author
 
