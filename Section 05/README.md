@@ -27,6 +27,7 @@
       - [Reviewing Props](#reviewing-props)
       - [Props are Read-Only!](#props-are-read-only)
       - [One-Way Data Flow](#one-way-data-flow)
+    - [Challenge 01 - Profile Card (v1)](#challenge-01---profile-card-v1)
     - [The Rules of JSX](#the-rules-of-jsx)
     - [Rendering Lists](#rendering-lists)
     - [Conditional Rendering With \&\&](#conditional-rendering-with-)
@@ -37,6 +38,7 @@
     - [React Fragments](#react-fragments)
     - [Setting Classes and Text Conditionally](#setting-classes-and-text-conditionally)
     - [Section Summary](#section-summary)
+    - [Challenge 02 - Profile Card (v2)](#challenge-02---profile-card-v2)
   - [Author](#author)
 
 ## Lessons Learned
@@ -316,6 +318,8 @@
 - That sounds great but, you might be wondering, what if you wanted to pass some data up to a parent component?
 - There is a clever way to do that but, we will learn about that in the next section.
 
+### Challenge 01 - Profile Card (v1)
+
 ### The Rules of JSX
 
 - Many beginners get quite confused when they start using JSX in their own code.
@@ -451,6 +455,8 @@
 - We learned about separation of concerns.
 - We learned exactly about why we cannot mutate props, which is important.
 - We also learned some more theories that we won't go deep into now - you can re-watch those lesson if you need to brush-up.
+
+### Challenge 02 - Profile Card (v2)
 
 ## Author
 
