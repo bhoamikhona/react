@@ -17,6 +17,7 @@
     - [Calculating Statistics as Derived State](#calculating-statistics-as-derived-state)
     - [Sorting Items](#sorting-items)
     - [Clearing The List](#clearing-the-list)
+    - [Moving Components Into Separate Files](#moving-components-into-separate-files)
   - [Author](#author)
 
 ## Lessons Learned
@@ -207,6 +208,8 @@
   - Syntanx: `"apple".localeCompare("banana")`
 
 ### Clearing The List
+
+### Moving Components Into Separate Files
 
 ## Author
 
