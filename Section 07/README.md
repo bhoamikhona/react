@@ -12,6 +12,7 @@
     - [Thinking About State and Lifting State Up](#thinking-about-state-and-lifting-state-up)
     - [Reviewing "Lifting Up State"](#reviewing-lifting-up-state)
     - [Deleting an Item: More Child-to-Parent Communication!](#deleting-an-item-more-child-to-parent-communication)
+    - [Updating an Item: Complex Immutable Data Operation](#updating-an-item-complex-immutable-data-operation)
   - [Author](#author)
 
 ## Lessons Learned
@@ -166,6 +167,8 @@
 - Of course this is not truly flowing up, but this workaround of passing down the setter function and use it update the parent state is pretty close to actually having the data flow up the tree.
 
 ### Deleting an Item: More Child-to-Parent Communication!
+
+### Updating an Item: Complex Immutable Data Operation
 
 ## Author
 
