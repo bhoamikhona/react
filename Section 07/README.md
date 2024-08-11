@@ -9,6 +9,7 @@
   - [Lessons Learned](#lessons-learned)
     - [What is "Thinking in React"?](#what-is-thinking-in-react)
     - [Fundamentals of State Management](#fundamentals-of-state-management)
+    - [Thinking About State and Lifting State Up](#thinking-about-state-and-lifting-state-up)
   - [Author](#author)
 
 ## Lessons Learned
@@ -118,6 +119,10 @@
 - This might look super confusing and a lot of work right now, but it will become really intuitive over time.
 - So, at some point, you will just intuitively know when to create a piece of state, when to derive state from existing state, and when to lift state up.
 - But this flow chart can still be very helpful in the beginning.
+
+### Thinking About State and Lifting State Up
+
+- Applying <ins>lifting up the state</ins> to the travel list app.
 
 ## Author
 
