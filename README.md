@@ -18,6 +18,7 @@
 - [Section 04](./Section%2004): Review of Essential JavaScript for React
 - [Section 05](./Section%2005): Working With Components, Props, and JSX
 - [Section 06](./Section%2006): State, Events, and Forms - Interactive Components
+- [Section 07](./Section%2007): Thinking in React - State Management
 
 ## Projects
 
