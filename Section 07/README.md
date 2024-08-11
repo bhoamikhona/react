@@ -13,6 +13,7 @@
     - [Reviewing "Lifting Up State"](#reviewing-lifting-up-state)
     - [Deleting an Item: More Child-to-Parent Communication!](#deleting-an-item-more-child-to-parent-communication)
     - [Updating an Item: Complex Immutable Data Operation](#updating-an-item-complex-immutable-data-operation)
+    - [Derived State](#derived-state)
   - [Author](#author)
 
 ## Lessons Learned
@@ -169,6 +170,30 @@
 ### Deleting an Item: More Child-to-Parent Communication!
 
 ### Updating an Item: Complex Immutable Data Operation
+
+### Derived State
+
+- Another aspect that we mentioned in the state management lesson was derived state.
+- It sounds complicated but, it is actually pretty straightforward.
+- ![image](https://github.com/user-attachments/assets/43863a62-48d1-4dad-9e28-4a839a0ae011)
+- Essentially, derived state is simply state that is computed from another existing piece of state or also from props.
+- Let's look at some actual code (the first code snippet in the image above).
+- Here we have 3 pieces of state as we can see by the 3 `useState` function calls.
+- However, if we analyze these states, it actually doesn't make much sense that all of them exist because `numItems` and `totalPrice` depend entirely on the `cart`.
+- `numItems` is simply the number of items in the cart and `totalPrice` is the sum of all the prices in the cart.
+- So, all the data for these two pieces of state is actually already in the `cart`.
+- So, there is no need to create the additional state variables; and doing so is actually quite problematic.
+- These are problematic because, first - now we have to keep all these states in-sync. So, we need to be careful to always update them together.
+- In this situation, whenever we update the cart, we will also need to manually update the number of items and total price, otherwise our state would get out of sync.
+- But updating these 3 states separately creates a second problem because then, that will re-render the component 3 times, which is absolutely unnecessary.
+- Instead, we can simply derive the `numItems` and `totalPrice` state from the `cart` thereby solving these problems. This is because `cart` already contains all the data that we need.
+- Here (second code snippet in the image above) we simply calculate `numItems` as the `cart` length and `totalPrice` as the sum of all prices and store them in regular variables.
+- There is no `useState` required here which will cause unnecessary re-renders.
+- The `cart` state acts as a single source of truth for these related pieces of state, making sure that everything will always stay in-sync.
+- This works because updating the cart will re-render the component which means that the function is called again; and so all the rest of the code is executed again as well. Therefore, `numItems` and `totalPrice` will also automatically get re-calculated.
+- Of course, most of the time, we cannot derive state but whenever you have a situation like this, where one state can easily be computed from another, always prefer derived state.
+- So, don't create two state variables if you actually only need one.
+- That's a very common beginner mistake, but now, you will be able to avoid it.
 
 ## Author
 
