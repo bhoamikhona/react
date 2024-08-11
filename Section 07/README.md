@@ -14,6 +14,7 @@
     - [Deleting an Item: More Child-to-Parent Communication!](#deleting-an-item-more-child-to-parent-communication)
     - [Updating an Item: Complex Immutable Data Operation](#updating-an-item-complex-immutable-data-operation)
     - [Derived State](#derived-state)
+    - [Calculating Statistics as Derived State](#calculating-statistics-as-derived-state)
   - [Author](#author)
 
 ## Lessons Learned
@@ -194,6 +195,8 @@
 - Of course, most of the time, we cannot derive state but whenever you have a situation like this, where one state can easily be computed from another, always prefer derived state.
 - So, don't create two state variables if you actually only need one.
 - That's a very common beginner mistake, but now, you will be able to avoid it.
+
+### Calculating Statistics as Derived State
 
 ## Author
 
