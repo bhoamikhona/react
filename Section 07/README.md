@@ -11,6 +11,7 @@
     - [Fundamentals of State Management](#fundamentals-of-state-management)
     - [Thinking About State and Lifting State Up](#thinking-about-state-and-lifting-state-up)
     - [Reviewing "Lifting Up State"](#reviewing-lifting-up-state)
+    - [Deleting an Item: More Child-to-Parent Communication!](#deleting-an-item-more-child-to-parent-communication)
   - [Author](#author)
 
 ## Lessons Learned
@@ -163,6 +164,8 @@
 - But anyway, we can call this technique of passing down a setter function, <ins>child-to-parent communication</ins> or also <ins>inverse data flow</ins>.
 - "Inverse" because usually data only flows down but here, we basically have a trick that allows us to basically have the data flowing up as well.
 - Of course this is not truly flowing up, but this workaround of passing down the setter function and use it update the parent state is pretty close to actually having the data flow up the tree.
+
+### Deleting an Item: More Child-to-Parent Communication!
 
 ## Author
 
