@@ -15,6 +15,7 @@
     - [Updating an Item: Complex Immutable Data Operation](#updating-an-item-complex-immutable-data-operation)
     - [Derived State](#derived-state)
     - [Calculating Statistics as Derived State](#calculating-statistics-as-derived-state)
+    - [Sorting Items](#sorting-items)
   - [Author](#author)
 
 ## Lessons Learned
@@ -197,6 +198,12 @@
 - That's a very common beginner mistake, but now, you will be able to avoid it.
 
 ### Calculating Statistics as Derived State
+
+### Sorting Items
+
+- `localeCompare()`
+  - Tis method of `String` values returns a number indicating whether this string comes before or after or is the same as the given string in sort order.
+  - Syntanx: `"apple".localeCompare("banana")`
 
 ## Author
 
