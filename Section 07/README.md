@@ -10,6 +10,7 @@
     - [What is "Thinking in React"?](#what-is-thinking-in-react)
     - [Fundamentals of State Management](#fundamentals-of-state-management)
     - [Thinking About State and Lifting State Up](#thinking-about-state-and-lifting-state-up)
+    - [Reviewing "Lifting Up State"](#reviewing-lifting-up-state)
   - [Author](#author)
 
 ## Lessons Learned
@@ -123,6 +124,45 @@
 ### Thinking About State and Lifting State Up
 
 - Applying <ins>lifting up the state</ins> to the travel list app.
+
+### Reviewing "Lifting Up State"
+
+- We just created an important piece of state and lifted it up to a parent component that is common to both components that needed to use or to update that state.
+- However, this whole idea might still be a bit confusing because in fact, it can seem quite counter intuitive.
+- So, let's now look at another example and some diagrams to really understand how lifting up state works and why it is so important.
+- ![image](https://github.com/user-attachments/assets/443df83b-b4cc-4fd7-b858-af961a806cb1)
+- As an example, let's use the checkout part of the Udemy interface that we have seen in a previous lesson.
+- Let's say that we started by building the promotions component where the user can input coupon codes that will then be added to a list of applied coupons.
+- That sounds like we need a piece of state called `coupons`.
+- That `coupons` state is now local to the promotions component along with a `setCoupons` function coming from `useState`.
+- Next, we set out to build the total component, but here we quickly realize that the total component also needs access to the `coupons` state.
+- Otherwise, without knowing which coupons have been applied, how would the total component know what discounts to apply and what price to display?
+- So here we encounter a problem. How do we give the total component access to the `coupons` state? Because in React, we have one-way data flow. So, data can only flow down from parent to children but, not sideways to sibling components.
+- Therefore, we cannot simply pass the coupons data as props to the total component. That's just not possible.
+- So, we need a way of sharing state with other components that are further up or sideways in the component tree.
+- But luckily for us, we already did exactly that in the last lesson by _lifting it up_.
+- So, we already know that lifting up state is the technique that will solve this problem.
+- ![image](https://github.com/user-attachments/assets/109fc410-d04d-4728-b766-bdf8e32feb7c)
+- But what does that mean and how exactly does it work?
+- Lifting state up simply means to place some state in a component that is a parent of both components that need the piece of state in question.
+- In this example, we would remove the `coupons` state from promotions and place it in the checkout component.
+- Just like that, we have lifted state up to the closes common parent of both total and promotions components.
+- Now, giving both these components access to the state is as easy as passing it down using props, that's it.
+- By lifting state up, we have just successfully shared one piece of state with multiple components in different positions in the component tree, which is something that we need to do all the time in React apps.
+- So it is really important that you get used to this pattern and remember that we need this pattern in the first place as a direct consequence of React's one-way data flow.
+- Anyway, all this now seems to be working just fine at this point.
+- But now what happens when we want to add a new coupon to the `coupons` state? In other words, what happens when the user inputs a new coupon and click on the "Appy" button?
+- ![image](https://github.com/user-attachments/assets/9a92e9c1-c18b-41d3-a720-f3c20e2069a7)
+- We want to update the `coupons` state, but how do we do that now? Because after lifting the state up, it now lives in the parent component i.e. not in the promotions component anymore.
+- Promotions only receive this data via props but, as you know, we cannot mutate props.
+- That's one of the hard rules of React.
+- So, what we are asking is that if we have one-way data flow i.e. if the data can only flow from parent component to children components, then how can the child component promotions update the state that lives in the parent component, checkout?
+- The solution is quite simple. All we have to do is to pass the `setCoupons` function down as a prop to the components who need to update the state.
+- Now that we have the `setCoupons` function in promotions, once a new coupon is added, we can simply use the `setCoupons` function to update the state that lives in the parent component.
+- This is actually exactly what we did in the previous lesson with the difference that we didn't directly pass `setItem`, but a function that uses `setItems` to update the items, which is essentially the same thing.
+- But anyway, we can call this technique of passing down a setter function, <ins>child-to-parent communication</ins> or also <ins>inverse data flow</ins>.
+- "Inverse" because usually data only flows down but here, we basically have a trick that allows us to basically have the data flowing up as well.
+- Of course this is not truly flowing up, but this workaround of passing down the setter function and use it update the parent state is pretty close to actually having the data flow up the tree.
 
 ## Author
 
