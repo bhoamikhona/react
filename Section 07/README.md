@@ -16,6 +16,7 @@
     - [Derived State](#derived-state)
     - [Calculating Statistics as Derived State](#calculating-statistics-as-derived-state)
     - [Sorting Items](#sorting-items)
+    - [Clearing The List](#clearing-the-list)
   - [Author](#author)
 
 ## Lessons Learned
@@ -204,6 +205,8 @@
 - `localeCompare()`
   - Tis method of `String` values returns a number indicating whether this string comes before or after or is the same as the given string in sort order.
   - Syntanx: `"apple".localeCompare("banana")`
+
+### Clearing The List
 
 ## Author
 
