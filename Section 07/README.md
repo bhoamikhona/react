@@ -18,6 +18,7 @@
     - [Sorting Items](#sorting-items)
     - [Clearing The List](#clearing-the-list)
     - [Moving Components Into Separate Files](#moving-components-into-separate-files)
+    - [Exercise 01 - Accordion Component (v1)](#exercise-01---accordion-component-v1)
   - [Author](#author)
 
 ## Lessons Learned
@@ -210,6 +211,8 @@
 ### Clearing The List
 
 ### Moving Components Into Separate Files
+
+### Exercise 01 - Accordion Component (v1)
 
 ## Author
 
