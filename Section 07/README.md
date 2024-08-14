@@ -20,6 +20,7 @@
     - [Moving Components Into Separate Files](#moving-components-into-separate-files)
     - [Exercise 01 - Accordion Component (v1)](#exercise-01---accordion-component-v1)
     - [The "children" Prop: Making A Reusable Button](#the-children-prop-making-a-reusable-button)
+    - [More Reusability With The "children" Prop](#more-reusability-with-the-children-prop)
   - [Author](#author)
 
 ## Lessons Learned
@@ -236,6 +237,8 @@
 - Again, the Button component had absolutely no idea about the content that it was receiving, and therefore, about the content that it was displaying.
 - So this is really amazing to create generic and re-usable components.
 - Using the `children` prop like thsi is really an extremely powerful technique that you will need to master as you learn React.
+
+### More Reusability With The "children" Prop
 
 ## Author
 
