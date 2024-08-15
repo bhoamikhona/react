@@ -21,6 +21,7 @@
     - [Exercise 01 - Accordion Component (v1)](#exercise-01---accordion-component-v1)
     - [The "children" Prop: Making A Reusable Button](#the-children-prop-making-a-reusable-button)
     - [More Reusability With The "children" Prop](#more-reusability-with-the-children-prop)
+    - [Exercise 02 - Accordion Component (v2)](#exercise-02---accordion-component-v2)
   - [Author](#author)
 
 ## Lessons Learned
@@ -239,6 +240,8 @@
 - Using the `children` prop like thsi is really an extremely powerful technique that you will need to master as you learn React.
 
 ### More Reusability With The "children" Prop
+
+### Exercise 02 - Accordion Component (v2)
 
 ## Author
 
