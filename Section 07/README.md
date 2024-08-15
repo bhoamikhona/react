@@ -2,9 +2,17 @@
 
 **About:** In this section, we will start looking at a core skill that every React developer needs to develop right from the beginning, and that core skill is to think in React. Thinking in React encompasses many different aspects, but in this section we will focus on state management. You will learn when and where to create state variables, when and how to derive state, and also how to communicate between child and parent components by lifting state up; and also how to communicate between child and parent components by lifting state up. All these new skills will be needed as we keep building our travel list application.
 
+## Projects
+
+- [Travel List](https://travel-list-section-07.vercel.app/)
+- [Steps](https://steps-section-07.vercel.app/)
+- [Accordion](https://accordion-eosin-five.vercel.app/)
+- [Tip Calculator](https://tip-calculator-section-07.vercel.app/)
+
 ## Table of Content
 
 - [Section 07: Thinking in React - State Management](#section-07-thinking-in-react---state-management)
+  - [Projects](#projects)
   - [Table of Content](#table-of-content)
   - [Lessons Learned](#lessons-learned)
     - [What is "Thinking in React"?](#what-is-thinking-in-react)
