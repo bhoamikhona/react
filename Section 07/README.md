@@ -22,6 +22,7 @@
     - [The "children" Prop: Making A Reusable Button](#the-children-prop-making-a-reusable-button)
     - [More Reusability With The "children" Prop](#more-reusability-with-the-children-prop)
     - [Exercise 02 - Accordion Component (v2)](#exercise-02---accordion-component-v2)
+    - [Challenge 01 - Tip Calculator](#challenge-01---tip-calculator)
   - [Author](#author)
 
 ## Lessons Learned
@@ -242,6 +243,8 @@
 ### More Reusability With The "children" Prop
 
 ### Exercise 02 - Accordion Component (v2)
+
+### Challenge 01 - Tip Calculator
 
 ## Author
 

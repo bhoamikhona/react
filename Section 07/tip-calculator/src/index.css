@@ -1,0 +1,82 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.6rem;
+  font-family: "Montserrat", sans-serif;
+  color: #333;
+
+  min-height: 100vh;
+  background-color: #e3fafc;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calculator {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 2rem;
+  box-shadow: 0 0.2rem 0.6rem 0 #0002;
+}
+
+.input-control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+label {
+  font-size: 1.4rem;
+}
+
+input {
+  border: none;
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  font: inherit;
+}
+
+select {
+  border: none;
+  font: inherit;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: #f8f9fa;
+  cursor: pointer;
+}
+
+h3 {
+  margin: 2.5rem 0;
+  font-size: 2.4rem;
+  color: #0b7285;
+}
+
+button {
+  width: 100%;
+  border: none;
+  background-color: #22b8cf;
+  color: #fff;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font: inherit;
+  text-transform: uppercase;
+  transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: #1098ad;
+}
