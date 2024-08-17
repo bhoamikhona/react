@@ -9,6 +9,7 @@
   - [Lessons Learned](#lessons-learned)
     - [Project Setup](#project-setup)
     - [Building The Static App: List of Friends](#building-the-static-app-list-of-friends)
+    - [Building The Static App: Forms](#building-the-static-app-forms)
   - [Author](#author)
 
 ## Lessons Learned
@@ -16,6 +17,8 @@
 ### Project Setup
 
 ### Building The Static App: List of Friends
+
+### Building The Static App: Forms
 
 ## Author
 
