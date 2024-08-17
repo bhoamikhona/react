@@ -2,9 +2,14 @@
 
 **About:** We will review everything that we have learned up until this point by building a brand new project called Eat-'N-Split. This project is about splitting the restaurant bill with your friends. Similar to an app called [Splitwise](https://www.splitwise.com/).
 
+## Project
+
+- [Eat-'N-Split](https://eat-n-split-six-ruby.vercel.app/)
+
 ## Table Of Content
 
 - [Section 08: Practice Project - Eat-'N-Split](#section-08-practice-project---eat-n-split)
+  - [Project](#project)
   - [Table Of Content](#table-of-content)
   - [Lessons Learned](#lessons-learned)
     - [Project Setup](#project-setup)

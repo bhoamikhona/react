@@ -30,6 +30,7 @@
 - [Travel List](https://travel-list-section-07.vercel.app/)
 - [Accordion](https://accordion-eosin-five.vercel.app/)
 - [Tip Calculator](https://tip-calculator-section-07.vercel.app/)
+- [Eat-'N-Split](https://eat-n-split-six-ruby.vercel.app/)
 
 ## Author
 
