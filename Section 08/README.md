@@ -11,6 +11,7 @@
     - [Building The Static App: List of Friends](#building-the-static-app-list-of-friends)
     - [Building The Static App: Forms](#building-the-static-app-forms)
     - [Displaying The New Friend Form](#displaying-the-new-friend-form)
+    - [Adding a New Friend](#adding-a-new-friend)
   - [Author](#author)
 
 ## Lessons Learned
@@ -22,6 +23,15 @@
 ### Building The Static App: Forms
 
 ### Displaying The New Friend Form
+
+### Adding a New Friend
+
+- `crypto.randomUUID()` - This method is used to generate a v4 UUID using a cryptographically secure random number generator.
+  - It takes no parameters
+  - It returns a string containing a randomly generated, 36 character long v4 UUID.
+  - NOTE: UUID stands for Universally Unique Identifier which is a label used to uniquely identify a resource among all other resources of that type.
+  - So, this is a good way of generating random IDs right now in the browser.
+  - It is not an external package, but it won't work in older browsers.
 
 ## Author
 
