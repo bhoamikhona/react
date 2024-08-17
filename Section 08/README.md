@@ -10,6 +10,7 @@
     - [Project Setup](#project-setup)
     - [Building The Static App: List of Friends](#building-the-static-app-list-of-friends)
     - [Building The Static App: Forms](#building-the-static-app-forms)
+    - [Displaying The New Friend Form](#displaying-the-new-friend-form)
   - [Author](#author)
 
 ## Lessons Learned
@@ -19,6 +20,8 @@
 ### Building The Static App: List of Friends
 
 ### Building The Static App: Forms
+
+### Displaying The New Friend Form
 
 ## Author
 
