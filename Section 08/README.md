@@ -14,6 +14,7 @@
     - [Adding a New Friend](#adding-a-new-friend)
     - [Selecting a Friend](#selecting-a-friend)
     - [Creating Controlled Elements](#creating-controlled-elements)
+    - [Splitting a Bill](#splitting-a-bill)
   - [Author](#author)
 
 ## Lessons Learned
@@ -42,6 +43,8 @@
 - In a future section, we will learn about that in detail along its solution.
 
 ### Creating Controlled Elements
+
+### Splitting a Bill
 
 ## Author
 
