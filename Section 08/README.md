@@ -13,6 +13,7 @@
     - [Displaying The New Friend Form](#displaying-the-new-friend-form)
     - [Adding a New Friend](#adding-a-new-friend)
     - [Selecting a Friend](#selecting-a-friend)
+    - [Creating Controlled Elements](#creating-controlled-elements)
   - [Author](#author)
 
 ## Lessons Learned
@@ -39,6 +40,8 @@
 - Whenever we have a component that doesn't actually need a prop but, all it does with the prop is to pass it down into one of its children, we say that we are <ins>prop-drilling</ins>.
 - In this project, it is not a big problem but sometimes we need to pass a prop through 5 or 6 levels - then it becomes problematic.
 - In a future section, we will learn about that in detail along its solution.
+
+### Creating Controlled Elements
 
 ## Author
 
