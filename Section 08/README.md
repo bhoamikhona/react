@@ -12,6 +12,7 @@
     - [Building The Static App: Forms](#building-the-static-app-forms)
     - [Displaying The New Friend Form](#displaying-the-new-friend-form)
     - [Adding a New Friend](#adding-a-new-friend)
+    - [Selecting a Friend](#selecting-a-friend)
   - [Author](#author)
 
 ## Lessons Learned
@@ -32,6 +33,12 @@
   - NOTE: UUID stands for Universally Unique Identifier which is a label used to uniquely identify a resource among all other resources of that type.
   - So, this is a good way of generating random IDs right now in the browser.
   - It is not an external package, but it won't work in older browsers.
+
+### Selecting a Friend
+
+- Whenever we have a component that doesn't actually need a prop but, all it does with the prop is to pass it down into one of its children, we say that we are <ins>prop-drilling</ins>.
+- In this project, it is not a big problem but sometimes we need to pass a prop through 5 or 6 levels - then it becomes problematic.
+- In a future section, we will learn about that in detail along its solution.
 
 ## Author
 
