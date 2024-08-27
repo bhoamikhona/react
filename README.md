@@ -19,6 +19,8 @@
 - [Section 05](./Section%2005): Working With Components, Props, and JSX
 - [Section 06](./Section%2006): State, Events, and Forms - Interactive Components
 - [Section 07](./Section%2007): Thinking in React - State Management
+- [Section 08](./Section%2008): Practice Project - Eat-'N-Split
+- [Section 09](./Section%2009): Part 02 - Intermediate React
 
 ## Projects
 
