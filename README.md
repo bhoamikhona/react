@@ -21,6 +21,7 @@
 - [Section 07](./Section%2007): Thinking in React - State Management
 - [Section 08](./Section%2008): Practice Project - Eat-'N-Split
 - [Section 09](./Section%2009): Part 02 - Intermediate React
+- [Section 10](./Section%2010): Thinking in React - Components, Composition, and Reusability
 
 ## Projects
 
