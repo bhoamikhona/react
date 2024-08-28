@@ -7,9 +7,12 @@
 - [Section 10: Thinking in React - Components, Composition, and Reusability](#section-10-thinking-in-react---components-composition-and-reusability)
   - [Table of Content](#table-of-content)
   - [Lessons Learned](#lessons-learned)
+    - [Setting Up The "usePopcorn" Project](#setting-up-the-usepopcorn-project)
   - [Author](#author)
 
 ## Lessons Learned
+
+### Setting Up The "usePopcorn" Project
 
 ## Author
 
