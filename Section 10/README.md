@@ -8,11 +8,116 @@
   - [Table of Content](#table-of-content)
   - [Lessons Learned](#lessons-learned)
     - [Setting Up The "usePopcorn" Project](#setting-up-the-usepopcorn-project)
+    - [How to Split a UI into Components](#how-to-split-a-ui-into-components)
+      - [Component Size Matters](#component-size-matters)
+      - [How to Split a UI into Components](#how-to-split-a-ui-into-components-1)
+      - [Framework: When to Create a New Component?](#framework-when-to-create-a-new-component)
+      - [Some More General Guidelines](#some-more-general-guidelines)
   - [Author](#author)
 
 ## Lessons Learned
 
 ### Setting Up The "usePopcorn" Project
+
+### How to Split a UI into Components
+
+- We are back in a section about thinking in React, which is all about state, data flow, and components.
+- We already talked about state management in detail so, now it is time to talk more about components.
+- When it comes to components, the important questions that we need to ask ourselves are, "How do we split up a UI into components?", and "When should we actually create new components?".
+- So, let's try to answer these questions in this lesson.
+
+#### Component Size Matters
+
+- One way in which we can start answering those questions is by looking at component size.
+- ![image](https://github.com/user-attachments/assets/be0e9f98-b204-45b4-ae39-75225650c667)
+- We can classify every component based on its size, which means that we can place every component on the axis of component size.
+- On one side we have really small components, and on the other extreme, we have huge components.
+- At many times, none of these extremes are ideal.
+- Imagine that we wanted to build a simple card (like the one in the image above).
+- One way of doing it would be to create just one huge component for the entire card.
+- However, that would create a whole set of problems.
+- First, there is way to much stuff going on in this component so, it has too many responsibilities.
+- Components are just like JavaScript functions, in the sense that if a function does too many different things, we should break it up into multiple functions.
+- The same applies to React components.
+- Another way in which it becomes apparent that a component is too large is when it needs to receive too many props in order to work properly.
+- For example, if we need 10 or 15 props to properly configure a certain component, that component is probably way too big, and should be split up.
+- In general, these two problems make it very hard to re-use the component, which is one of the big advantages of components in the first place.
+- Also, huge components generally contain a lot of code that might be complex and intertwined, which ultimately makes the whole component hard to understand and to use.
+- Does this mean that we should do the opposite and create many small components, like the one shown in the image below?
+- ![image](https://github.com/user-attachments/assets/e9543bd2-ff93-4bf8-97ac-b5244270a0df)
+- Most of the time, that would probably be a terrible idea as well.
+- If we would build a UI or an entire app in this way, we would end up with 100s if not 1000s of mini-components.
+- This, of course, would create a code base that is super confusing to navigate and to understand, and it would be way too abstracted.
+  - If you are not familiar with the term "abstraction", in programming, it basically means to create something new in order to hide the implementation details of that thing.
+  - For example, when we create a button component, the user of that component might have no idea how the button actually does what it does, because the implementation details are hidden behind this abstraction i.e. this component.
+  - So in a way, each new component that we create is an abstraction.
+- Now, if both ends of the spectrum i.e. both really small and huge components have these problems then what should we do?
+- Most of the time, the goal is to create components that strike the right balance between being too specific and too broad, or in other words, between being too small and being too big.
+- These problems that we identified here, like components having too many responsibilities and being hard to use can help us understand how we should actually split a UI into components.
+
+#### How to Split a UI into Components
+
+- ![image](https://github.com/user-attachments/assets/4fff3e23-3d8e-4f9c-ab71-517ace6e1461)
+- Using the same example as before, first we had the whole card, which is one huge component (the top component in the image above).
+- Then we had a lot of small components (the bottom component in the image above), and both these ways of splitting up the UI are far from ideal for all the reasons that we have talked about.
+- Instead, we want something like the middle component in the image above where we have a more logical separation of the content into different components, and some of these components are probably even going to be re-usable, like the heart button or the "SUPERHOST" label.
+- Also, each of these components has a well-defined responsibility, like displaying the price or the rating, and they are also not overly complex.
+- From this, we can now derive a couple of criteria that we can use to split a user interface into components.
+- First, when we decide which components we need to implement a certain UI, it is important that these components create a logical separation of the content, or even of the layout of a page.
+- We should also strive to make some of these components re-usable and ensure that each component has a single, well-defined responsibility.
+- Finally, there is one even more subjective criterion, which is your personal coding style.
+- Some people work better with smaller components, and some people just prefer larger components. Therefore, you need to create components in a way that works best for you so that you can stay as productive as possible.
+- Now, let's actually dig a bit deeper into all these different criterias.
+
+#### Framework: When to Create a New Component?
+
+- ![image](https://github.com/user-attachments/assets/6126d5d0-4f97-4ccf-a8fd-50509d2f03be)
+- So, let's look at framework that will help you create new components from bigger components.
+- The idea is that, when you are creating a new component and you are in doubt about what the component should include, just start with a relatively big component but, now a huge component, and then split that bigger component into smaller components as it becomes necessary.
+- Now you might ask, when does it actually become necessary to split big components into multiple small ones?
+- That's where the four criterias come into play again, viz:
+  - Logical separation of content/Layout
+  - Reusability
+  - Responsibility/Complexity
+  - Personal coding style
+- Of course, if you already know that you need a small and re-usable component, such as a button, you can just skip all this and simply create a component.
+- But otherwise, you can just start big and don't need to focus on reusability and complexity at the very beginning.
+- At some point, however, you do need to worry about these topics, and so let's analyze them one by one, starting with logical separation.
+- If after writing your big component, you feel like the component contains some piece of code, or of layout, that don't really belong together, then that means that it is probably a good idea to create a new component.
+- About reusability, if it is possible to re-use a part of your big component, and if you actually want or need to re-use that part, then you should take that code and extract it into a new component.
+- Another sign that you should probably extract part of your component into a new one is that your component is doing way too many different things, or that it is relying on to many props.
+- So, if your big component has too many pieces of state or effects, or if the code is way too complex or too confusing, it might be once again, time to create a new, smaller component.
+- Finally, as mentioned previously, it is important that you feel productive when working with your components.
+- So, if you prefer smaller functions/components, just split up big components into smaller ones.
+- But on the other hand, if you prefer big components, that's totally fine.
+- It is all upto you, because remember, in the end, these are all just guidelines and best practices that will become intuitive over time, and by then, building your components will become second nature to you.
+- But as you start out right now, it is great to have guidelines like these to help you out.
+- Speaking of guidelines, let's look at a few more general guidelines.
+
+#### Some More General Guidelines
+
+- ![image](https://github.com/user-attachments/assets/b1d7cece-e7a1-48dd-ac98-21943bb94c0a)
+- First off, you need to be aware that creating a new component creates a new abstraction (we talked about what abstractions are earlier in this lesson).
+- Abstractions have cost, because having more abstractions requires more mental energy to think about different components and to switch back and forth between components.
+- So, try not to create new components too early if you can avoid it.
+- Next, it is important to name a component according to what it does or what it displays.
+- Don't be afraid of using long component names. That's completely normal in React development.
+- What's even more important is that you never, ever declare a new component inside another component, and we will learn the reason for that in the next section.
+- What you can do instead when you have some related components is to co-locate these related components inside the same file.
+- Finally, and going back to our intial topic of component size, it is completely normal that an application has components of many different sizes, including some very small ones and some huge ones.
+- ![image](https://github.com/user-attachments/assets/90a53e00-5000-4208-8a89-d4effc820f9a)
+- So, even though we said in the beginning that very small components have some problems, of course, we always need some small components (like the ones marked in the image above) in any application, because they are highly re-usable and have a very low complexity, which is sometimes exactly what we need.
+- Most apps will also have a few huge components that are not meant to be re-used.
+- For example, we might have a huge page component which contains the layout of the entire app or a page, and that might very well be a fairly complex component which is not meant to be re-used.
+- So, in situations like this, don't worry about re-usability or about needing to split this component up.
+- Speaking of reusability, as you can see from the image above, we can say that, as a general rule, the reusability range is pretty similar to the size range.
+- Generally speaking, the smaller components are, the more reusable they will be.
+- Of course, as components get bigger, they will become less re-usable.
+- But that's no problem at all for some components.
+- So, not all components are meant to be re-usable.
+- Finally, we have all these medium-sized components as well, which all have different degrees of size, reusability, responsibility, and complexity.
+- In the end, our application will have many different components across the entire spectrum, and that's completely normal and natural.
+- In the next lesson, we will apply the concepts that we just learned into practice.
 
 ## Author
 
