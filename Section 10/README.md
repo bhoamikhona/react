@@ -17,6 +17,7 @@
     - [Component Categories](#component-categories)
     - [Prop Drilling](#prop-drilling)
     - [Component Composition](#component-composition)
+    - [Fixing Prop Drilling With Composition (And Building a Layout)](#fixing-prop-drilling-with-composition-and-building-a-layout)
   - [Author](#author)
 
 ## Lessons Learned
@@ -263,6 +264,8 @@ function App() {
 - The second situation in which we can use composition is in order to fix a prop drilling problem like the one that we found in our previous lesson.
 - This is actually great for creating layouts as we will do in the next lesson.
 - Just keep in mind that this is only possible because components do not need to know their children in advance which allows us to leave these "empty slots" inside of them in the form of the `children` prop.
+
+### Fixing Prop Drilling With Composition (And Building a Layout)
 
 ## Author
 
