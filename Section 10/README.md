@@ -16,6 +16,7 @@
     - [Splitting Components in Practice](#splitting-components-in-practice)
     - [Component Categories](#component-categories)
     - [Prop Drilling](#prop-drilling)
+    - [Component Composition](#component-composition)
   - [Author](#author)
 
 ## Lessons Learned
@@ -157,6 +158,111 @@
 - We will look at ways of fixing prop drilling a bit later in this section.
 - So, prop drilling is a perfectly valid solution but, it is not always the best solution - especially if we need to pass that prop down very deep into the component tree.
 - So, in the next lesson we will take a look at one of the possible solutions to this problem, which is component composition.
+
+### Component Composition
+
+- As we keep learning about components in this section, there is one essential principle that we really need to focus on now, which is component composition.
+- ![image](https://github.com/user-attachments/assets/93d882b7-a346-41c6-80c1-36991e6f1b46)
+- In order to talk about component composition, we first need to take a look at what happens when we simply use or include a component in another component in JSX.
+- Let's say that we have a Modal component that we want to re-use, and also a Success component which simply renders the message "well done".
+
+```javascript
+function Modal() {
+  return (
+    <div className="modal">
+      <Success />
+    </div>
+  );
+}
+```
+
+- Then, we just use the Success component inside the Modal component.
+
+```javascript
+function Success() {
+  return <p>Well done!</p>;
+}
+```
+
+- This sort of thing is exactly what we have been doing with our components most of the time. So, we just use them inside of other components.
+- However, when it comes to re-usability, this creates a big problem.
+- That's because the Success component really is inside of the Modal. They are deeply linked together in the JSX and therefore, we cannot re-use the Modal component to display some other message inside of it, for example, an error message.
+- But as you can imagine, in order to solve this, we now bring in the technique of component composition where we can compose the Modal and Success components together.
+- So here we have our Modal component again, but with a fundamental difference.
+
+```javascript
+function Modal({ children }) {
+  return <div className="modal">{children}</div>;
+}
+```
+
+- This component does not include a pre-defined component but instead, it accepts children with the `children` prop - just like we have learned before.
+- So, if we get our Success component again, we can now basically just pass it into the Modal by placing it between the opening and closing tags when we use Modal.
+
+```javascript
+function Modal({ children }) {
+  return <div className="modal">{children}</div>;
+}
+
+function Success() {
+  return <p>Well done!</p>;
+}
+
+function App() {
+  return (
+    <Modal>
+      <Success />
+    </Modal>
+  );
+}
+```
+
+- If you need, take a minute to analyze this code because it is important to grasp the fundamental difference here.
+- In the first example, the Success component is really tied to the Modal.
+- So that modal might as well be called a SuccessModal.
+- This is because we cannot use it for anything else anymore.
+- But with component composition, we simply passed the Success component right into the Modal and composed them together using the `children` prop.
+- Of course, we could have passed in any other component which makes the Modal component highly re-usable.
+- So essentially, when we do component composition, we leave this "hole" or this "empty slot" in the component ready to be filled with any other component that we want.
+- So, let's say that we needed another Modal window somewhere else in the app, but one that renders an error message.
+- That's easy now - we just use the Modal component again but, this time we pass in the Error component as `chilren`
+
+```javascript
+function Modal({ children }) {
+  return <div className="modal">{children}</div>;
+}
+
+function Success() {
+  return <p>Well done!</p>;
+}
+
+function Error() {
+  return <p>Oops, try again!</p>;
+}
+
+function App() {
+  return (
+    <>
+      <Modal>
+        <Success />
+      </Modal>
+
+      <Modal>
+        <Error />
+      </Modal>
+    </>
+  );
+}
+```
+
+- With this, we have also successfully composed these two components together as well.
+- ![image](https://github.com/user-attachments/assets/65e9308b-bdc4-4af4-bc03-32a1e54007e3)
+- Formally, component composition is the technique of combining different components by using the `children` prop or by explicitly defining components as props.
+- We use composition for two big reasons or in two important situations.
+- First, when we want to create highly re-usable and flexible components such as the Modal window or really a million other re-usable components that we can think of - and we do this all the time.
+- The second situation in which we can use composition is in order to fix a prop drilling problem like the one that we found in our previous lesson.
+- This is actually great for creating layouts as we will do in the next lesson.
+- Just keep in mind that this is only possible because components do not need to know their children in advance which allows us to leave these "empty slots" inside of them in the form of the `children` prop.
 
 ## Author
 
