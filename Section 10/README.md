@@ -14,6 +14,7 @@
       - [Framework: When to Create a New Component?](#framework-when-to-create-a-new-component)
       - [Some More General Guidelines](#some-more-general-guidelines)
     - [Splitting Components in Practice](#splitting-components-in-practice)
+    - [Component Categories](#component-categories)
   - [Author](#author)
 
 ## Lessons Learned
@@ -121,6 +122,32 @@
 - In the next lesson, we will apply the concepts that we just learned into practice.
 
 ### Splitting Components in Practice
+
+### Component Categories
+
+- Now that we have created a few different components, let's quickly talk about different component categories that naturally emerge in most React code bases.
+- ![image](https://github.com/user-attachments/assets/28f914e7-91c5-40a9-98a0-b50aa2651bee)
+- Most of your components will naturally fall into one of the three categories:
+  - Stateless or presentational components
+  - Stateful components
+  - Structural components
+- We say "naturally" because we shouldn't force our components into one of these categories.
+- These are all still normal React components in our code - just like the ones that we have been writing.
+- But we can categorize them in this way when we think about components.
+- There are also other categories that could be used, but these make the most sense.
+- Starting with stateless or presentational components, as the name suggests, these don't have any state.
+- Usually, they are components that receive some props and then they simply present that data or even some other content. Therefore, the name _presentational_.
+- Many times these are quite small components, such as the Logo, NumResults, and Movie components in our current app.
+- Next, stateful components are simply components that do have state.
+- Just because these components have state, that doesn't mean that they can't be highly re-usable.
+- For example, the Search component that we built does have state and we could re-use this input as many times as we wanted throughout the app.
+- Finally, you can think of structural components as pages, layouts, or screens of the application - which are often times the result of composing many smaller components together.
+- More about composition later in this section.
+- These structural components can be large and non-reusable components, but they don't have to.
+- Structural components are sometimes quite small too.
+- What matters is that they are responsible for providing some sort of structure to applications such as pages or layouts.
+- Therefore, these components might not be present in really small apps.
+- But you will definitely have a few structural components as your app grows bigger and bigger.
 
 ## Author
 
