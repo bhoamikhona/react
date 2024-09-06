@@ -15,6 +15,7 @@
       - [Some More General Guidelines](#some-more-general-guidelines)
     - [Splitting Components in Practice](#splitting-components-in-practice)
     - [Component Categories](#component-categories)
+    - [Prop Drilling](#prop-drilling)
   - [Author](#author)
 
 ## Lessons Learned
@@ -148,6 +149,14 @@
 - What matters is that they are responsible for providing some sort of structure to applications such as pages or layouts.
 - Therefore, these components might not be present in really small apps.
 - But you will definitely have a few structural components as your app grows bigger and bigger.
+
+### Prop Drilling
+
+- Prop drilling basically means that we need to pass some prop through several nested child components - that don't even need that prop, all they are needed for is to pass the data down even futher in the component tree in order to get that data into some deeply nested component.
+- So, prop drilling is not fun and it could be worse if the data is nested very deep into the tree.
+- We will look at ways of fixing prop drilling a bit later in this section.
+- So, prop drilling is a perfectly valid solution but, it is not always the best solution - especially if we need to pass that prop down very deep into the component tree.
+- So, in the next lesson we will take a look at one of the possible solutions to this problem, which is component composition.
 
 ## Author
 
