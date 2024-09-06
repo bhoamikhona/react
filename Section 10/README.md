@@ -13,6 +13,7 @@
       - [How to Split a UI into Components](#how-to-split-a-ui-into-components-1)
       - [Framework: When to Create a New Component?](#framework-when-to-create-a-new-component)
       - [Some More General Guidelines](#some-more-general-guidelines)
+    - [Splitting Components in Practice](#splitting-components-in-practice)
   - [Author](#author)
 
 ## Lessons Learned
@@ -118,6 +119,8 @@
 - Finally, we have all these medium-sized components as well, which all have different degrees of size, reusability, responsibility, and complexity.
 - In the end, our application will have many different components across the entire spectrum, and that's completely normal and natural.
 - In the next lesson, we will apply the concepts that we just learned into practice.
+
+### Splitting Components in Practice
 
 ## Author
 
