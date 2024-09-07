@@ -19,6 +19,7 @@
     - [Component Composition](#component-composition)
     - [Fixing Prop Drilling With Composition (And Building a Layout)](#fixing-prop-drilling-with-composition-and-building-a-layout)
     - [Using Composition to Make a Reusable Box](#using-composition-to-make-a-reusable-box)
+    - [Passing Elements as props (Alternative to children)](#passing-elements-as-props-alternative-to-children)
   - [Author](#author)
 
 ## Lessons Learned
@@ -269,6 +270,8 @@ function App() {
 ### Fixing Prop Drilling With Composition (And Building a Layout)
 
 ### Using Composition to Make a Reusable Box
+
+### Passing Elements as props (Alternative to children)
 
 ## Author
 
