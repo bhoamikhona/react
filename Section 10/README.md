@@ -18,6 +18,7 @@
     - [Prop Drilling](#prop-drilling)
     - [Component Composition](#component-composition)
     - [Fixing Prop Drilling With Composition (And Building a Layout)](#fixing-prop-drilling-with-composition-and-building-a-layout)
+    - [Using Composition to Make a Reusable Box](#using-composition-to-make-a-reusable-box)
   - [Author](#author)
 
 ## Lessons Learned
@@ -266,6 +267,8 @@ function App() {
 - Just keep in mind that this is only possible because components do not need to know their children in advance which allows us to leave these "empty slots" inside of them in the form of the `children` prop.
 
 ### Fixing Prop Drilling With Composition (And Building a Layout)
+
+### Using Composition to Make a Reusable Box
 
 ## Author
 
