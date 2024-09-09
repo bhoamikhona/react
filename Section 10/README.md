@@ -21,6 +21,7 @@
     - [Using Composition to Make a Reusable Box](#using-composition-to-make-a-reusable-box)
     - [Passing Elements as props (Alternative to children)](#passing-elements-as-props-alternative-to-children)
     - [Building a Reusable Star Rating Component](#building-a-reusable-star-rating-component)
+    - [Creating the Stars](#creating-the-stars)
   - [Author](#author)
 
 ## Lessons Learned
@@ -277,6 +278,8 @@ function App() {
 ### Building a Reusable Star Rating Component
 
 - Setting default value to props
+
+### Creating the Stars
 
 ## Author
 
