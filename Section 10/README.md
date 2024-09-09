@@ -22,6 +22,7 @@
     - [Passing Elements as props (Alternative to children)](#passing-elements-as-props-alternative-to-children)
     - [Building a Reusable Star Rating Component](#building-a-reusable-star-rating-component)
     - [Creating the Stars](#creating-the-stars)
+    - [Handling Hover Events](#handling-hover-events)
   - [Author](#author)
 
 ## Lessons Learned
@@ -280,6 +281,8 @@ function App() {
 - Setting default value to props
 
 ### Creating the Stars
+
+### Handling Hover Events
 
 ## Author
 
