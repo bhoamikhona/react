@@ -23,6 +23,7 @@
     - [Building a Reusable Star Rating Component](#building-a-reusable-star-rating-component)
     - [Creating the Stars](#creating-the-stars)
     - [Handling Hover Events](#handling-hover-events)
+    - [Props as a Component API](#props-as-a-component-api)
   - [Author](#author)
 
 ## Lessons Learned
@@ -283,6 +284,33 @@ function App() {
 ### Creating the Stars
 
 ### Handling Hover Events
+
+### Props as a Component API
+
+- When we build a reusable component, like the one we are currently building (the star rating component), we should carefully think about what props the component needs.
+- So, let's now shortly look at how to think about props.
+- ![image](https://github.com/user-attachments/assets/0940fb06-7d26-4864-ae2c-5d704a88a7e3)
+- First of all, as we start working on our components, we should get into the mindset that any component is always created by someone, and always consumed by someone.
+- When you are working on your own, the component creator and consumer, is, of course, the same person.
+- But if you are on a team, those might very well be different developers.
+- In any case, it is always a good idea to think in terms of there being a creator and a consumer of a component, so different entities, even if it is just yourself.
+- Basically, the creator is the person building a component, and defining what props the components can accept.
+- While the consumer uses the component somewhere in the application, by specifying values for the props.
+- The reason for this separation between creator and consumer, even if you are just working on your own, is that if we have this mindset, we can think of the component's props as the public API of the component.
+- So, as a component creator, when we choose what props the consumer is allowed to pass in, we are essentially defining the public interface of our component; and at the same time, we are choosing how much complexity of the component we want to expose to the consumer of the API.
+- This is because, in the end, a component is basically just an abstraction.
+- So, we are encapsulating a part of the UI and the associated logic into a component and allow consumers to interact with that component via props.
+- That's it, that's basically what creating a new component is.
+- Anyway, when we decide about what props to allow in a component, we need to find a good balance on how strict we want to be i.e. how many props we want to enable for configuration.
+- For example, let's say that we are building a weather component i.e. a component that simply displays the weather.
+- We could make it extremely simple, for example, only allowing one prop which will be for the location for which the consumer wants the weather.
+- This might be perfectly fine, but it might also make the component not flexible enough, or maybe even straight out useless for the consumer.
+- On the other hand, we could allow props for the URL of the weather data, the number of data, whether it should be daily or hourly, which temperature unit, what data should be displayed, etc.
+- We could probably think of 20 more props here but, the point is that exposing so many props might make the component way too hard to use for the consumer, because we are exposing too much complexity.
+- Speaking of complexity, you will end up with very complex code, if you want to allow so many props.
+- So, when trying to strike the right balance between too little and too many props, and a balance that works well, for both the creator and the consumer of the component, based on the project's needs.
+- Now, if for some reason you really need to expose so many props, make sure to at least provide some good default values for many of them.
+- It will come to you with practice, but it is quite important to get into this mindset of distinguishing between component creators and consumers.
 
 ## Author
 
