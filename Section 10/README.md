@@ -25,6 +25,7 @@
     - [Handling Hover Events](#handling-hover-events)
     - [Props as a Component API](#props-as-a-component-api)
     - [Improving Reusability with Props](#improving-reusability-with-props)
+    - [PropTypes](#proptypes)
   - [Author](#author)
 
 ## Lessons Learned
@@ -320,6 +321,32 @@ function App() {
 - But in our StarRating component, that is not the case.
 - We are really only using the `defaultRating` prop as a seed data i.e. the initial state, and we don't care whether this value maybe changes somewhere else in the application - outside the starRating component.
 - Therefore, it is completely fine to do.
+
+### PropTypes
+
+- With PropTypes we can basically specify the type of value that we expect the consumer of the component to pass in for each of the props.
+- This is what we call <ins>type checking</ins>.
+- To use PropTypes, we need to import it from `prop-types` package. We do not need to install it as `create-react-app` already does that for us.
+
+```javascript
+import PropTypes from "prop-types";
+
+// using PropType validator
+StarRating.propTypes = {
+  maxRating: PropTypes.number,
+};
+
+function StarRating({ maxRating = 5 }) {
+  // component code
+}
+```
+
+- To learn more you can visit the documentation of [PropTypes](https://legacy.reactjs.org/docs/typechecking-with-proptypes.html).
+- Adding PropTypes is also a nice way of documenting our components because the type definition makes it really obvious as to what kind of data we are expecting.
+- You can use this in the case that you have some component that you want to make highly re-usable across multiple applications or even just inside one application and you don't want to switch to TypeScript.
+
+> [!NOTE]
+> In real world, developers have started using TypeScript instead of PropTypes.
 
 ## Author
 
