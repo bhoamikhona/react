@@ -26,6 +26,7 @@
     - [Props as a Component API](#props-as-a-component-api)
     - [Improving Reusability with Props](#improving-reusability-with-props)
     - [PropTypes](#proptypes)
+    - [Challenge 01: Text Expander Component](#challenge-01-text-expander-component)
   - [Author](#author)
 
 ## Lessons Learned
@@ -347,6 +348,8 @@ function StarRating({ maxRating = 5 }) {
 
 > [!NOTE]
 > In real world, developers have started using TypeScript instead of PropTypes.
+
+### Challenge 01: Text Expander Component
 
 ## Author
 
