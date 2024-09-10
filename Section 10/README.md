@@ -24,6 +24,7 @@
     - [Creating the Stars](#creating-the-stars)
     - [Handling Hover Events](#handling-hover-events)
     - [Props as a Component API](#props-as-a-component-api)
+    - [Improving Reusability with Props](#improving-reusability-with-props)
   - [Author](#author)
 
 ## Lessons Learned
@@ -311,6 +312,14 @@ function App() {
 - So, when trying to strike the right balance between too little and too many props, and a balance that works well, for both the creator and the consumer of the component, based on the project's needs.
 - Now, if for some reason you really need to expose so many props, make sure to at least provide some good default values for many of them.
 - It will come to you with practice, but it is quite important to get into this mindset of distinguishing between component creators and consumers.
+
+### Improving Reusability with Props
+
+- You might have heard that we should never initialize state from props.
+- However, that is only true if you want the state variable to stay in-sync with that passed in props - in other words, if you want the state value to update in case that the prop value is also updated.
+- But in our StarRating component, that is not the case.
+- We are really only using the `defaultRating` prop as a seed data i.e. the initial state, and we don't care whether this value maybe changes somewhere else in the application - outside the starRating component.
+- Therefore, it is completely fine to do.
 
 ## Author
 
