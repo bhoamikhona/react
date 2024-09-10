@@ -5,6 +5,7 @@
 ## Projects
 
 - [usePopcorn](https://usepopcorn-section-10.vercel.app/)
+- [Star Rating](https://star-rating-one.vercel.app/)
 - [Text Expander](https://text-expander-sigma.vercel.app/)
 
 ## Table of Content
