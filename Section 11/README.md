@@ -7,9 +7,12 @@
 - [Section 11: How React Works Behind The Scenes](#section-11-how-react-works-behind-the-scenes)
   - [Table Of Content](#table-of-content)
   - [Lessons Learned](#lessons-learned)
+    - [Project Setup and Walkthrough](#project-setup-and-walkthrough)
   - [Author](#author)
 
 ## Lessons Learned
+
+### Project Setup and Walkthrough
 
 ## Author
 
