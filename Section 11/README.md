@@ -10,6 +10,7 @@
     - [Project Setup and Walkthrough](#project-setup-and-walkthrough)
     - [Components, Instances, and Elements](#components-instances-and-elements)
     - [Instances and Elements in Practice](#instances-and-elements-in-practice)
+    - [How Rendering Works: Overview](#how-rendering-works-overview)
   - [Author](#author)
 
 ## Lessons Learned
@@ -231,6 +232,55 @@ function Tabbed({ content }) {
 - So, for all these reasons, we should never call a component like a regular function call, because it will create multiple problems such as violating the rules of hooks that we will talk about later.
 - Instead, as you already know, always render it inside the JSX, like this: `<TabContent />`. Here we just use the component. So, basically this blueprint like we have always been doing.
 - Then React calls the component and actually recognizes it as a component instance.
+
+### How Rendering Works: Overview
+
+- We are now ready to finally learn about how exactly React renders our applications behind the scenes.
+- There is so much to learn here that this topic is split into 3 parts - this lesson and the next two ones.
+- This one serves more as an overview and then in the next two lessons, we are going to go really deep into some React internals.
+- Let's start with just a small recap.
+- ![image](https://github.com/user-attachments/assets/2d4ecf2d-9c1c-4e61-8d5b-a48057d3d285)
+- As we build our applications, what we are really doing is building a bunch of components.
+- We then use these components inside other components as many times as we want which will cause React to create one or more component instances of each component.
+- These are basically the actual physical components that live in our application and holds state and props.
+- As React calls each component instance, each JSX will produce a bunch of `React.createElement()` function calls which in turn will produce a React element for each component instance.
+- This React element will ultimately be transformed to DOM elements and displayed as a user interface on the screen.
+- So, we have a pretty good understanding of the initial part of this process i.e. transforming components to React elements.
+- However, what we don't understand yet is the second part of the process, which is how these React elements actually end up in the DOM and displayed on the screen.
+- Luckily for us, that is exactly what this series of lessons is all about.
+- In this lesson, we are going to have a quick overview of each of the phases involved in displaying our components onto the screen.
+- Then we are going to zoom into each of these phases to learn how the entire process works internally, behind the scenes.
+- ![image](https://github.com/user-attachments/assets/1b8f0724-56ab-4e9a-b525-4776f7dbb986)
+- This process that we are about to study is started by React each time that a new render is triggered, most of the time by updating state somewhere in the application.
+- So, state changes trigger renders and so it makes sense that the next phase is the render phase.
+- In the render phase, React calls our component functions and figures out how it should update the DOM, in order to reflect the latest state changes.
+- However, it does actually not update the DOM in this phase.
+- So, React's definition of "render" is very different from what we usually think of as a "render", which can be quite confusing.
+- So again, in React, rendering is not about updating the DOM or displaying elements on the screen.
+- Rendering only happens internally inside of React and so it does not produce any visual changes.
+- In all the previous sections, we have always used the term "rendering" with the meaning of displaying elements on the screen because that was just easy to understand and it made sense.
+- However, as we just learned, the "rendering" that we meant is really this render phase plus the next phase.
+- Speaking of the next phase, once React knows how to update a DOM, it does so in the commit phase.
+- In commit phase, new elements might be placed in the DOM and already existing elements might get updated or deleted in order to correctly reflect the current state of the application.
+- So, it is really this commit phase that is responsible for what we traditionally call rendering, not the render phase.
+- Finally, the browser will notice that the DOM has been updated and so it re-paints the screen.
+- Now this has nothing to do with React anymore but, it is still worth mentioning that it is this final step that actually produces the visual change that users see on their screens.
+- Let's now zoom into each of these different steps, starting with the triggering of a render.
+- ![image](https://github.com/user-attachments/assets/fb374037-5eae-48c1-8945-c6681247684a)
+- There are only two ways in which a render can be triggered.
+- The first one is the very first time the application runs which is what we call the intial render.
+- The second one is a state update happening in one or more component instances somewhere in the application, which is what we call a re-render.
+- It is important to note that the render process really is triggered for the entire application, not just for one single component.
+- That doesn't mean that the entire DOM is updated because remember, in React, rendering is only about calling the component functions and figuring out what needs to change in the DOM later.
+- Again, this might seem confusing now because earlier in the course, we made it seem as though React only re-renders the component where the state update happened, but that's because we were learning how React works in practice.
+- In fact, when we look at what happens in practice, it looks as if only the updated component is re-rendered.
+- But now we are learning how React actually works behind the scenes, and so now we know that React looks at the entire tree whenever a render happens.
+- Finally, it is important to mention that a render is actrually not triggered immediately after a state update happens.
+- Instead, it is scheduled for when the JavaScript engine basically has some free time on its hands.
+- But this difference is usually just a few milliseconds that we won't notice.
+- There are also some situations like multiple sets state calls in the same function where renders will be batched as we will explore a bit later.
+- So, this is how renders are triggered which is the easy part.
+- What follows is the hard part, which is the actual rendering. So, let's learn all about that in the next lesson.
 
 ## Author
 
