@@ -11,6 +11,7 @@
     - [Components, Instances, and Elements](#components-instances-and-elements)
     - [Instances and Elements in Practice](#instances-and-elements-in-practice)
     - [How Rendering Works: Overview](#how-rendering-works-overview)
+    - [How Rendering Works: The Render Phase](#how-rendering-works-the-render-phase)
   - [Author](#author)
 
 ## Lessons Learned
@@ -281,6 +282,123 @@ function Tabbed({ content }) {
 - There are also some situations like multiple sets state calls in the same function where renders will be batched as we will explore a bit later.
 - So, this is how renders are triggered which is the easy part.
 - What follows is the hard part, which is the actual rendering. So, let's learn all about that in the next lesson.
+
+### How Rendering Works: The Render Phase
+
+- This is probably the most complicated and most confusing lesson fo the entire course.
+- But that is not to say in order to scare you because, this might also be the most interesting and fascinating lesson of the course.
+- If you don't immediately understand 100% of what we are going to learn here, that's absolutely fine. So, don't stress about it at all.
+- You can use React without knowing any of this but, if you have a curious mind and feel the need to understand how React does what it does, then this lesson is for you.
+- Before we even start, let's first go back to where we first learned about the mechanics of state.
+- ![image](https://github.com/user-attachments/assets/18ab6de6-b77f-4bfa-b68a-71006ea4aaa0)
+- Remember this diagram (image above)?
+- Back then we mentioned that we can conceptually imagine this as a new view being rendered on the screen i.e. in the DOM.
+- However, now we know that this was technically not true because, rendering is not about the screen or the DOM or the view, it is just about calling component functions.
+- We also mentioned that whenever there is a re-render, React discards the old component view and replaces it with a brand new one.
+- However, that's also technically not true.
+- So, the DOM will actually not be updated for the entire component instance.
+- So, if those things are not true, then let's now learn what happens instead and how rendering actually works.
+- ![image](https://github.com/user-attachments/assets/ff03d72f-f570-4d2b-b48d-01db5f5b4c5b)
+- In the previous lesson we talked about how renders are triggered.
+- In this lesson, we are going to learn all about how renders are actually performed in the render phase.
+- At the beginning of the render phase, React will go through the entire component tree, take all the component instances that triggered a re-render and actually render them, which simply means to call the corresponding component functions that we have written in our code.
+- This will create updated React elements which altogether make up the so-called <ins>virtual DOM</ins>.
+- This is a a term that you might have heard before and so let's dig a little bit deeper now into what the virtual DOM actually is.
+- ![image](https://github.com/user-attachments/assets/dfb0940b-5873-4cfc-8eb3-d42db2b994e3)
+- On the initial render, React will take the entire component tree and transform it into one big React element which will basically be a React element tree like shown in the image above; and this is what we call the virtual DOM.
+- So, the virtual DOM is just a tree of all React elements created from all instances in the component tree; and it is relatively cheap and fast to create a tree like this, even if we need many iterations of it because, in the end, it is just a JavaScript object.
+- Virtual DOM is probably the most hyped and most used term when people describe what React is and how it works.
+- But, if we think about it, if the virtual DOM is just this simple object, it is actually not such a big deal, right?
+- And that's why the React team has really downplayed the meaning of this name.
+- The official documentation actually no longer mentions the term virtual DOM anywhere.
+- But, we are still using it here because everyone still uses it and also because it just sounds a bit nicer than React element tree.
+- Also, some people confuse the term with the shadow DOM, even though it has nothing to do with the virtual DOM in React.
+- So, the shadow DOM is actually just a browser technology that is used in stuff like web components.
+- But anyway, let's now suppose that there is going to be a state updated in component D, which will of course trigger a re-render.
+- This means that React will call the function of component D again and place the new React element in the new React element tree i.e. in the new virtual DOM.
+- But now comes the very important part, which is this:
+- Whenever React renders a component, that render will cause all of its child components to be re-rendered as well.
+- That happens no matter if the props that we have passed down have changed or not.
+- Again, if the updated components returns one or more other components, those nested components will be re-rendered as well, all the way down the component tree.
+- This means that if you update the highest component in a component tree, in this example - component A, then the entire application will actually be re-rendered.
+- ![image](https://github.com/user-attachments/assets/e86bd44e-65c7-4aec-a8a4-6aa3a60c5e01)
+- This may sound crazy, but React uses this strategy because it doesn't know beforehand whether an update in a component will affect the child components or not.
+- So by default, React prefers to play it safe and just render everything.
+- Also, keep in mind once again that this does not mean that the entire DOM is updated.
+- It is just a virtual DOM that will be re-created which is really not a big problem in small or medium sized applications.
+- With this, we now know what this new virtual DOM means. So, let's keep moving forward.
+- ![image](https://github.com/user-attachments/assets/32ced5e0-447f-4a57-bcfd-e29e1255f41e)
+- What happens next is that this new virtual DOM that was created after the state update will get reconciled with the current so-called <ins>Fiber tree</ins> as it exists before the state update.
+- This reconciliation is done in React's reconciler which is called <ins>Fiber</ins>.
+- That's why we have a fiber tree.
+- Then, the result of this reconciliation process is going to be an updated Fiber tree i.e. a tree that will eventually be used to write to the DOM.
+- This is a high level overview of the inputs and the outputs of reconciliation, but of course, now we need to understand what reconciliation is and how it works.
+- ![image](https://github.com/user-attachments/assets/b9f49711-97c4-4089-a983-229243c03533)
+- You might be wondering, why do we even need stuff like the virtual DOM, a reconciler, and the Fiber trees? Why not simply update the entire DOM whenever state changes somewhere in the app?
+- Well, the answer is simple.
+- Remember how we said that creating the virtual DOM i.e. the React element tree for the entire app is cheap and fast because it is just a JavaScript object?
+- Well, writing to the DOM is not cheap and fast.
+- It would be extremely inefficient and wasteful to always write the entire virtual DOM to the actual DOM each time that a render was triggered.
+- Also, usually when the state changes somewhere in the app, only a small portion of the DOM needs to be updated and the rest of the DOM that is already present can be reused.
+- Of course, on the initial render there is no way around creating the entire DOM from scratch but from there on, doing so doesn't make sense anymore.
+- Imagine that you have a complex app like udemy.com and when you click on some button there then `showModal` is set to `true`, which in turn will then trigger a modal to be shown.
+- In this situation, only the DOM elements for that modal need to be inserted into the DOM and the rest of the DOM should just stay the same.
+- That's what React tries to do.
+- Whenever a render a triggered, React will try to be as efficient as possible by re-using as much of the existing DOM tree as possible.
+- But that leads us to the next question. How does React actually do that? How does it know what changed from one render to the next one?
+- Well, that's where a process called reconciliation comes into play.
+- So, reconciliation is basically deciding exactly which DOM elements need to be inserted, deleted or updated in order to reflect the latest state changes.
+- So the result of the reconciliation process is going to be a list of DOM operations that are necessary to update the current DOM with the new state.
+- Reconciliation is processed by a reconciler and we can say that the reconciler really is the engine of React. It is like the heart of React.
+- It is this reconciler that allows us to never touch the DOM directly and instead, simply tell React what the next snapshot of the UI should look like based on state.
+- ![image](https://github.com/user-attachments/assets/40fada4a-f6d2-49c3-a7b9-25f969833216)
+- As mentioned before, the current reconciler in React is called Fiber, and this is how it works:
+- During the initial render of the application, Fiber takes the entire React element tree i.e. the virtual DOM and builds yet another tree which is the Fiber tree based on the virtual DOM.
+- The Fiber tree is a special internal tree where for each component instance and DOM element in the app, there is one so-called <ins>Fiber</ins>.
+- What's special about this tree is that unlike React elements in the virtual DOM, Fibers are not re-created on every render.
+- So, the Fiber tree is never destroyed.
+- Instead, it is a mutable data structure and once it has been created during the initial render, it is simply mutated over and over again in future reconciliation steps.
+- This makes Fibers the perfect place for keeping track of things like the current component state, props, side effects, list of used hooks and more.
+- So, the actual state and props of any component instance that we see on the screen are internally stored inside the corresponding Fiber in the Fiber tree.
+- Each Fiber also contains a queue of work to do like updating state, updating refs, running registered side effects, performing DOM, updates etc.
+- This is why a Fiber is also defined as a <ins>unit of work</ins>.
+- If we take a look at the Fiber tree (in the iamge above), we will see that the Fibers are arranged in a different way than the elements in the React element tree.
+- Instead of a normal parent-child relationship, each first child has a link to its parent, and all the other children then have a link to their previous sibling.
+- This kind of structure is called a linked list and it makes it easier for React to process the work that is associated with each Fiber.
+- We also see that both trees include not only React elements or components, but also regular DOM elements, such as the `<h3>` or `<button>` elements in this example (image above).
+- So, both trees really are a complete representation of the entire DOM structure, not just of React components.
+- Now going back to the idea that Fibers are units of work, one extremely important characteristic of the Fiber reconciler is that work can be performed asynchronously.
+- This means that the rendering process which is what the reconciler does, can be split into chunks, some tasks can be prioritized over others and work can be paused, reused, or thrown away if not valid anymore.
+- Just keep in mind that all this happens automatically behind the scenes.
+- It is completely invisible to us developers.
+- There are, however, also some practical uses of this asynchronous rendering because it enables modern so-called <ins>concurrent features</ins> like <ins>Suspense</ins> or <ins>transitions</ins> in React 18.
+- It also allows the rendering process to pause and resume later so that it won't block the browser's JavaScript engine with too long renders, which can be problematic for performance in large applications.
+- Again, this is only possible because the render phase does not produce any visible output to the DOM yet.
+- At this point we know what the Fiber reconciler ios and how the Fiber tree works but now, it is time to talk about what Fiber actually does, which is the reconciliation process.
+- ![image](https://github.com/user-attachments/assets/dc0b890a-810e-4aca-9610-fa654a01020a)
+- The best way to explain how reconciliation works is by using a practical example as shown in the image above.
+- In the app component, there is a piece of state called `showModal`, which is currently set to `true`.
+- Let's say now that the state is updated to `false`.
+- This will then trigger a re-render which will create a new virtual DOM.
+- In this tree, the modal and all its children are actually gone because they are no longer displayed when `showModal` is not true.
+- Also, all remaining elements are yellow, meaning that all of them were re-rendered. Do you remember why that is?
+- It is because all children of a re-rendered element are re-rendered as well, as we just learned a few minutes ago.
+- Anyway, this new virtual DOM now needs to be reconciled with the current Fiber tree, which will then result in the updated tree which internally is called the `workInProgress` tree.
+- So, whenever reconciliation needs to happen, Fiber walks through the entire tree step by step and analyzes exactly what needs to change between the current Fiber tree and the updated Fiber tree based on the new virtual DOM.
+- This process of comparing elements step-by-step based on their postion in the tree is called diffing and we will explore exactly how diffing works a bit later in the section because that's actually pretty important in practice.
+- Anyway, let's quickly analyze our updated Fiber tree where we marked new work that is related to DOM mutations.
+- First, the `Btn` component has some new text and so the work that will need to be done in this Fiber is a DOM update.
+- In this case, swapping text from "Hide" to "Rate".
+- Then we have the `Modal`, `Overlay`, `<h3>`, and `<button>`. These were in the current Fiber tree but are no longer in the virtual DOM and therefore, they are marked as DOM deletions.
+- Finally, we have the interesting case of the `Video` component.
+- This component was re-rendered because it is a child of the `App` component, but it actually didn't change.
+- So, as a result of reconciliation, the DOM will not be updated in this case.
+- Now, once this process is over, all these DOM mutations will be placed into a list called the list of effects which will be used in the next phase i.e. in the commit phase, to actually mutate the DOM.
+- What we learned here was still a bit oversimplified but, it is more than enough for you to understand how this process works.
+- ![image](https://github.com/user-attachments/assets/221268cd-3554-41ae-8265-7855861e9c0f)
+- That was quite a deep-dive but, now we are back here in the high level overview of the render phase.
+- We learned that the results of the reconciliation process is a second updated Fiber tree, plus basically a list of DOM updates that need to be performed in the next phase.
+- So, React still hasn't written anything to the DOM yet but, it has figured out this so-called list of effects, which is the final result of the render phase as it includes the DOM operations that will finally be made in the commit phase.
 
 ## Author
 
