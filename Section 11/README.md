@@ -9,6 +9,7 @@
   - [Lessons Learned](#lessons-learned)
     - [Project Setup and Walkthrough](#project-setup-and-walkthrough)
     - [Components, Instances, and Elements](#components-instances-and-elements)
+    - [Instances and Elements in Practice](#instances-and-elements-in-practice)
   - [Author](#author)
 
 ## Lessons Learned
@@ -275,6 +276,219 @@ function DifferentContent() {
 - They are simply converted to DOM elements when they are painted on the screen in the final step.
 - So, this is the journey from writing a single component to using it multiple times in our code as a blueprint all the way until it is converted to a React element, and then rendered as HTML elements into the DOM.
 - Hopefully you found the interesting and useful, and if you did then let's move on the next lesson and take a look at all this in code.
+
+### Instances and Elements in Practice
+
+- Let's now shortly look at component instances and React elements in our code.
+- We are going to do a couple of quick experiments in this lesson, to look at some interesting things.
+- First off, we can actually look at a component instance simply by using the component and logging it to the console.
+- So, let's look at the `<DifferentContent />` on the console, because it doesn't have any state.
+
+```javascript
+// Full code at ./how-react-works/src/App.jsx
+
+function DifferentContent() {
+  return (
+    <div className="tab-content">
+      <h4>I'm a DIFFERENT tab, so I reset state 💣💥</h4>
+    </div>
+  );
+}
+
+console.log(<DifferentContent />);
+```
+
+- If we run this, then we should see something like this on the console:
+
+```javascript
+// React element returned by <DifferentContent />
+{
+  $$typeof: Symbol(react.element),
+  key: null,
+  props: {},
+  ref: null,
+  type: ƒ DifferentContent(),
+  _owner: null,
+  _store: {validated: false},
+  _self: undefined,
+  _source: {fileName: '...App.jsx', lineNumber: 29, columnNumber: 13},
+  [[Prototype]]: Object,
+}
+```
+
+- So, as soon as React sees `<DifferentContent />`, it will internally call the `DifferentContent` function which will then return the React element as shown above. Just like we learned in the previous lesson.
+- Let's take a quick look at the React element.
+- While is is not really interesting, we can see that the `type` is of `ƒ DifferentContent()`, and that's exactly the name of the component being called.
+- We also see that we didn't pass in any props but, we actually could.
+- So, let's just do it for learning purposes.
+
+```javascript
+// Full code at ./how-react-works/src/App.jsx
+function DifferentContent() {
+  return (
+    <div className="tab-content">
+      <h4>I'm a DIFFERENT tab, so I reset state 💣💥</h4>
+    </div>
+  );
+}
+
+// passing props
+console.log(<DifferentContent test={23} />);
+
+// OUTPUT
+// React element returned by <DifferentContent />
+{
+  $$typeof: Symbol(react.element),
+  key: null,
+  props: {test: 23}, // passed props
+  ref: null,
+  type: ƒ DifferentContent(),
+  _owner: null,
+  _store: {validated: false},
+  _self: undefined,
+  _source: {fileName: '...App.jsx', lineNumber: 29, columnNumber: 13},
+  [[Prototype]]: Object,
+}
+```
+
+- Again, this is what React internally use to then later create our DOM elements.
+- If you are wondering what this weird `$$typeof` thing is (in the output), well this is simply a security feature that React has implemented in order to protect us against cross-site scripting attacks.
+- So, notice how the value of `$$typeof` is a `Symbol` and `Symbol` are one of the JavaScript primitives, which cannot be transmitted via JSON.
+- In other words, this means that a `Symbol` like the one in the output, cannot come from an API call.
+- So, if a hacker would try to send us a fake React element from an API, then React would not see this `$$typeof` as a `Symbol`.
+- Again, because `Symbol` cannot be transmitted via JSON.
+- So then, React would not include that fake React element into the DOM thereby protecting us against that kind of attack.
+- Anyway, let's now try something else.
+- If React calls our component internally when it renders them, just as it did above, then maybe you have wondered, why don't we just call components directly?
+- So, why should we write it like `<DifferentContent />` when we could also write it like `DifferentContent()`?
+- So, basically calling the function ourselves.
+- Well, there is really nothing stopping us from doing so.
+- So if we save this, then actually get a result as well.
+
+```javascript
+// Full code at ./how-react-works/src/App.jsx
+function DifferentContent() {
+  return (
+    <div className="tab-content">
+      <h4>I'm a DIFFERENT tab, so I reset state 💣💥</h4>
+    </div>
+  );
+}
+
+// Calling the component as a regular funtion
+console.log(DifferentContent());
+
+// OUTPUT
+// Raw React Element
+{
+  $$typeof: Symbol(react.element),
+  key: null,
+  props: {className: 'tab-content', children: {…}},
+  ref: null,
+  type: "div",
+  _owner: null,
+  _store: {validated: false},
+  _self: undefined,
+  _source: {fileName: '...App.jsx', lineNumber: 99, columnNumber: 5},
+  [[Prototype]]: Object,
+}
+```
+
+- So you see, even in this case, we still got a React element.
+- However, it is a very different one.
+- This one no longer has the `type` of `ƒ DifferentContent()` instead, it is a `div` which is basically just the content of that component i.e. the `div` that, that component is returning.
+- So, that `div` is now the `type` of the `DifferentContent` component; and we can also see that because the `props` include the `className` of `"tab-content"`.
+- So, what this means is that right now, React does no longer see it as a component instance.
+- Instead, it just sees the raw React element, which is really not what we want.
+- So, when we use a component, we want React to see the component instance and not the raw output element like the one above.
+- So, never call the component like a regular function.
+- Let's demonstrate it one more time, but now, calling `TabContent` component inside another component viz `Tabbed` component.
+
+```javascript
+// Full code at ./how-react-works/src/App.jsx
+function TabContent({ item }) {
+  const [showDetails, setShowDetails] = useState(true);
+  const [likes, setLikes] = useState(0);
+
+  function handleInc() {
+    setLikes(likes + 1);
+  }
+
+  return (
+    <div className="tab-content">
+      <h4>{item.summary}</h4>
+      {showDetails && <p>{item.details}</p>}
+
+      <div className="tab-actions">
+        <button onClick={() => setShowDetails((h) => !h)}>
+          {showDetails ? "Hide" : "Show"} details
+        </button>
+
+        <div className="hearts-counter">
+          <span>{likes} ❤️</span>
+          <button onClick={handleInc}>+</button>
+          <button>+++</button>
+        </div>
+      </div>
+
+      <div className="tab-undo">
+        <button>Undo</button>
+        <button>Undo in 2s</button>
+      </div>
+    </div>
+  );
+}
+
+function Tabbed({ content }) {
+  const [activeTab, setActiveTab] = useState(0);
+
+  return (
+    <div>
+      <div className="tabs">
+        <Tab num={0} activeTab={activeTab} onClick={setActiveTab} />
+        <Tab num={1} activeTab={activeTab} onClick={setActiveTab} />
+        <Tab num={2} activeTab={activeTab} onClick={setActiveTab} />
+        <Tab num={3} activeTab={activeTab} onClick={setActiveTab} />
+      </div>
+
+      {activeTab <= 2 ? (
+        <TabContent item={content.at(activeTab)} />
+      ) : (
+        <DifferentContent />
+      )}
+
+      {/* Calling a component like a regular function inside another component */}
+      {TabContent({ item: content.at(0) })}
+    </div>
+  );
+}
+```
+
+- Once we do this, we might get some errors but, just reload the page.
+- Now, this somehow works.
+- ![image](https://github.com/user-attachments/assets/c138d26f-c32a-4d13-9f7f-6d9d586a799a)
+- So, you see that actually we got a second `TabContent` rendered on webpage.
+- So, it looks like it works, right?
+- Well, not so fast.
+- Let's checkout our component tree again.
+- ![image](https://github.com/user-attachments/assets/6f09a904-ab89-47fd-bc64-b278b75f4590)
+- Now you see that we still only have one `TabContent` component instance in our component tree.
+- This happened exactly because of what we learned earlier, which is that when we call a component like a regular function, then React no longer sees it as a component instance.
+- We can also see that the state that `TabContent` manages is actually now inside the parent component.
+- So, if you check out the `Tabbed` component in the component tree, you see that it has the normal state that it had before which is the `activeTab` but, it also has some other hooks, which come from `TabContent`.
+- ![image](https://github.com/user-attachments/assets/94d8e618-270e-467b-957e-fde4d42198f0)
+- So, those other hooks are the hooks that are inside `TabContent` component but, they don't really belong inside the `Tabbed` component.
+- We want them to be inside the `TabContent` component and not inside the `Tabbed` component.
+- What this means is that calling a component like a regular function does not result in an actualy component so, it is not really a component because it cannot even manage its own state at this point.
+- For all these reasons, we should never ever call a component like we would call a regular function.
+- This is because it will create multiple problems such as violating the rules of hooks that we will talk about later.
+- Instead, as you already know, always render it inside the JSX, like so `<TabContent item={content.at(activeTab)} />`.
+- This way we just use the component like a blueprint, like we have always been doing.
+- Then React calls the component and actually recognizes it as a component instance.
+- Note how we only have one `Tab` component but, in the component tree we have multiple instances of it:
+- ![image](https://github.com/user-attachments/assets/e9b5a383-bb4a-4209-89eb-e2faa487dd80)
+- So, this is just like what we learned in the previous lesson.
+- Also, these four component instances have their own state and their own props.
 
 ## Author
 
