@@ -12,6 +12,7 @@
     - [Instances and Elements in Practice](#instances-and-elements-in-practice)
     - [How Rendering Works: Overview](#how-rendering-works-overview)
     - [How Rendering Works: The Render Phase](#how-rendering-works-the-render-phase)
+    - [How Rendering Works: The Commit Phase](#how-rendering-works-the-commit-phase)
   - [Author](#author)
 
 ## Lessons Learned
@@ -670,6 +671,85 @@ function Tabbed({ content }) {
 - We learned that the results of the reconcilation process is a second updated Fiber tree, plus basically a list of DOM updates that need to be performed in the next phase.
 - So, React still hasn't written anything to the DOM yet but, it has figured our this so-called <ins>list of effects</ins>.
 - This is the final result of the render phase as it includes the DOM operations that will finally be made in the commit phase which is the topic of our next lesson.
+
+### How Rendering Works: The Commit Phase
+
+- This lesson is part 03 of how rendering works behind the scenes.
+- We just finished learning about the render phase which resulted in a list of DOM updated and this list will now get used in the commit phase.
+- ![image](https://github.com/user-attachments/assets/922250c3-8b39-443f-8c33-0520936ffdd6)
+- Technically speaking, the current workInProgrss fiber tree also goes into the commit phase but, let's keep it simple here.
+- So, these are more conceptual diagrams so that we can understand what is happening, not a 100% accurate description of the algorithms inside React.
+- Anyway, as you know by now, the commit phase is where React finally writes to the DOM. So, it inserts, deletes, and updates DOM elements.
+- You will sometimes also read that React flushes updated to the DOM in this phase.
+- Basically, React goes through the effects list that was created during rendering, and applies them one by one to the actual DOM elements that were in the already existing DOM tree.
+- Writing to the DOM happens all in one go.
+- So, we say that the commit phase is synchronous unlike the rendering phase, which can be paused.
+- So, committing cannot be interrupted.
+- This is necessary so that the DOM never shows partial results which ensures that the UI always stays consistent.
+- In fact, that's the whole point of dividing the entire process into the render phase and the commit phase, in the first place.
+- It is so that rendering can be paused, resumed, and discarded and the results of all that rendering can then be flushed to the DOM in one go.
+- Then once the commit phase is completed, the workInProgress fiber tree becomes the current tree for the next render cycle.
+- That's because, remember, fiber trees are never discarded and never re-created from scratch.
+- Instead, they are re-used in order to save precious rendering time.
+- With that, we close up the commit phase.
+- The browser will then notice that the DOM has been changed, and as a result, it will repaint the screen whenever it has some idle time.
+- So, this is where these DOM updates are finally made visible to the user in the form of an updated user interface.
+- Now, we are going to go into how this phase works because this is really more about how browsers work internally, and not React.
+- However, there is still one more thing that we need to talk about.
+- The browser paint phase that we just mentioned is of course performed by whatever browser the user is using.
+- The render phase is obviously performed by the React library.
+- But what about the commit phase? We would think that it is also done by React, right?
+- But, that is actually not true.
+- It is actually a separate library that writes to the DOM, and it is called <ins>ReactDOM</ins>.
+- Not a very creative name but, that's just what it is called.
+- ![image](https://github.com/user-attachments/assets/52b12c5a-9ba3-411b-ae32-09d24a183d9c)
+- In fact, React itself never touches the DOM, and it actually has no idea where the result of the render phase will actually be committed and painted.
+- So, React only does the render phase but, not the commit phase.
+- The reason for that is that React itself was designed to be used independently from the platform where element will actually be shown, and therefore React can be used with many different so-called <ins>hosts</ins>.
+- Up until this point, we have only ever thought of React in conjunction with the DOM because, we usually use it build web applications; and in 90%of the cases, that's actually what we do with React.
+- But, the truth is that React is used with other hosts as well.
+- For example, we can actually build native mobile applications for iOS and Android using React Native; or we can build videos with React using a package called Remotion.
+- And we can even create all kinds of documents like Word/PDF/Figma Designs and many more, using so-called <ins>renderers</ins>.
+- Now, if we think about this, "renderer" is actually a pretty terrible name because according to React's own terminology, renderers do not render, but they commit the results of the render phase.
+- But the name renderer probably comes from a time before React divided the render and the commit phase into two separate phases.
+- So, they chose the term renderer because it fits with the common sense definition of rendering.
+- Anyway, in all these situations, the results of the render phase is not really a list of DOM updates, but a list of updates of whatever elements are used in the host that's being used.
+- So, the term virtual DOM then, also doesn't really make much sense when we look at it from a different angle, which is just one more reason why the React team prefers the more accurate name of React element tree.
+- Now, all of these details are not really that important.
+- What you need to retain from this part of the lesson is that the React library is not the one responsible for writing to the DOM, because the DOM is just one of the many hosts to which React apps can be committed i.e. to which they can be output.
+- For each of these hosts we have a different package that we can use.
+- That's why in our index.js file, we always import both React and ReactDOM.
+- So, now you know the exact reason why we have to do that.
+- So, after looking at all these phases in so much detail, let's do a quick recap here and summarize everything that we have learned.
+- ![image](https://github.com/user-attachments/assets/d3268658-febb-45a5-9dff-32b3d6126483)
+- The whole process of rendering and displaying a React application on the screen starts with a trigger, which can either be the initial render of the app, or a state update in one of the component instances.
+- This then triggers the render phase which does not produce any visual output.
+- So, this phase starts by rendering all component instances that need a re-render.
+- And rendering in React simply means to call the components' functions.
+- This will create one or more updated React elements which will be placed in a new virtual DOM, which is actually simply a tree of React elements.
+- Now, what's really important to remember about this process is that rendering a component will cause all of its child components to be rendered as well, no matter if props changed or not.
+- This is because React doesn't know whether children have been affected by the parent re-rendering or not.
+- Now, next up, this new virtual DOM needs to be reconciled with the current fiber tree i.e. with the representation of the element tree before the state update.
+- This is necessary because it would be slow and inefficient to destroy and rebuild the entire DOM tree each time that something on the screen must be updated.
+- Instead, reconciliation tries to reuse as much of the DOM as possible by finding the smallest number of DOM updates that reflect the latest state update on the screen.
+- Now this reconciliation process is done using a reconciler called Fiber, which works with immutable data structure called the fiber tree.
+- In this tree, for each React element and DOM element, there is a fiber, and this fiber holds the actual component state, props, and a queue of work.
+- After reconciliation, this queue of work will contain the DOM updates that are needed for that element.
+- The computation of these DOM updates is performed by a diffing algorithm, which step-by-step compares the elements in the new virtual DOM with the elements in the current fiber tree to see what has changed.
+- So, the final result of the render phase i.e. of the reconciliation and diffing process is a second updated fiber tree as well as a list of all necessary DOM udpates.
+- Now, it is important to note that the render phase is asynchronous. So, fiber can prioritize and split work into chunks and pause and resume some work later.
+- This is necessary for concurrent features and also to prevent the JavaScript engine to be blocked by complex render processes.
+- Anyway, the output of the render phase, so the list of DOM updates will finally, actually be written to the DOM in the commit phase.
+- In this phase, a so-called renderer like ReactDOM will insert, delete, and update DOM elements so that we end up with an updated DOM that reflects the new state of the application.
+- And unline the render phase, the commit phase is actually synchronous.
+- So, all the DOM updates are performed in one go in order to ensure a consistent UI over time.
+- Finally, once the browser realizes that the DOM has been updated, it starts a new browser paint in order to visually update the user interface on the screen.
+- There you have it.
+- This is how, in a nutshell, we go from an updated React elements all the way to an updated DOM and user interface on the screen.
+- So, it sure was a really long process but, hopefully you have learned a lot along the way and that it wasn't too overwhelming.
+- Again, keep in mind that you can build React apps without being aware that most of these things even exist.
+- Some of these things do have practical implications and also implications for performance but, we will talk about those later.
+- For now, just a take breath as this was probably the hardest part of the entire course, so good job of sticking with it to the end.
 
 ## Author
 
