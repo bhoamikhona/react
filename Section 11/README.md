@@ -13,6 +13,7 @@
     - [How Rendering Works: Overview](#how-rendering-works-overview)
     - [How Rendering Works: The Render Phase](#how-rendering-works-the-render-phase)
     - [How Rendering Works: The Commit Phase](#how-rendering-works-the-commit-phase)
+    - [How Diffing Works](#how-diffing-works)
   - [Author](#author)
 
 ## Lessons Learned
@@ -750,6 +751,51 @@ function Tabbed({ content }) {
 - Again, keep in mind that you can build React apps without being aware that most of these things even exist.
 - Some of these things do have practical implications and also implications for performance but, we will talk about those later.
 - For now, just a take breath as this was probably the hardest part of the entire course, so good job of sticking with it to the end.
+
+### How Diffing Works
+
+- In the lesson about the render phase, we left out one critical piece, which was the diffing algorithm that is part of the reconciliation process.
+- ![image](https://github.com/user-attachments/assets/1f45ead2-c9a2-4caa-a7b0-8b4c30b4e1a6)
+- We mentioned diffing back then but, we didn't really go into how diffing works.
+- Since that's really important, let's do that now.
+- ![image](https://github.com/user-attachments/assets/1a080be9-6059-4a8c-9c5a-66bac961f8ef)
+- Diffing is first of all based on two fundamental assumptions.
+- The first one is that two elements of different types will produce different trees.
+- The second assumption is that elements with a stable key, so a key that is consistent over time, will stay the same across renders.
+- These assumptions may seem pretty obvious especially the first assumption but, they allow the algorithm to be orders of magnitude faster going, for example, from a billion operations per a thousand processed elements to just a thousand operations.
+- Remember that diffing is comparing elements step-by-step between two renders based on their position in the tree; and there are basically two different situations that need to be considered.
+- First, having two different elements at the same position in the tree between two renders, and second, having the same element at the same position in the tree.
+- So, those are the only two situations that matter.
+- So, let's now start with the first situation.
+- ![image](https://github.com/user-attachments/assets/544598d7-048d-4fd1-a89b-686dc1fdd7c0)
+- Let's say that at some point an application is re-rendered, and in the diffing process, we find that an element has changed in a certain position of the tree.
+- Here (in the image above), we are actually not looking at the tree but, at the JSX code, which leads to that tree.
+- This is because it is a bit easier to understand like that.
+- Anyway, in the case of a DOM element changing like thise, changing simply means that the type of the element has changed like in the example (in the image above) from a `div` to a `header`.
+- So, in a situation like this, React will assume that the element itself plust all its children are no longer valid.
+- Therefore, all these elements will actually be destroyed and removed from the DOM.
+- And that also includes their state, which is really important to remember.
+- So, as we see in this example (image above), both, the `div` element and the `SearchBar` component will be removed from the DOM and will then be re-built as a `header` with a brand new `SearchBar` component instance as its child.
+- So, if the child elements stays the same across renders, the tree will actually get re-built, but it gets rebuilt with brand new elements.
+- So, if there were any components with state, that state will not be recovered.
+- So, this effectively resets state and has huge implications for the way that React applications work in practice.
+- And that's why we will see some examples of this behavior in the next lesson.
+- Now, everything we just learned works the exact same way for React elements, so basically for component instances as we can see in the second example in the image above.
+- In the second example, the `SearchBar` component changed to a `ProfileMenu` component and therefore, the search bar is again completely destroyed including its state and removed from the DOM.
+- So, this is the first situation.
+- The second situation is when between two renders we have the exact same element at the same position in the tree.
+- ![image](https://github.com/user-attachments/assets/ef5f4cd2-1129-4e89-9ec5-6cacb76ad9e1)
+- This one is way more straightforward.
+- If after a render, an element at a certain position in the tree is the same as before, like in the examples shown in the image above, the element will simply be kept in the DOM; and that includes all child elements and more importantly, the component's state.
+- This may sound pretty obvious but, it actually has some important implications in practice.
+- Again, the same element at the same position in the tree stays the same and preserves state, and it works like this for DOM elements and for React elements as well.
+- Looking at these examples, we actually see that something has changed.
+- However, it was not the element type that has changed but simply the `className` attribute in the `div` and the `weight` prop in the `SearchBar` component.
+- So, what React is going to do is to simply mutate the DOM element attributes; and in the case of React elements, it will pass in the new props, but that's it.
+- So, React tries to be as efficient as possible and so the DOM elements themselves will stay the same.
+- They are not removed from the DOM, and more importantly, their state will not be destroyed.
+- Now sometimes we actually don't want this standard behavior but, instead to create a brand new component instance with new state.
+- So, that's where the `key` prop comes into play as we will learn about after seeing these rules that we just learned, in action.
 
 ## Author
 
