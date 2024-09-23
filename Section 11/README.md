@@ -14,6 +14,7 @@
     - [How Rendering Works: The Render Phase](#how-rendering-works-the-render-phase)
     - [How Rendering Works: The Commit Phase](#how-rendering-works-the-commit-phase)
     - [How Diffing Works](#how-diffing-works)
+    - [Diffing Rules in Practice](#diffing-rules-in-practice)
   - [Author](#author)
 
 ## Lessons Learned
@@ -796,6 +797,160 @@ function Tabbed({ content }) {
 - They are not removed from the DOM, and more importantly, their state will not be destroyed.
 - Now sometimes we actually don't want this standard behavior but, instead to create a brand new component instance with new state.
 - So, that's where the `key` prop comes into play as we will learn about after seeing these rules that we just learned, in action.
+
+### Diffing Rules in Practice
+
+- In this lesson, let's quickly demonstrate the diffing rules that we just learned in our previous lesson, in our [project](./how-react-works/src/App.jsx) so that we can see that they actually do have a practical effect in the real world.
+
+```javascript
+// project code
+
+import { useState } from "react";
+
+const content = [
+  {
+    summary: "React is a library for building UIs",
+    details:
+      "Dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+  },
+  {
+    summary: "State management is like giving state a home",
+    details:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+  },
+  {
+    summary: "We can think of props as the component API",
+    details:
+      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+  },
+];
+
+export default function App() {
+  return (
+    <div>
+      <Tabbed content={content} />
+    </div>
+  );
+}
+
+// console.log(<DifferentContent test={23} />);
+// console.log(DifferentContent());
+
+function Tabbed({ content }) {
+  const [activeTab, setActiveTab] = useState(0);
+
+  return (
+    <div>
+      <div className="tabs">
+        <Tab num={0} activeTab={activeTab} onClick={setActiveTab} />
+        <Tab num={1} activeTab={activeTab} onClick={setActiveTab} />
+        <Tab num={2} activeTab={activeTab} onClick={setActiveTab} />
+        <Tab num={3} activeTab={activeTab} onClick={setActiveTab} />
+      </div>
+
+      {activeTab <= 2 ? (
+        <TabContent item={content.at(activeTab)} />
+      ) : (
+        <DifferentContent />
+      )}
+
+      {/* Calling a component like a regular function inside another component - DO NOT DO THIS*/}
+      {/* {TabContent({ item: content.at(0) })} */}
+    </div>
+  );
+}
+
+function Tab({ num, activeTab, onClick }) {
+  return (
+    <button
+      className={activeTab === num ? "tab active" : "tab"}
+      onClick={() => onClick(num)}
+    >
+      Tab {num + 1}
+    </button>
+  );
+}
+
+function TabContent({ item }) {
+  const [showDetails, setShowDetails] = useState(true);
+  const [likes, setLikes] = useState(0);
+
+  function handleInc() {
+    setLikes(likes + 1);
+  }
+
+  return (
+    <div className="tab-content">
+      <h4>{item.summary}</h4>
+      {showDetails && <p>{item.details}</p>}
+
+      <div className="tab-actions">
+        <button onClick={() => setShowDetails((h) => !h)}>
+          {showDetails ? "Hide" : "Show"} details
+        </button>
+
+        <div className="hearts-counter">
+          <span>{likes} ❤️</span>
+          <button onClick={handleInc}>+</button>
+          <button>+++</button>
+        </div>
+      </div>
+
+      <div className="tab-undo">
+        <button>Undo</button>
+        <button>Undo in 2s</button>
+      </div>
+    </div>
+  );
+}
+
+function DifferentContent() {
+  return (
+    <div className="tab-content">
+      <h4>I'm a DIFFERENT tab, so I reset state 💣💥</h4>
+    </div>
+  );
+}
+```
+
+- Let's start by examining a bit better, what happens as we use the tab component.
+- We have a button called "Hide Details" that hides the paragraph when we click on it.
+- We also have another button which increases the number of `likes` when we click on it.
+- So, let's hide the paragraph and increase the number of `likes` to 4 in tab 1.
+- Now if we go to tab 2, then the you will see that the text is still hidden and the number of `likes` is still increased.
+- So, what this means is that the state of the `TabContent` component has been preserved.
+- If we hadn't learned about this in the previous section, then this would look really strange.
+- This is because, we would expect that whenever we go to a new `Tab` component instance, the state of `likes` and `showDetails` to be reset.
+- But, that's not what happnes.
+- So, as we click through tabs 1, tab 2, and tab 3, the only thing that happens is that the title of the tab changes.
+- The paragraph text also changes but, it stays invisible.
+- So, what is actually happening?
+- Well, basically each time we click on one of the tabs from 1 to 3, the `TabContent` component is re-rendered.
+- However, as we can see in the component tree in React developer tools, the `TabContent` component instance always stays in the exact same position in the tree.
+- So with this, we are now in the situation that we learned in the previous lesson, where we have the same element - in this case - the same component, in the same position.
+- Because of that, the state is preserved across renders.
+- Just like we learned before.
+- Again, as we keep clicking around the tabs 1 to 3, the `TabContent` component instance is actually not destroyed.
+- It stays in the DOM, and the only thing that changes is the `props` that it receives.
+- ![diffing-practice-1](https://github.com/user-attachments/assets/1baa4e9c-f557-4a4b-bcad-e093cacfdf80)
+- So the state, again, remains completely unchanged.
+- But, what if we now click on the tab 4?
+- As we can see in our code, if we click tab 4, whose `num` value is 3, then `DifferentContent` component will be rendered.
+- Keep in mind that the `likes` state has the value of 4 and the `showDetails` is set to `false` when we are clicking on tab 4.
+- Now, let's see what happens.
+- Immediately, we see that the `TabContent` component in the component tree is replaced with `DifferentContent` component.
+- So, it is still in the same position of the tree but, it is no longer `TabContent` but, `DifferentContent`.
+- Now if we click on any of the other tabs i.e. tab 1 or tab 2 or tab 3, we will see that the state of `likes` and `showDetails` has actually been reset.
+- ![diffing-practice-2](https://github.com/user-attachments/assets/cb356359-e70c-40d4-a5a3-cb2720cf14b5)
+- This is because the `TabContent` that we had here before has been completely destroyed and removed from the DOM in the meantime - while we were at the `DifferentContent`.
+- That's also why we have a string in `DifferentTab` which mentions that it will reset the state. 😅
+- So, this is the direct consequence of the diffing rules that we just learned about.
+- This means that these rules are very important in practice.
+- So, you can see this situation happening all the time, and actually, we saw the exact same thing in our [Eat-'N-Split Application](https://eat-n-split-six-ruby.vercel.app/).
+- But, don't worry about that for now because, we will come back to that app in a few lessons from now.
+- Now, sometimes we do not want this behavior.
+- For example, let's say that we hide the details in Tab 1 but, when we go to Tab 2, we expect that the details over there are set to default.
+- So, let's take a look at how we can solve it in the next lesson.
 
 ## Author
 
