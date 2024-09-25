@@ -17,6 +17,7 @@
     - [Diffing Rules in Practice](#diffing-rules-in-practice)
     - [The Key Prop](#the-key-prop)
     - [Resetting State With The Key Prop](#resetting-state-with-the-key-prop)
+    - [Using the Key Prop to Fix Our Eat-'N-Split App](#using-the-key-prop-to-fix-our-eat-n-split-app)
   - [Author](#author)
 
 ## Lessons Learned
@@ -1264,6 +1265,136 @@ function Tabbed({ content }) {
 - So, this is really nice and helpful and so, you really need to understand what happened here and keep it in mind for future situations.
 - So, this `key` prop, it looks very simple but, it can make a huge difference.
 - Let's now use the `key` prop in the [Eat-'N'-Split App](https://eat-n-split-six-ruby.vercel.app/), that we built before, in the next lesson.
+
+### Using the Key Prop to Fix Our Eat-'N-Split App
+
+- Let's now go back to our Eat-'N-Split App to fix one problem that we have left in that application.
+
+```javascript
+// Full project code at ./eat-n-split/src/App.jsx
+
+import { useState } from "react";
+
+const initialFriends = [
+  {
+    id: 118836,
+    name: "Clark",
+    image: "https://i.pravatar.cc/48?u=118836",
+    balance: -7,
+  },
+  {
+    id: 933372,
+    name: "Sarah",
+    image: "https://i.pravatar.cc/48?u=933372",
+    balance: 20,
+  },
+  {
+    id: 499476,
+    name: "Anthony",
+    image: "https://i.pravatar.cc/48?u=499476",
+    balance: 0,
+  },
+];
+
+// More code
+
+export default function App() {
+  const [friends, setFriends] = useState(initialFriends);
+  const [showAddFriend, setShowAddFriend] = useState(false);
+  const [selectedFriend, setSelectedFriend] = useState(null);
+
+  // More code
+
+  return (
+    <div className="app">
+      {/* More code */}
+
+      {selectedFriend && (
+        <FormSplitBill
+          selectedFriend={selectedFriend}
+          onSplitBill={handleSplitBill}
+        />
+      )}
+    </div>
+  );
+}
+
+// More code
+```
+
+- The problem with this is that when we select a friend and start filling the form, then we choose another form, the state values of the form are still the same.
+- ![key](https://github.com/user-attachments/assets/4bc3bbb5-621f-4524-8ec2-299b81387c09)
+- So, this is the exactly same problem as before.
+- So, as we select another friend, the only thing that changes is really the props that is being passed into the component.
+- So, the `FormSplitBill` receives the `selectedFriend` object but, we change the `selectedFriend`, nothing changes in the React Element Tree.
+- So, across these re-renders, exactly the same component is re-rendered in exact the same position of the tree.
+- Therefore, the state is not reset across renders.
+- But also just like before, this is not the behavior that we would expect in this application.
+- So, if suddenly we move from one friend to the other one, we would certainly expect that the form input fields should be reset.
+- So, how can we do that?
+- We are using the `FormSplitBill` component in the `App` component.
+- Now we basically need to make each component instance of the `FormSplitBill` unique so that each time that it is rendered with a new friend, React will see it as a completely new component instance.
+- And as you already know, the way we do that is by providing a `key` that will actually change across the re-renders.
+- Here, as a `key`, we can give the `selectedFriend.id`.
+
+```javascript
+// Full project code at ./eat-n-split/src/App.jsx
+
+import { useState } from "react";
+
+const initialFriends = [
+  {
+    id: 118836,
+    name: "Clark",
+    image: "https://i.pravatar.cc/48?u=118836",
+    balance: -7,
+  },
+  {
+    id: 933372,
+    name: "Sarah",
+    image: "https://i.pravatar.cc/48?u=933372",
+    balance: 20,
+  },
+  {
+    id: 499476,
+    name: "Anthony",
+    image: "https://i.pravatar.cc/48?u=499476",
+    balance: 0,
+  },
+];
+
+// More code
+
+export default function App() {
+  const [friends, setFriends] = useState(initialFriends);
+  const [showAddFriend, setShowAddFriend] = useState(false);
+  const [selectedFriend, setSelectedFriend] = useState(null);
+
+  // More code
+
+  return (
+    <div className="app">
+      {/* More code */}
+
+      {selectedFriend && (
+        <FormSplitBill
+          selectedFriend={selectedFriend}
+          onSplitBill={handleSplitBill}
+          {/* Adding Key */}
+          key={selectedFriend.id}
+        />
+      )}
+    </div>
+  );
+}
+
+// More code
+```
+
+- Now our App is working as expected.
+- ![key-2](https://github.com/user-attachments/assets/7bdf0446-9e7e-4056-a46f-4e9849a8ab78)
+- That's it, that's all we had to do here.
+- Let's now move on to the next lesson.
 
 ## Author
 
