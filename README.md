@@ -34,7 +34,7 @@
 - [Travel List](https://travel-list-section-07.vercel.app/)
 - [Accordion](https://accordion-eosin-five.vercel.app/)
 - [Tip Calculator](https://tip-calculator-section-07.vercel.app/)
-- [Eat-'N-Split](https://eat-n-split-six-ruby.vercel.app/)
+- [Eat-'N-Split](https://eat-n-split-section-11.vercel.app/)
 - [Star Rating](https://star-rating-one.vercel.app/)
 - [Text Expander](https://text-expander-sigma.vercel.app/)
 - [usePopcorn](https://usepopcorn-section-10.vercel.app/)
