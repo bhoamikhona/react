@@ -16,6 +16,7 @@
     - [How Diffing Works](#how-diffing-works)
     - [Diffing Rules in Practice](#diffing-rules-in-practice)
     - [The Key Prop](#the-key-prop)
+    - [Resetting State With The Key Prop](#resetting-state-with-the-key-prop)
   - [Author](#author)
 
 ## Lessons Learned
@@ -834,9 +835,6 @@ export default function App() {
   );
 }
 
-// console.log(<DifferentContent test={23} />);
-// console.log(DifferentContent());
-
 function Tabbed({ content }) {
   const [activeTab, setActiveTab] = useState(0);
 
@@ -854,9 +852,6 @@ function Tabbed({ content }) {
       ) : (
         <DifferentContent />
       )}
-
-      {/* Calling a component like a regular function inside another component - DO NOT DO THIS*/}
-      {/* {TabContent({ item: content.at(0) })} */}
     </div>
   );
 }
@@ -1107,6 +1102,168 @@ function DifferentContent() {
 - Now, this actually isn't necessary very often but you will sometimes find yourself in this situation.
 - So, when this happens, it is very important to know that this is the solution.
 - To make this even more clear now, let's go back to our small project and see it in action.
+
+### Resetting State With The Key Prop
+
+- Let's now use what we just learned about the `key` prop to our advantage and fix our `Tabbed` component.
+
+```javascript
+// project code
+
+import { useState } from "react";
+
+const content = [
+  {
+    summary: "React is a library for building UIs",
+    details:
+      "Dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+  },
+  {
+    summary: "State management is like giving state a home",
+    details:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+  },
+  {
+    summary: "We can think of props as the component API",
+    details:
+      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+  },
+];
+
+export default function App() {
+  return (
+    <div>
+      <Tabbed content={content} />
+    </div>
+  );
+}
+
+function Tabbed({ content }) {
+  const [activeTab, setActiveTab] = useState(0);
+
+  return (
+    <div>
+      <div className="tabs">
+        <Tab num={0} activeTab={activeTab} onClick={setActiveTab} />
+        <Tab num={1} activeTab={activeTab} onClick={setActiveTab} />
+        <Tab num={2} activeTab={activeTab} onClick={setActiveTab} />
+        <Tab num={3} activeTab={activeTab} onClick={setActiveTab} />
+      </div>
+
+      {activeTab <= 2 ? (
+        <TabContent item={content.at(activeTab)} />
+      ) : (
+        <DifferentContent />
+      )}
+    </div>
+  );
+}
+
+function Tab({ num, activeTab, onClick }) {
+  return (
+    <button
+      className={activeTab === num ? "tab active" : "tab"}
+      onClick={() => onClick(num)}
+    >
+      Tab {num + 1}
+    </button>
+  );
+}
+
+function TabContent({ item }) {
+  const [showDetails, setShowDetails] = useState(true);
+  const [likes, setLikes] = useState(0);
+
+  function handleInc() {
+    setLikes(likes + 1);
+  }
+
+  return (
+    <div className="tab-content">
+      <h4>{item.summary}</h4>
+      {showDetails && <p>{item.details}</p>}
+
+      <div className="tab-actions">
+        <button onClick={() => setShowDetails((h) => !h)}>
+          {showDetails ? "Hide" : "Show"} details
+        </button>
+
+        <div className="hearts-counter">
+          <span>{likes} ❤️</span>
+          <button onClick={handleInc}>+</button>
+          <button>+++</button>
+        </div>
+      </div>
+
+      <div className="tab-undo">
+        <button>Undo</button>
+        <button>Undo in 2s</button>
+      </div>
+    </div>
+  );
+}
+
+function DifferentContent() {
+  return (
+    <div className="tab-content">
+      <h4>I'm a DIFFERENT tab, so I reset state 💣💥</h4>
+    </div>
+  );
+}
+```
+
+- So, as we have just explored previously, as we change the state in `TabContent` component, that state will be preserved as we re-render that component.
+- That's because the `TabContent` component is exactly of the same type as before i.e. it stays the same element between renders, and it also stays in the exact same place in the component tree.
+- Therefore, its state is not reset.
+- It is only reset when we change to the `DifferentContent` (tab 4) component and then switch back to the `TabContent` component.
+- Now, in the meantime, our state was lost.
+- But if we change the state of `showDetails` and/or `likes` in `TabContent` and just switch between tabs 1, 2, and 3, then the state is preserved.
+- Now, as we were saying before, this is not what we want.
+- So, let's now use the `key` prop to change this behavior.
+- And actually, it is extremely easy.
+- All we have to do is to give the `TabContent` a different `key` for each of the tabs, basically.
+- So then, each time the `TabContent` component is re-rendered, it will get a different key. Then React will see it as a unique component instance.
+- Therefore, the old one will be destroyed, and the state will be reset - just as we learned in the previous lesson.
+- So, let's do that.
+
+```javascript
+function Tabbed({ content }) {
+  const [activeTab, setActiveTab] = useState(0);
+
+  return (
+    <div>
+      <div className="tabs">
+        <Tab num={0} activeTab={activeTab} onClick={setActiveTab} />
+        <Tab num={1} activeTab={activeTab} onClick={setActiveTab} />
+        <Tab num={2} activeTab={activeTab} onClick={setActiveTab} />
+        <Tab num={3} activeTab={activeTab} onClick={setActiveTab} />
+      </div>
+
+      {activeTab <= 2 ? (
+        <TabContent
+          item={content.at(activeTab)}
+          key={content.at(activeTab).summary}
+        />
+      ) : (
+        <DifferentContent />
+      )}
+    </div>
+  );
+}
+```
+
+- We don't have a unique ID for each of the element of the array so, we can use the `summary` as it is unique in all 3 elements.
+- Now, as soon as the `TabContent` component will be re-rendered, then not only the value of the `item` will change, but also the value of `key`.
+- So now we are in that situation where the key changes across renders and that will then reset the state.
+- So, if we hide the details in Tab 1 then move to Tab 2 then the `TabComponent` state is reset.
+- If we move back to Tab 1 then its state is also reset.
+- So you see that our component state has indeed been reset.
+- Again, that's just because React now views it as a completely different instance of `TabContent`.
+- We can also see that in the React component tree, where it also displays the `key` for `TabContent`.
+- This is exactly how React now makes each of the `TabContent` component instances unique and distinguishes between them.
+- So, this is really nice and helpful and so, you really need to understand what happened here and keep it in mind for future situations.
+- So, this `key` prop, it looks very simple but, it can make a huge difference.
+- Let's now use the `key` prop in the [Eat-'N'-Split App](https://eat-n-split-six-ruby.vercel.app/), that we built before, in the next lesson.
 
 ## Author
 
