@@ -25,6 +25,7 @@
     - [Resetting State With The Key Prop](#resetting-state-with-the-key-prop)
     - [Using the Key Prop to Fix Our Eat-'N-Split App](#using-the-key-prop-to-fix-our-eat-n-split-app)
     - [Rules for Render Logic: Pure Components](#rules-for-render-logic-pure-components)
+    - [State Update Batching](#state-update-batching)
   - [Author](#author)
 
 ## Lessons Learned
@@ -1473,6 +1474,66 @@ export default function App() {
 - First of all, we saw earlier that event handler function are not render logic and therefore, side effects are allowed and actually encouraged to be used inside these functions.
 - Second, if we need to create a side effect as soon as the component function is first executed, we can register that side effect using a special hook called `useEffect`. We will learn all about `useEffect` in the next section.
 - For now, let's move on to another super important topic, which is state update batching.
+
+### State Update Batching
+
+- We have dived really deep into some aspects of the render phase, like the rules for render logic, and how the `key` prop works.
+- But now, let's take one step back, and go back to one important aspect of the first triggering phase, which is the fact that state updates are batched.
+- ![image](https://github.com/user-attachments/assets/f4dfa305-6fbb-4b07-8f25-ec9c987f6164)
+- In that first lesson about how rendering works, we mentioned that renders are not triggered immediately, but scheduled for when the JS engine has some "free time". There is also batching of multiple `setState` calls in event handlers.
+- In this lesson, let's focus on "There is also batching of multiple `setState` calls in event handlers.".
+- As always, the easiest way of explaining difficult concepts is by using a small code example. So, let's take the code example from the image above.
+- In this code example, we have 3 pieces of state, defined using the `useState` hook, and we also have a button in the user interface.
+- Then, whenever there is a click on the button, the event handler function named `reset()` is called.
+- In this function, the 3 pieces of state viz `answer`, `best`, and `solved`, are basically reverted back to their original state and therefore, this function is called "reset" and this is the part that interests us in this lesson so, let's now focus only on the event handler function.
+- ![image](https://github.com/user-attachments/assets/a59ab8f7-a989-488e-b548-e71b64477f72)
+- Now, what we want to do here is to analyze how these 3 pieces of state are actually updated behind the scenes.
+- So, we might think that, as React sees the `setAnswer()` function call, it would update the state to the empty string as requested, and then trigger a re-render, and the commit phase, then it would move on to the next line, and do the same thing again, and a third time for the third state update.
+- So intuitively, we would think that, if there are 3 state variables being updated in the event handler, then React would re-render 3 times.
+- However, this actually not how it works.
+- This is not how React updates multiple pieces of state in the same event handler function.
+- Instead, these state updates will actually get batched into just one state update for the entire event handler.
+- ![image](https://github.com/user-attachments/assets/6a516cdc-4b37-4578-875b-13135f171498)
+- So, updating multiple pieces of state won't immediately cause a re-render for each update.
+- Instead, all pieces of state inside the event handler are updated in one go.
+- So, they are batched, and only then will React trigger one single render and commit.
+- And conceptually, it makes sense that React works this way, because if we are updating these pieces of state together, it probably means that they should just represent one new view, and therefore, React only updates the screen once.
+- So, if these date updates belong together, it really wouldn't make much sense to update the screen 3 times.
+- Doing so would also create two wasted renders, because we are not interested in the first two renders, only the final one, which already contains all the 3 state updates.
+- Therefore, the fact that React automatically batches state updates in this way is yet another performance optimization that React gives us out of the box.
+- Now, batching state updates is extremely useful, but it can also have surprising results.
+- ![image](https://github.com/user-attachments/assets/e3f05333-dfb0-4bb0-8c9e-1f5f1d09b30d)
+- So, let's now turn our attention to this line of code: `console.log(answer)` (in the image above) where we reference the `answer` state variable right after updating it.
+- So, what do you think will be the value of `answer` at this point (in the image above)?
+- Well, let's try to think about this.
+- Remember, that component state is stored in the Fiber tree during the render phase.
+- At this point in the code, the render phase has not happened yet.
+- So, React is still reading the function line by line to figure out what state needs to be udpated but, it hasn't actually updated the state yet, and it also hasn't re-rendered yet.
+- That's the whole point of batching state updates in the first place, right?
+- So, what this means is that, at this point of the code, the answer variable will still hold the current state i.e. the state before the update, even though we already told React to update it.
+- So, at this point, we say that our state is <ins>stale</ins>, meaning that the state is no longer fresh and updated, because in fact, a state update will only be reflected in the state variable after the re-render.
+- So for this reason, we say that updating state in React is asynchronous, and again, it is asynchronous.
+- Again, it is asynchronous because React does not give us the updated state variable immediately after the `setAnswer()` call, but only after the re-render has happened.
+- Now, the same thing is also true whenever there is only one piece of state being updated.
+- So, no matter how many state variables are being updated, the updated state is only available after the re-render, not immediately.
+- Now sometimes we actually do need the new value immediately after updating it, and in the case that we need the new value in order to update the same state again i.e. if we need to update the state based on a previous state update in the same event handler, we can pass a callback function into the set state function instead of a single value.
+- And we have actually done this in practice all the time.
+- ![image](https://github.com/user-attachments/assets/f451768b-d3ce-449b-98a9-51b4471e001c)
+- So far we have only talked about batching in event handler functions, like the `reset()` function.
+- That's because before React 18, React only did automatic batching in event handlers, but not in situations that happen after a browser event has already happened.
+- However, there are certain very important situations in which we do need to update state, long after a browser event, like a click, has happened.
+- Examples of that are timeouts and promises. For instance, we might want to run our `reset()` function only a second after a click event, or we might want to run it after some data has been fetched.
+- So, it would be nice to also have automatic batching in those situations to improve performance, right?
+- Well, that's actually one of the important features that React 18 gave us.
+- Before React 18, if the `reset()` function was called by a timeout or by a promise, state updates inside the function would not be batched.
+- Instead, in these situations, React would actually update the state variables one by one, and therefore, in this case, render 3 times.
+- Now another case is handling native events using DOM methods such as `addEventListener()`, where state updates used to not be batched, but now they are.
+- So again, if you are using the latest React version, you will now get automatic batching all the time, everywhere in your code.
+- And if for some reason you are working with an older version of React, maybe at your work, it is important to know that batching used to work in a different way before version 18.
+- Now, there are also some extremely rare situations in which automatic batching can be problematic.
+- So, if you ever find yourself in a situation like that, you can just wrap the problematic state update in a `ReactDOM.flushSync()` function, and React will then exclude that update from batching.
+- But you will most likely never need this.
+- We are just mentioning it here, so that you know it exists.
 
 ## Author
 
