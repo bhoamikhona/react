@@ -27,6 +27,7 @@
     - [Rules for Render Logic: Pure Components](#rules-for-render-logic-pure-components)
     - [State Update Batching](#state-update-batching)
     - [State Update Batching in Practice](#state-update-batching-in-practice)
+    - [How Events Work in React](#how-events-work-in-react)
   - [Author](#author)
 
 ## Lessons Learned
@@ -1980,6 +1981,108 @@ function handleUndoLater() {
 - This is all that we had to learn here.
 - It was a bit longer than expected but, we did do a lot of stuff here.
 - Let's now move on to the next lesson.
+
+### How Events Work in React
+
+- Let's now leave the topics of rendering and state, and turn towards another essential part of React applications that we haven't really talked about yet, and that's events.
+- In this lesson, we will learn how react handles events, and how they work behind the scenes, but let's start with a quick refresher on how event propagation and event delegation work in the DOM, because this is important to understand how React works.
+- ![image](https://github.com/user-attachments/assets/fb9f320c-8dcb-42d0-9820-427700915ded)
+- Let's consider the tree of DOM elements in the image above.
+- Note that it really is a DOM tree, not a fiber tree or a React element tree.
+- Now let's say that some event happens, like a click on one of the three buttons.
+- Here is what's going to happen in the browser:
+- As soon as the event fires, a new event object will be created, but it will not be created where teh click actually happened.
+- Instead, the object will be created at the root of the document so, at the very top of the tree.
+- From there, the event will then travel down the entire tree during the so-called capturing phase, all the way, until it reaches the target element, and the target element in simply the element on which the event was actually first triggered.
+- So at the target, we can choose to handle that event by placing an event handler function on that element, which usually is exactly what we do.
+- Then immediately after the target element has been reached, the event object travels all the way back up the entire tree during the so-called bubbling phase.
+- Now, there are two very important things to understand about this process.
+- First, during the capturing and bubbling phases, the event really goes through every single child and parent element one-by-one.
+- In fact, it is as if the event originated or happened in each of these DOM elements.
+- The second important thing is that by default, event handlers listen to events not only on the target element, but also during the bubbling phase.
+- So, if we put these two things together, it means that every single event handler in a parent element will also be executed during the bubbling phase as long as it is also listening for the same type of event.
+- For example, if we added another click event to the header element, then during this whole process, both the handlers at the target and the header element would be executed when the click happens.
+- Now, sometimes we actually don't want this behavior, and in that case, we can prevent the event from bubbling up any further simply by calling the `stopPropagation()` method on the event object, and this works in vanilla JavaScript, and also in React.
+- But it is actually very rarely necessary so, only use it if there really is no other solution.
+- So, this is essentially how events work in the browser.
+- Now, the fact that events bubble like this allows developers to implement a very common and very useful technique called event delegation.
+- So, with event delegation, we can handle event for multiple elements in one central place, which is one of the parent elements.
+- So, imagine that instead of 3 buttons, there would be like 1000 buttons.
+- Now, if we wanted to handle events on all of them, each button would have to have its own copy of the event handler function, which could become problematic for the app's performance and memory usage.
+- Instead, by simply using event delegation, we can simply add just one handler function to the first parent elements of these buttons.
+- Then, when a click happens on one of these buttons, the event will bubble up to the options div (in this example), where we can then use the events target property in order to check whether the event originated from one of the buttons or not, and if it did, we can then handle the event in this central event handler function.
+- We do this all the time in vanilla JS applications.
+- However, in React apps, it is actually not so common for us to use this technique, but that might leave you wondering, if this is actually not important in React, then why are we talking about this?
+- Well, for two reasons:
+- First, because sometimes you find strange behaviors related to events in your applications, which might actually have to do with event bubbling, and so as a good React developer, you always want to understand exactly what's going on in order to fix these problems, and the second reason is that this is actually what React does behind the scenes with our events, and so let's take a look at that.
+- ![image](https://github.com/user-attachments/assets/ead62b03-b68a-4e0a-8d99-a314d12dc4fa)
+- Let's consider the same DOM tree from before, and let's say again that we want to attach an event handler to one of the buttons, or even to some other DOM element.
+- This is what the code would look like in React:
+
+```javascript
+<button className="btn" onClick={() => setLoading(true)} />
+```
+
+- So, we could simply use the `onClick` prop to listen for click events, and then pass it a function. That's really easy.
+- Now, if we think about how React actually registers these event handlers behind the scenes, we might believe it would look something like this:
+
+```javascript
+document
+  .querySelector(".btn")
+  .addEventListener("click", () => setLoading(true));
+```
+
+- So, React might select the button and then add the event handler to that element - that sounds pretty logical.
+- However, this is actually not what React does internally.
+- Instead, what React does is to register this and all other event handler functions to the `root` DOM container, and that root container is simply the DOM element in which the React app is displayed.
+
+```javascript
+document
+  .querySelector("#root")
+  .addEventListener("click", () => setLoading(true));
+```
+
+- So, if we use the default of `create-react-app`, that's usually the `div` element with an ID set to `"root"`.
+- Again, instead of selecting the button where we actually placed our event handler, we can imagine that React selects the `root` element, and then adds all our event handlers to that element.
+- And we say imagine beause the way React does all this behind the scenes is actually a lot more complex than this, but that's not relaly worth diving into here.
+- The only thing that's worth knowing is that React physically registers one event handelr function per event type, and it does so at the root node of the fiber tree during the render phase.
+- So, if we have multiple `onClick` handlers in our code, React will actually somehow bundle them all together and just add one big `onClick` handler to the `root` node of the fiber tree.
+- So, this is yet another important function of the fiber tree.
+- Anyway, what this means is that behind the scenes, React actually performs event delegation for all events in our applications.
+- So, we can say that React delegates all events to the `root` DOM container because, that's where they will actually get handled, not in the place where we thought we registered them, and so this works exactly how we just learned few moments ago.
+- Again, whenever a click happens on the button, a new event object is fired off, which will then travel down the DOM tree until it reaches the target element.
+- From there, the event will bubble back up.
+- Then, as soon as the event reaches the `root` container where React registered all our handlers, the event will actually finally get handled according to whatever handlers match the event and the target element.
+- Finally, once that's all done, the event, of course, continues bubbling up until it disappears into nowhere, and the beauty of this is that it all happens automatically and invisibly just to make our React apps yet a little bit more performant.
+- Now, just one small detail that you need to notice is that it is really the DOM tree that matters here, not the component tree.
+- So, just because one component is a child if another component, that doesn't mean that the same is true in the displayed DOM tree.
+- So, just keep that in mind when thinking about bubbling in React applications.
+- Alright, so we talked a lot about events and event objects, and so now, let's finish by taking a look at how these event objects actually work behind the scenes.
+- ![image](https://github.com/user-attachments/assets/061bb2a0-4278-42cb-acaa-ceb2a6e1d55f)
+- Whenever we declare an event handler like this:
+
+```javascript
+<input onChange={(e) => setText(e.target.value)} />
+```
+
+- React gives us access to the event object that was created, just like in the vanilla JS.
+- However, in React, this event object is actually different.
+- In vanilla JS, we simply get access to the native DOM event object, for example, `PointerEvent`, `MouseEvent`, `KeyboardEvent`, etc.
+- React on the other hand, will give us something called `SyntheticEvent`, which is basically a thin wrapper around the DOM's native event object, and by wrapper we simply mean that synthetic events are pretty similar to native event objects, but they just add or change some functionalities on top of them.
+- These `SyntheticEvent` have the same interface as native event objects, and that includes the important methods such as `stopPropagation()` and `preventDefault()`.
+- What's special about synthetic events though, and one of the reasons why the React team decided to implement them is the fact that they fix some browser inconsistencies, making it so that events work in the exact same way in all browsers.
+- The React team also decided that all of the most important synthetic events actually bubble, including the `focus`, `blur`, and `change` events, which usually do not bubble.
+- The only exception here is the `scroll` event, which also does not bubble in React.
+- Now to finish, let's quickly learn some differences between how event handlers work in React and vanilla JS.
+- The first one is that in React, the prop name to attach an event handler are named using camel case, e.g. `onClick`
+- On the other hand, in HTML, it would be `onclick` - all lower case; and if we used `addEventListener()` in vanilla JS, the event would simply be called `click`.
+- In vanilla JS, whenever we want to stop the default behavior of the browser in response to an event, we can return `false` from the event handler function.
+- A big example of that is the browser automatically reloading the page when we submit the form.
+- However, if we would attempt to return `false` in a React event handler, that would simply not work.
+- So in React, the only way to prevent the browser's default behavior is to call `preventDefault()` on the synthetic event object.
+- Finally, in the rare event that you need to handle an event in the capturing phase rather than in bubbling phase, you can simply attach `Capture` to the event handler naem, for example `onClickCapture` instead of just `onClick`, but most likely, you will never use this, so just keep this somewhere in the back of you mind.
+- So, everything that we just learned is basically everything that you need to know in practice in order to successfully work with events in React.
+- The rest all happens invisibly behind the scenes.
 
 ## Author
 
