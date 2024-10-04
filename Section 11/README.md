@@ -26,6 +26,7 @@
     - [Using the Key Prop to Fix Our Eat-'N-Split App](#using-the-key-prop-to-fix-our-eat-n-split-app)
     - [Rules for Render Logic: Pure Components](#rules-for-render-logic-pure-components)
     - [State Update Batching](#state-update-batching)
+    - [State Update Batching in Practice](#state-update-batching-in-practice)
   - [Author](#author)
 
 ## Lessons Learned
@@ -1534,6 +1535,451 @@ export default function App() {
 - So, if you ever find yourself in a situation like that, you can just wrap the problematic state update in a `ReactDOM.flushSync()` function, and React will then exclude that update from batching.
 - But you will most likely never need this.
 - We are just mentioning it here, so that you know it exists.
+
+### State Update Batching in Practice
+
+- Let's move back to our project, and see how React batches state updates in practice and how this state updating is in fact asynchronous.
+- Let's look at the `TabContent` component, and play around a little bit with the states that we have in it.
+
+```javascript
+// full code at ./how-react-works/src/App.jsx
+
+function TabContent({ item }) {
+  const [showDetails, setShowDetails] = useState(true);
+  const [likes, setLikes] = useState(0);
+
+  function handleInc() {
+    setLikes(likes + 1);
+  }
+
+  return (
+    <div className="tab-content">
+      <h4>{item.summary}</h4>
+      {showDetails && <p>{item.details}</p>}
+
+      <div className="tab-actions">
+        <button onClick={() => setShowDetails((h) => !h)}>
+          {showDetails ? "Hide" : "Show"} details
+        </button>
+
+        <div className="hearts-counter">
+          <span>{likes} ❤️</span>
+          <button onClick={handleInc}>+</button>
+          <button>+++</button>
+        </div>
+      </div>
+
+      <div className="tab-undo">
+        <button>Undo</button>
+        <button>Undo in 2s</button>
+      </div>
+    </div>
+  );
+}
+```
+
+- First of all, let's now implement the functionality of the `undo` button.
+- This `undo` button will basically reset the state of the `showDetails` and `likes`.
+- So, let's write a simple function called `handleUndo()` and what it does is to set `showDetails` back to `true` and set `likes` back to `0`.
+- And then tie the `handleUndo` with the `undo` button.
+
+```javascript
+// full code at ./how-react-works/src/App.jsx
+
+function TabContent({ item }) {
+  const [showDetails, setShowDetails] = useState(true);
+  const [likes, setLikes] = useState(0);
+
+  function handleInc() {
+    setLikes(likes + 1);
+  }
+
+  function handleUndo() {
+    setShowDetails(true);
+    setLikes(0);
+  }
+
+  return (
+    <div className="tab-content">
+      <h4>{item.summary}</h4>
+      {showDetails && <p>{item.details}</p>}
+
+      <div className="tab-actions">
+        <button onClick={() => setShowDetails((h) => !h)}>
+          {showDetails ? "Hide" : "Show"} details
+        </button>
+
+        <div className="hearts-counter">
+          <span>{likes} ❤️</span>
+          <button onClick={handleInc}>+</button>
+          <button>+++</button>
+        </div>
+      </div>
+
+      <div className="tab-undo">
+        <button onClick={handleUndo}>Undo</button>
+        <button>Undo in 2s</button>
+      </div>
+    </div>
+  );
+}
+```
+
+- Now if we click on the `undo` button, we get the desired effect.
+- So, as we learned in the previous lesson, isnide of the event handler function, such as the one of `handleUndo()`, the state updates are batched.
+- So, they will only cause one component re-render.
+- How can we actually prove that?
+- Well, one simple way is to log something to the console in the component.
+- Now, each time that the component gets rendered, it will log "RENDER" to the console.
+
+```javascript
+// full code at ./how-react-works/src/App.jsx
+
+function TabContent({ item }) {
+  const [showDetails, setShowDetails] = useState(true);
+  const [likes, setLikes] = useState(0);
+
+  console.log("RENDER");
+
+  function handleInc() {
+    setLikes(likes + 1);
+  }
+
+  function handleUndo() {
+    setShowDetails(true);
+    setLikes(0);
+  }
+
+  return (
+    <div className="tab-content">
+      <h4>{item.summary}</h4>
+      {showDetails && <p>{item.details}</p>}
+
+      <div className="tab-actions">
+        <button onClick={() => setShowDetails((h) => !h)}>
+          {showDetails ? "Hide" : "Show"} details
+        </button>
+
+        <div className="hearts-counter">
+          <span>{likes} ❤️</span>
+          <button onClick={handleInc}>+</button>
+          <button>+++</button>
+        </div>
+      </div>
+
+      <div className="tab-undo">
+        <button onClick={handleUndo}>Undo</button>
+        <button>Undo in 2s</button>
+      </div>
+    </div>
+  );
+}
+```
+
+- Nevermind the log that is a bit more grayed out, that is coming from somewhere else.
+- The only one important is the white one - and this comes from the initial render of the `TabContent` component.
+- And if we go to another tab, then we get another log, because then the `TabContent` component is updated.
+- Now if we increase the number of likes and hide the details, we might get a few more "RENDER" string logs onto the console as they are updating the component and hence, it gets re-rendered.
+  - This is actually a really nice way of proving that rendering is in-fact, calling the component function.
+- But, let's now clear the console, with the clear button in the chrome dev tools.
+- And now, if we click on the `undo` button, we should only see one "RENDER" logged in the console - which would then mean that the two state updates in the `handleUndo()` were batched.
+- Indeed, we only get one "RENDER" in the console.
+- ![state-update-in-batches](https://github.com/user-attachments/assets/073cdccd-180d-410d-9c26-a33ec0c25bf6)
+- Great! Now, let's also see that the state updating is asynchronous.
+- So basically, if we try to access the number of `likes` right after updating the state in `handleUndo()` then watch what happens.
+
+```javascript
+// full code at ./how-react-works/src/App.jsx
+
+function TabContent({ item }) {
+  const [showDetails, setShowDetails] = useState(true);
+  const [likes, setLikes] = useState(0);
+
+  console.log("RENDER");
+
+  function handleInc() {
+    setLikes(likes + 1);
+  }
+
+  function handleUndo() {
+    setShowDetails(true);
+    setLikes(0);
+    console.log(likes);
+  }
+
+  return (
+    <div className="tab-content">
+      <h4>{item.summary}</h4>
+      {showDetails && <p>{item.details}</p>}
+
+      <div className="tab-actions">
+        <button onClick={() => setShowDetails((h) => !h)}>
+          {showDetails ? "Hide" : "Show"} details
+        </button>
+
+        <div className="hearts-counter">
+          <span>{likes} ❤️</span>
+          <button onClick={handleInc}>+</button>
+          <button>+++</button>
+        </div>
+      </div>
+
+      <div className="tab-undo">
+        <button onClick={handleUndo}>Undo</button>
+        <button>Undo in 2s</button>
+      </div>
+    </div>
+  );
+}
+```
+
+- First, we obviously need to increase the number of `likes`, let's say we increase it to 5, then, if we click on the `undo` button, the value of `likes` is still `5` even though we reset the `likes` back to 0 right before logging it to the console.
+- ![async-state-updates](https://github.com/user-attachments/assets/83b6abac-e9c8-45f9-ba1b-f083652b0425)
+- This might be surprising but, if you paid good attention in the previous lesson, then this will actually no longer come as a surprise to you.
+- So, the reason that we get `5` is that the state is in fact actually only updated after the re-rendering - or basically during the re-rendering, but not immediately after we call `setLikes()` - that's impossible.
+- Therefore, we still get the old state of `likes` which is still at `5`.
+- Now, qhat do you think will happen i.e. what do you think will get rendered/logged if we click the `undo` button again?
+- Let's clear the console and see what happens.
+- ![state-values-default](https://github.com/user-attachments/assets/91dc91a8-ce84-4b2f-93b1-3a9ae60aa246)
+- Now if we click the `undo` button, you will see that no "RENDER" string was logged to the console.
+- Why do you think that is?
+- Why was the component instance not re-rendered this time?
+- Well, it is because both the state values were already at their default basically.
+
+> [!NOTE]
+> According to Chat GPT:
+>
+> When you update a component's state with the same value as the current state, **React still runs the component once before blocking subsequent renders**. This is due to how React works and its reconciliation process.
+>
+> In case the values are identical, React still performs a reconciliation process to ensure that no side effects have been introduced by this update.
+>
+> It is important to note that React tries to optimize these cases by avoiding updating the DOM if no difference is detected during reconciliation. This means that although the component rendering has been performed, there will be no actual DOM update.
+
+> [!NOTE]
+>
+> According to legacy React documentation:
+>
+> If your update function returns the exact same values as the current state, the subsequent re-render will be skipped completely.
+>
+> [Reference](https://legacy.reactjs.org/docs/hooks-reference.html#functional-updates)
+
+- So, `showDetails` was already `true` and `likes` was already `0`.
+- So then, as we attempted to update the state, both of them were actually not updated.
+- That's because the new state was equal to the current state. So, in that situation, React will not even try to update the state, and then of course, it will also not re-render the component instance.
+- That's why, nothing happens.
+- As we keep clicking `undo`, the `console.log(likes)` keeps getting executed but again, the component itself is not re-rendered.
+- Let's now move on and implement the `+++` button.
+- Here we have 3 pluses which essentially means that we want a "super like", so this should then increase the `likes` by 3.
+- So, let's create a function for that in the `TabContent` and let's call it `handleTripleInc()`.
+
+```javascript
+// full code at ./how-react-works/src/App.jsx
+
+function TabContent({ item }) {
+  const [showDetails, setShowDetails] = useState(true);
+  const [likes, setLikes] = useState(0);
+
+  console.log("RENDER");
+
+  function handleInc() {
+    setLikes(likes + 1);
+  }
+
+  function handleTripleInc() {
+    setLikes(likes + 1);
+    setLikes(likes + 1);
+    setLikes(likes + 1);
+  }
+
+  function handleUndo() {
+    setShowDetails(true);
+    setLikes(0);
+    console.log(likes);
+  }
+
+  return (
+    <div className="tab-content">
+      <h4>{item.summary}</h4>
+      {showDetails && <p>{item.details}</p>}
+
+      <div className="tab-actions">
+        <button onClick={() => setShowDetails((h) => !h)}>
+          {showDetails ? "Hide" : "Show"} details
+        </button>
+
+        <div className="hearts-counter">
+          <span>{likes} ❤️</span>
+          <button onClick={handleInc}>+</button>
+          <button onClick={handleTripleInc}>+++</button>
+        </div>
+      </div>
+
+      <div className="tab-undo">
+        <button onClick={handleUndo}>Undo</button>
+        <button>Undo in 2s</button>
+      </div>
+    </div>
+  );
+}
+```
+
+- What do you think is going to happen when we click on `+++` now?
+- Well, it only increased by 1 instead of 3 times as we might expect.
+- ![super-like-increases-by-one](https://github.com/user-attachments/assets/7c5a9500-4b7b-487a-a11a-e6bd734100b1)
+- But, were we actually expecting that it would increase 3 times with what we already know?
+- We should know that this could never work:
+
+```javascript
+function handleTripleInc() {
+  setLikes(likes + 1);
+  setLikes(likes + 1);
+  setLikes(likes + 1);
+}
+```
+
+- Let's see why that is.
+- So, right at the beginning of `handleTripleInc()` function, `likes` was set to 0.
+- Then at the first `setLikes(likes + 1)`, `likes` would be 0 and 0 + 1 is 1.
+- So, that's pretty clear but then, what in the next line?
+- What is the value of `likes` in the second `setLikes(likes + 1)`?
+- Well, it is actually still 0.
+- That's because, the state update is once again, asynchronous.
+- So, we do not get access to the new state value after the first `setLikes(likes + 1)`.
+- And the same thing happens with the `setLikes(0)` in the `handleUndo()` function.
+- So, at the second `setLikes(likes + 1)`, the state is now stale, just as we learned in the previous lesson as well.
+- So, we can very easily see that with a `console.log()`.
+
+```javascript
+function handleTripleInc() {
+  setLikes(likes + 1);
+  console.log(likes);
+  setLikes(likes + 1);
+  setLikes(likes + 1);
+}
+```
+
+- So, how can we make this work if we wanted to update the state by 3.
+- We could do this `setLikes(likes + 3)` but, that is not the point here.
+- We are trying to learn how we could do it in another way.
+- So actually, we have been doing it all along.
+- So, all the time, whenever we were updating state based on the current state, we would use a callback function instead of just a value.
+- We also talked about it in the previous lesson.
+- So now, the time finally came to learn why we have been doing it with the callback function all the time.
+- So, let's comment out what we already have and do it the right way.
+
+```javascript
+function handleTripleInc() {
+  // setLikes(likes + 1);
+  // console.log(likes);
+  // setLikes(likes + 1);
+  // setLikes(likes + 1);
+
+  setLikes((likes) => likes + 1);
+  setLikes((likes) => likes + 1);
+  setLikes((likes) => likes + 1);
+}
+```
+
+- ![super-like-increases-by-three](https://github.com/user-attachments/assets/d0f8b33a-2666-42b4-9c36-3265d679219e)
+- Now it works.
+- So, this is the trick that changes the way the state is updated.
+- So, in the callback function, we do actually get access to the latest updated state.
+- Initially, `likes` was 0 and then it returned `1`.
+- In the second call, the `likes` in the callback function will be `1` and so then we can update it by another `1` and then by another `1`.
+- So, this is the reason why we have been mentioning that each time that we set a state based on the previous state or based on the current state, we should always, always use a callback function like we did above.
+- Now you might be wondering, why should be do that in the `handleInc()` function? It works fine just the way it is.
+- But, we never know what other developers might do with our functions, or even what we might do later, ourselves.
+- So, let's say that at some point, we want to change how our function works, and then without thinking about it, we just do this:
+
+```javascript
+function handleInc() {
+  setLikes(likes + 1);
+  setLikes(likes + 1);
+}
+```
+
+- Now we go back to `handleInc()` not working as expected.
+- So, now we want to increase the likes by 2, but it will still only increase it by 1.
+- Another situation might be where we simply want to call the `handleInc()` function in the `handleTripleInc()` function 3 times, like so:
+
+```javascript
+function handleInc() {
+  setLikes(likes + 1);
+  // setLikes(likes + 1);
+}
+
+function handleTripleInc() {
+  // setLikes(likes + 1);
+  // console.log(likes);
+  // setLikes(likes + 1);
+  // setLikes(likes + 1);
+
+  // setLikes((likes) => likes + 1);
+  // setLikes((likes) => likes + 1);
+  // setLikes((likes) => likes + 1);
+
+  handleInc();
+  handleInc();
+  handleInc();
+}
+```
+
+- Or maybe some other developer might think that.
+- So then, they would get surprised when they see this is actually not working.
+- So again, you should always, always use the callback function, because then you are always safe for whatever change your code goes through in the future.
+
+```javascript
+function handleInc() {
+  // setLikes(likes + 1);
+  // setLikes(likes + 1);
+
+  setLikes((likes) => likes + 1);
+}
+
+function handleTripleInc() {
+  // setLikes(likes + 1);
+  // console.log(likes);
+  // setLikes(likes + 1);
+  // setLikes(likes + 1);
+
+  // setLikes((likes) => likes + 1);
+  // setLikes((likes) => likes + 1);
+  // setLikes((likes) => likes + 1);
+
+  handleInc();
+  handleInc();
+  handleInc();
+}
+```
+
+- Now it will work.
+- So, even if you then use the `handleInc()` function somewhere else, by using the callback function, we just safeguarded about any changes that might occur in the future.
+- Now to finish, let's just prove that automatic batching now works in React 18 even outside of event handlers.
+- In our code we have a button which will undo i.e. reset our state, 2 seconds later.
+- Well, that's easy enough.
+- Let's just create a function called `handleUndoLater()` and it will simply set a timeout, and then after 2 seconds, it will call `handleUndo()`.
+
+```javascript
+function handleUndo() {
+  setShowDetails(true);
+  setLikes(0);
+  console.log(likes);
+}
+
+function handleUndoLater() {
+  setTimeout(handleUndo, 2000);
+}
+```
+
+- Now `handleUndo()` is no longer really an event handler function.
+- It is just any function that simply gets called at a later time.
+- ![delayed-undo](https://github.com/user-attachments/assets/55c42dd4-ed0b-4496-a7fb-3c503c175d8c)
+- Indeed, 2 seconds later, our state was updated also, our component was only rendered once, which is proved by the single "RENDER" string.
+- Again, this proves that in React 18, batching happens not only inside event handlers, but also inside a `setTimeout()`.
+- The same is true for promises and other situations.
+- This is all that we had to learn here.
+- It was a bit longer than expected but, we did do a lot of stuff here.
+- Let's now move on to the next lesson.
 
 ## Author
 
