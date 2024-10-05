@@ -1993,7 +1993,7 @@ function handleUndoLater() {
 - Here is what's going to happen in the browser:
 - As soon as the event fires, a new event object will be created, but it will not be created where teh click actually happened.
 - Instead, the object will be created at the root of the document so, at the very top of the tree.
-- From there, the event will then travel down the entire tree during the so-called capturing phase, all the way, until it reaches the target element, and the target element in simply the element on which the event was actually first triggered.
+- From there, the event will then travel down the entire tree during the so-called capturing phase, all the way, until it reaches the target element, and the target element is simply the element on which the event was actually first triggered.
 - So at the target, we can choose to handle that event by placing an event handler function on that element, which usually is exactly what we do.
 - Then immediately after the target element has been reached, the event object travels all the way back up the entire tree during the so-called bubbling phase.
 - Now, there are two very important things to understand about this process.
@@ -2045,7 +2045,7 @@ document
 - So, if we use the default of `create-react-app`, that's usually the `div` element with an ID set to `"root"`.
 - Again, instead of selecting the button where we actually placed our event handler, we can imagine that React selects the `root` element, and then adds all our event handlers to that element.
 - And we say imagine beause the way React does all this behind the scenes is actually a lot more complex than this, but that's not relaly worth diving into here.
-- The only thing that's worth knowing is that React physically registers one event handelr function per event type, and it does so at the root node of the fiber tree during the render phase.
+- The only thing that's worth knowing is that React physically registers one event handler function per event type, and it does so at the root node of the fiber tree during the render phase.
 - So, if we have multiple `onClick` handlers in our code, React will actually somehow bundle them all together and just add one big `onClick` handler to the `root` node of the fiber tree.
 - So, this is yet another important function of the fiber tree.
 - Anyway, what this means is that behind the scenes, React actually performs event delegation for all events in our applications.
@@ -2080,7 +2080,7 @@ document
 - A big example of that is the browser automatically reloading the page when we submit the form.
 - However, if we would attempt to return `false` in a React event handler, that would simply not work.
 - So in React, the only way to prevent the browser's default behavior is to call `preventDefault()` on the synthetic event object.
-- Finally, in the rare event that you need to handle an event in the capturing phase rather than in bubbling phase, you can simply attach `Capture` to the event handler naem, for example `onClickCapture` instead of just `onClick`, but most likely, you will never use this, so just keep this somewhere in the back of you mind.
+- Finally, in the rare event that you need to handle an event in the capturing phase rather than in bubbling phase, you can simply attach `Capture` to the event handler name, for example `onClickCapture` instead of just `onClick`, but most likely, you will never use this, so just keep this somewhere in the back of you mind.
 - So, everything that we just learned is basically everything that you need to know in practice in order to successfully work with events in React.
 - The rest all happens invisibly behind the scenes.
 
