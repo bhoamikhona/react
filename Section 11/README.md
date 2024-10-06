@@ -4,7 +4,7 @@
 
 ## Projects
 
-- [How React Works](./how-react-works/src/App.jsx)
+- [How React Works](https://how-react-works-iota.vercel.app/)
 - [Eat-'N-Split](https://eat-n-split-section-11.vercel.app/)
 
 ## Table of Content

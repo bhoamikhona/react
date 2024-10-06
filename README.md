@@ -38,6 +38,7 @@
 - [Star Rating](https://star-rating-one.vercel.app/)
 - [Text Expander](https://text-expander-sigma.vercel.app/)
 - [usePopcorn](https://usepopcorn-section-10.vercel.app/)
+- [How React Works](https://how-react-works-iota.vercel.app/)
 
 ## Author
 
