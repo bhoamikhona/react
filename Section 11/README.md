@@ -28,6 +28,7 @@
     - [State Update Batching](#state-update-batching)
     - [State Update Batching in Practice](#state-update-batching-in-practice)
     - [How Events Work in React](#how-events-work-in-react)
+    - [Libraries vs. Frameworks \& The React Ecosystem](#libraries-vs-frameworks--the-react-ecosystem)
   - [Author](#author)
 
 ## Lessons Learned
@@ -2083,6 +2084,70 @@ document
 - Finally, in the rare event that you need to handle an event in the capturing phase rather than in bubbling phase, you can simply attach `Capture` to the event handler name, for example `onClickCapture` instead of just `onClick`, but most likely, you will never use this, so just keep this somewhere in the back of you mind.
 - So, everything that we just learned is basically everything that you need to know in practice in order to successfully work with events in React.
 - The rest all happens invisibly behind the scenes.
+
+### Libraries vs. Frameworks & The React Ecosystem
+
+- To finish off this section, let's talk about something entirely different.
+- So, this lesson is not really about how React works behind the scenes, but more about what React actually is, which is a library.
+- So, for future React developers, like you, it is important to understand what it means that React itself is a library and not a framework.
+- So, let's now learn about the differences, as well as the React ecosystem.
+- To understand the difference between a framework and a library, let's start with an analogy.
+- ![image](https://github.com/user-attachments/assets/ab6bde70-2997-4ffd-9916-77ee0b5e24ff)
+- Imagine that you want to make your own Sushi for the first time.
+- You have two choices about how you want to do it.
+- The first option is to just buy one of those all in one Sushi kits, which will come with all the ingredients that you need and therefore, you don't have to buy anything separately.
+- All you have to do is to assemble these ingredients into your Sushi.
+- However, there is also a downside to this because now you are stuck with the ingredients that included in the kit that you bought.
+- So, if you find out that you don't like one of these ingredients then you still have to use it anyway.
+- Now, instead of getting an all in one kit, you also have the option to buy all the ingredients separately.
+- This will give you complete freedom to choose only the best ingredients and the ones that you like the most.
+- On the other hand, all this freedom can give you decision fatigue because now, for each ingredient, you need to research which brand is the best option and then you also have to go buy each of the products separately.
+- Even worse, if one of your selected brands changes or is no longer sold then you need to start the whole process over.
+- But, probably at this point you are wondering, why are we talking about Sushi?
+- Well, the reason is that this analogy translates beautifully into the difference between building a framework or using a library.
+- So, we could actually just replace the images in the image above and call it a day.
+- ![image](https://github.com/user-attachments/assets/4310e11b-feef-418a-8951-146881751ba2)
+- So, we could describe Angular, Vue, or Svelte, for example, as the all-in-one kit, and React as buying separate ingredients.
+- The pros and cons of building a web app with each of these approaches are basically exactly the same as in making Sushi at home.
+- Let's now replace these terms and actually learn what's the difference between a framework and a library is.
+- ![image](https://github.com/user-attachments/assets/2d08d802-89ea-49b5-a310-fa9d4b565148)
+- In the world of JavaScript, a framework is basically a complete stucture that includes everything that you need in order to build a complete large scale application.
+- We can say that frameworks like Angular are batteries included because they include things like routing, styling, HTTP requests, form management, and more - all out of the box.
+- The downside of this is that you are stuck with the framework's tools and conventions even if you don't like or agree with them.
+- However, that's actually not always bad.
+- So, this is not a real downside for some developers.
+- On the other hand, we have JS libraries, which are basically pieces of code that developers share for other developers to use.
+- The prime example here is of course, React, which is what we call a view library.
+- View because all React does is to draw components onto a user interface so, onto a so-called _view_.
+- Now, if you want to build a large scale single page application, you will need to include many external, third party libraries for things like routing, styling, HTTP requests, etc.
+- So, all these functionalities are not part of React itself, unlike what happens with Angular and other frameworks.
+- So, this is how this notion that React is a library ties into the analogy of buying separate ingredients to make Sushi, because to build a React app, we have to choose all these separate libraries.
+- Don't get it wrong, we can actually build React apps with just React itself i.e. without using any libraries, but that only makes sense for small apps or while we are still learning React.
+- Now, being able to choose multiple libraries in order to build your application offers you incredible freedom because you can choose exactly the ones that you like the most.
+- Also, every app will have different requirements. So, each app will require a different combination of libraries.
+- So, including all of them in a framework might not even be necessary.
+- However, on the other hand, the implication of this is that as a React developer, you need to be able to find and download all the right libraries for your specific application.
+- Of course, on top of that you need to then learn how to use these libraries and even stay up to date with them over time.
+- But don't worry, it is actually not as bad as it may sound.
+- So, if you follow the course until the end, you will have a very good understanding of the most important libraries that we usually include into most React projects, which leads us to our next point, which is - React's huge third party library ecosystem.
+- ![image](https://github.com/user-attachments/assets/0bb2a22a-c1de-42d6-be20-68f35426f196)
+- So, React's huge popularity has led to a really, really large ecosystem of libraries that we can include in our React projects for different needs like routing for single page applications, making HTTP requests, managing remote server state, managing global application state, styling, managing forms, animations and transitions, and event entire UI component libraries.
+- We will not go over all of them ony by one because that will take too much time so, you can just research them yourself, if you need.
+- The libraries that are considered the most important are marked with a red border in the image above, and we will use/learn those later in this course.
+- Things like React Router, React Query, Redux, Style Components, or Tailwind.
+- Now, many React developers actually do feel overwhelmed by having to take so many decisions and choosing between so many third party libraries.
+- So, this fact, among some other reasons, has led to the development of multiple opinionated React frameworks such as Next.js, Remix, or Gatsby.
+- ![image](https://github.com/user-attachments/assets/41aca158-7745-45dc-bf5d-24fbb382085e)
+- Next.js or Remix are React frameworks because they are actually built on top of React.
+- They basically extend React's functionality and they are opinionated because other developers basically included their own opinions into how to handle stuff like routing, state management, or stylying into these frameworks.
+- Where in the traditional React apps, we have to make decisions about what libraries to include in an app built with a React framework.
+- Some of these important decisions have already been taken away from you, the developer.
+- So, this makes project development much easier and much faster; and it can also lead to a better overall developer experience.
+- Now, different frameworks specialize in different aspects but, all of them offload much of the setup work from you.
+- Also, all of them offer many advantages besides just being opinionated, such as server side rendering or static site generation.
+- In fact, we can even describe many of these frameworks as full stack React frameworks because they include so many features that we can actually build full stack apps with them, all while using React as the base layer.
+- Anyway, this is just a brief overview of React frameworks.
+- We will learn a lot more about this in the last part of the course where we will actually build a very large project using Next.js.
 
 ## Author
 
