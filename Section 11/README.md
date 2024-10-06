@@ -29,6 +29,7 @@
     - [State Update Batching in Practice](#state-update-batching-in-practice)
     - [How Events Work in React](#how-events-work-in-react)
     - [Libraries vs. Frameworks \& The React Ecosystem](#libraries-vs-frameworks--the-react-ecosystem)
+    - [Section Summary: Practical Takeaways](#section-summary-practical-takeaways)
   - [Author](#author)
 
 ## Lessons Learned
@@ -2148,6 +2149,68 @@ document
 - In fact, we can even describe many of these frameworks as full stack React frameworks because they include so many features that we can actually build full stack apps with them, all while using React as the base layer.
 - Anyway, this is just a brief overview of React frameworks.
 - We will learn a lot more about this in the last part of the course where we will actually build a very large project using Next.js.
+
+### Section Summary: Practical Takeaways
+
+- Welcome to the last lesson of this long and complicated section. Hopefully, you enjoyed learning about all these internal workings of React.
+- Now, to finish, let's summarize the key learnings that you should retain from this section.
+- This is not a summary of everything that we learned but only the practical takeaways and conclusions that you will actually need to know in practice as you build your own React apps.
+- This is necessary beacause, as mentioned multiple times previously, you don't need to know all the complicated things about how React works behind the scenes but, you do need to know the practical implications of it.
+- So, this is the lesson where we gather all of those practical implications in the form of text slides that you can save and read in the future.
+- Anyway, let's now move on to our first point.
+- ![image](https://github.com/user-attachments/assets/15e2446d-1892-44a2-85c2-3914cb42c307)
+- A component is basically like a blueprint for a piece of UI that will eventually exist on the screen.
+- When we then use a component, React creates a component instance, which is like an actual, physical manifestation of a component, which contains props, state, effects, and more.
+- So, following the analogy of the blueprint, the component is like a blueprint for a house and the component instances are like the actual houses that have been built from that blueprint.
+- Finally, a component instance when rendered, will return a React element.
+- Let's now move on to rendering.
+- In React, rendering only means calling component functions and calculating what DOM elements need to be inserted, deleted, or updated later.
+- So, rendering has nothing to with actually writing i.e. with actually updating the DOM.
+- Writing to the DOM is actually called committing in the React language.
+- So, what you need to remember here is that each time a component instance is rendered and re-rendered, the function is simply called again.
+- But, what actually triggers a render to happen?
+- As you should know already, only the initial render and state updates can cause a render which will happen for the entire application.
+- So, even though it might look as if only one single component is rendered, the process is actually executed for all components.
+- Now, when a component instance does get re-rendered, all its children will get re-rendered as well.
+- This doesn't mean that all children will get updated in the DOM because, thanks to reconciliation, React will check which elements have actually changed between the two renders.
+- One of the main parts of reconciliation that we just mentioned is diffing.
+- ![image](https://github.com/user-attachments/assets/ef169a51-3a61-44b3-8c6e-bf51b441fa58)
+- Diffing is how React decides which DOM elements need to be added or modified later.
+- If between two renders, a certain React element stays at the same position in the element tree, the corresponding DOM element and the component state will simply stay the same.
+- So, the DOM will not be modified in this case which is a huge win for performance.
+- However, if the element did change to a different position in the tree or if it changed to a different element type altogether, then the DOM element and the corresponding state will be destroyed.
+- So, they will basically be reset.
+- Now, one cool thing about the diffing algorithm is the fact that we can actually influence it by giving elements a `key` prop, which then allows React to distinguish between multiple component instances of the same component type.
+- So, when the `key` on a certain element stays the same across renders, the element is kept in the DOM even if it appears at a different position in the tree.
+- So, this is the reason why we need to use `key` in lists because it will prevent unnecessary re-creations of elements in the DOM.
+- On the other hand, when we change the `key` between renders, the DOM element will be destroyed and re-built.
+- So, this is a very nice trick that we can use in order to reset state, which is sometimes necessary as we saw in two practical examples in this section.
+- Next, we have one very important rule that you must never ever forget which is that you should never declare a new component inside another component.
+- That's because doing so will re-create that nested component every time the parent component re-renders. So, that nested component would always be a new variable basically.
+- This means that React would always see the nested component as a brand new component, and therefore, reset its state each time that the parent's state is updated.
+- Now, the reason why this happens is not the important part, but what matters is that you should always, always declare i.e. you should write new components at the top level of a file, never inside another component.
+- Now, the logic that is responsible for creating DOM elements i.e. logic that produces JSX is called render logic and this render logic is not allowed to produce any side effects.
+- So, render logic can have no API calls, no timers, no object or variable mutations, and no state updates.
+- The only place where side effects are allowed is inside event handlers and inside `useEffect`.
+- Now, after all this rendering, it is time to finally update the DOM, which happens in the commit phase.
+- ![image](https://github.com/user-attachments/assets/362c99c3-b60f-4e0c-a18e-8bdc893ef00c)
+- However, it is actually not React that does this committing but, a so-called renderer called ReactDOM.
+- That's why we always need to include both these libraries in a React web application project.
+- We can also use other renderers to use React on different platforms.
+- For example, to build mobile or native applications with React Native.
+- Now, for the rest of this lesson, let's leave the topic of rendering behind and quickly talk about state and events.
+- So, when we have multiple state updates inside an event handler function, all these state updates will be batched.
+- So basically, they will happen all at once and this is super important because it means that multiple related state updates will only create one re-render which, once again, is great for performance.
+- Since React 18, automatic batching even happens inside timeouts, promises, and native event handlers.
+- Now, one super important practical implication of this is that we cannot access a state variable immediately after we update it which is why we say that state updates are asynchronous.
+- Next up, when we use events inside event handler functions, we get access to a so-called synthetic event object, not the browser's native object.
+- So, the React team created synthetic events so that events work the exact same way across all browsers and the main difference between synthetic and native events is that most synthetic events do actually bubble and that includes the focus, blur, and change events, which do not usually bubble as native browser events.
+- The only exception here is the scroll event.
+- Finally, let's remember that React is a library and not a framework.
+- This means that you can basically assemble your applications using your favorite or the community's favorite third-party libraries and this is great for flexibility and creative freedom.
+- The downside of this freedom is that there is basically an infinite amount of libraries that you can choose from and so, you need ot first find and then learn all these additional libraries that you need.
+- However, that's not big of a problem because we will learn about the most commonly used libraries in the main projects of this course.
+- There you have it. This is essentially what you need to remember from this section, going forward.
 
 ## Author
 
