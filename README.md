@@ -23,6 +23,7 @@
 - [Section 09](./Section%2009): Part 02 - Intermediate React
 - [Section 10](./Section%2010): Thinking in React - Components, Composition, and Reusability
 - [Section 11](./Section%2011): How React Works Behind the Scenes
+- [Section 12](./Section%2012): Effects and Data Fetching
 
 ## Projects
 
