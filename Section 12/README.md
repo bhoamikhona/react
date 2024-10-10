@@ -9,6 +9,7 @@
   - [Lessons Learned](#lessons-learned)
     - [The Component Lifecycle](#the-component-lifecycle)
     - [How NOT to Fetch Data in React](#how-not-to-fetch-data-in-react)
+    - [useEffect to the Rescue](#useeffect-to-the-rescue)
   - [Author](#author)
 
 ## Lessons Learned
@@ -79,6 +80,39 @@ export default function App() {
 - So, we can simply get rid of that and get back to where our app was working.
 - However, we do actually want to set the state of `movies` in the `then()` handler, but without having all the problems that we just saw.
 - So, how can we do that? Well, that's where we need the `useEffect` hook which we will learn about in the next lesson.
+
+### useEffect to the Rescue
+
+- The idea of the `useEffect` hook is to give us a place where we can safely write side effects like the one we discussed in the previous lesson.
+- But, the side effects registered with the `useEffect` hook will only be executed after certain renders.
+- For example, only right after the initial render, which is exactly what we are looking for in our app.
+- The `useEffect` doesn't return anything so, we don't store the result into a variable but instead, we pass in a function.
+- This function is then called our effect, and it contains the code that we want to run as a side effect.
+- The second argument that the `useEffect` hook takes is a dependancy array.
+- This dependancy array is actually the most confusing part of this hook, and we will learn all about it throughout this section.
+- For now, we can just pass in an empty array - which means that the effect that we just specified in the function argument will only run on mount.
+- So, the function in the `useEffect` will only run when the App component renders for the very first time.
+- Now if we check our Network tab in chrome developer tools, we will notice that we have no more infinite loops and no more infinite requests to the API.
+- So, the problem that we created in the previous lesson has indeed been fixed.
+- Now our effect is only running as the component mounts.
+
+```javascript
+import React, { useState, useEffect } from "react";
+
+export default function App() {
+  const [movies, setMovies] = useState([]);
+
+  useEffect(function () {
+    fetch(
+      `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=interstellar`
+    )
+      .then((res) => res.json())
+      .then((data) => setMovies(data.Search));
+  }, []);
+
+  return <div>App</div>;
+}
+```
 
 ## Author
 
