@@ -8,6 +8,7 @@
   - [Table of Content](#table-of-content)
   - [Lessons Learned](#lessons-learned)
     - [The Component Lifecycle](#the-component-lifecycle)
+    - [How NOT to Fetch Data in React](#how-not-to-fetch-data-in-react)
   - [Author](#author)
 
 ## Lessons Learned
@@ -44,6 +45,40 @@
 - Well, it is important to know about the component lifecycle, because we can hook into different phases of this lifecycle.
 - So, we can basically define code to be executed at these specific points in time, which can be extremely useful.
 - And we do so by using the `useEffect` hook, which is the big topic of this section.
+
+### How NOT to Fetch Data in React
+
+- When we fetch data from the API and set the `movies` state when we fetch the data:
+
+```javascript
+fetch(URL)
+  .then((res) => res.json())
+  .then((data) => setMovies(data.Search));
+```
+
+- Then if we look into our Network tab in the chrome developer tools, we will notice that it is fetching data on repeat from the API. Even though on surface i.e. on our UI, everything seems to be working the way we want.
+- Why is that?
+- The reason is that setting the state in the render logic will then immediately cause the component to re-render itself again.
+- That's just how state works.
+- However, as the component is re-rendered, the function is executed again which will fetch from the API again, which will set the state again.
+- So, this really is an infinite loop of state setting and then the component re-rendering.
+- This is the reason why it is really not allowed to set state in render logic.
+- We can even notice that if we try to set the state on the top level code of the component function:
+
+```javascript
+export default function App() {
+  const [watched, setWatched] = useState([]);
+
+  setWatched([]);
+
+  return <div>App</div>;
+}
+```
+
+- This actually gives us an error of too many re-renders because we are setting the state of `watched` on the top level code even without being inside a `then()` handler then immediately React will complain that there are too many renders, which means that we again entered that infinite loop where updating state will cause a component to re-render, which will cause the state to be set and so on to infinity.
+- So, we can simply get rid of that and get back to where our app was working.
+- However, we do actually want to set the state of `movies` in the `then()` handler, but without having all the problems that we just saw.
+- So, how can we do that? Well, that's where we need the `useEffect` hook which we will learn about in the next lesson.
 
 ## Author
 
