@@ -12,6 +12,7 @@
     - [useEffect to the Rescue](#useeffect-to-the-rescue)
     - [A First Look at Effects](#a-first-look-at-effects)
     - [Using an async Function](#using-an-async-function)
+    - [Adding a Loading State](#adding-a-loading-state)
   - [Author](#author)
 
 ## Lessons Learned
@@ -325,6 +326,88 @@ useEffect(function () {
 - This means that there was only one HTTP request.
 - So, the effect was only called once indeed.
 - But, keep the strict mode on because, it is somehow safer that way.
+
+### Adding a Loading State
+
+- Let's now add a very simple loading indicator to our application.
+- Basically, whenever the movie data is still being loaded in the background we want to instead display some kind of loading indicator.
+- In order to do that, we need some more state i.e. a state variable which baiscally tells our UI that the data is still being loaded.
+- Then, as soon as the data has been loaded, we want to display the data and not the loading indicator anymore.
+- Anyway, let's simply create that state variable and usually it is called `isLoading`.
+
+```javascript
+const [isLoading, setIsLoading] = useState(false);
+```
+
+- In our async `fetchMovies()` function, set `isLoading` to `true`.
+- This will then indicate to our UI that information is still loading so that it can render the loading indicator.
+
+```javascript
+// Entire code at ./usepopcorn/src/App.jsx
+
+const [movies, setMovies] = useState([]);
+const [isLoading, setIsLoading] = useState(false);
+const query = "interstellar";
+
+useEffect(function () {
+  async function fetchMovies() {
+    // set `isLoading` to true
+    setIsLoading(true);
+    const res = await fetch(
+      `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${query}`
+    );
+
+    const data = await res.json();
+    setMovies(data.Search);
+    console.log(data.Search);
+  }
+  fetchMovies();
+}, []);
+```
+
+- Then, when all of the loading is done, we can then set the `isLoading` state back to `false`.
+
+```javascript
+// Entire code at ./usepopcorn/src/App.jsx
+
+const [movies, setMovies] = useState([]);
+const [isLoading, setIsLoading] = useState(false);
+const query = "interstellar";
+
+useEffect(function () {
+  async function fetchMovies() {
+    // set `isLoading` to true
+    setIsLoading(true);
+    const res = await fetch(
+      `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${query}`
+    );
+
+    const data = await res.json();
+    setMovies(data.Search);
+
+    // set `isLoading` to false
+    setIsLoading(false);
+  }
+  fetchMovies();
+}, []);
+```
+
+- Now, we can use the ternary operator in JSX to conditionally render the loading indicator or the list of movies.
+
+```javascript
+// Entire code at ./usepopcorn/src/App.jsx
+
+// Loader
+function Loader() {
+  return <p className="loader">Loading...</p>;
+}
+
+// JSX part
+<Box>{isLoading ? <Loader /> : <MovieList movies={movies} />}</Box>;
+```
+
+- Now if you reload the webpage, you will see it working.
+- With this, this whole behavior is a bit more natural and also a bit more real world because in all real applications you always have some indication to the user that some data is being fetched.
 
 ## Author
 
