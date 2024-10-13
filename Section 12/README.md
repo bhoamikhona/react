@@ -11,6 +11,7 @@
     - [How NOT to Fetch Data in React](#how-not-to-fetch-data-in-react)
     - [useEffect to the Rescue](#useeffect-to-the-rescue)
     - [A First Look at Effects](#a-first-look-at-effects)
+    - [Using an async Function](#using-an-async-function)
   - [Author](#author)
 
 ## Lessons Learned
@@ -161,6 +162,169 @@ export default function App() {
 - Now, what's very important to note here is that event handlers are always the preferred way of creating side effects.
 - So, whenever possible we should not overuse the `useEffect` hook.
 - So, everything that can be handled inside event handlers should be handled there.
+
+### Using an async Function
+
+- Let's now convert our effect to an `async` function instead of the basic promise handling that we are doing right now.
+
+```javascript
+// Entire code at ./usepopcorn/src/App.jsx
+
+// Basic promise handling
+useEffect(function () {
+  fetch(
+    `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=interstellar`
+  )
+    .then((res) => res.json())
+    .then((data) => setMovies(data.Search));
+}, []);
+```
+
+- So, many times when we need a lot of code to handle a promise, it is a lot easier and nicer to just have an `async` function.
+- So, we might think that all we need to do is to place the `async` keyword before the `function` keyword in the `useEffect` and then use `await` inside of it, like so:
+
+```javascript
+// Entire code at ./usepopcorn/src/App.jsx
+
+useEffect(async function () {
+  fetch(
+    `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=interstellar`
+  )
+    .then((res) => res.json())
+    .then((data) => setMovies(data.Search));
+}, []);
+```
+
+- However, we immediately get a warning from ESLint which tells us that effect callbacks are synchronous to prevent race conditions.
+- Basically, the effect function that we place into `useEffect` cannot return a promise, which is what an async function does.
+- So, instead of doing it directly, like we did above, we can just create a new function and place the async function inside of it, like so:
+
+```javascript
+// Entire code at ./usepopcorn/src/App.jsx
+
+useEffect(function () {
+  async function fetchMovies() {
+    const res = await fetch(
+      `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=interstellar`
+    );
+
+    const data = await res.json();
+    setMovies(data.Search);
+  }
+}, []);
+```
+
+- But now, of course, nothing is happening because nowhere are we call the `fetchMovies()` function.
+- So, our effect's function is the one that is wrapping the `fetchMovies()` function above, but all that the effect function is doing is to define another fucntion viz `fetchMovies()`.
+- So, to make it work, we will just call it and it will be back to working.
+
+```javascript
+// Entire code at ./usepopcorn/src/App.jsx
+
+useEffect(function () {
+  async function fetchMovies() {
+    const res = await fetch(
+      `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=interstellar`
+    );
+
+    const data = await res.json();
+    setMovies(data.Search);
+  }
+
+  fetchMovies();
+}, []);
+```
+
+- Now instead of hard coding "interstellar" in the URL from which we fetch movies, let's extract it into another variable, which we can call `query`.
+  - This is just temporary.
+
+```javascript
+// Entire code at ./usepopcorn/src/App.jsx
+
+const query = "interstellar";
+
+useEffect(function () {
+  async function fetchMovies() {
+    const res = await fetch(
+      `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${query}`
+    );
+
+    const data = await res.json();
+    setMovies(data.Search);
+  }
+
+  fetchMovies();
+}, []);
+```
+
+- Now we want to log all the movies that we get from the API onto the console, just so we can see something.
+
+```javascript
+// Entire code at ./usepopcorn/src/App.jsx
+
+const [movies, setMovies] = useState([]);
+const query = "interstellar";
+
+useEffect(function () {
+  async function fetchMovies() {
+    const res = await fetch(
+      `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${query}`
+    );
+
+    const data = await res.json();
+    setMovies(data.Search);
+
+    // logging movies onto console
+    console.log(movies);
+  }
+
+  fetchMovies();
+}, []);
+```
+
+- Do you think that logging movies like that is going to work?
+- Let's reload to actually see the true result, which is an empty array.
+- So, why is this happening?
+- Well, hopefully you learned in the previous section that setting state is asynchronous.
+- In other words, after the state has been set in `setMovies(data.Search)` line of code, or actually, after we instructed React to set the state, that doesn't mean that it happens immediately.
+- Instead, it will happen after the `setMovies()` function has been called.
+- So, in the very next line of code i.e. `console.log(movies)` we have stale state which basically means that we still have the old value of the state which was before we set its new value.
+- And in this case, before, it was just an empty array i.e. the initial state of `movies` is set to an empty array.
+- So, in `fetchMovies()` function, instead of loggin `movies`, we can log `data.Search` instead.
+
+```javascript
+// Entire code at ./usepopcorn/src/App.jsx
+
+const [movies, setMovies] = useState([]);
+const query = "interstellar";
+
+useEffect(function () {
+  async function fetchMovies() {
+    const res = await fetch(
+      `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${query}`
+    );
+
+    const data = await res.json();
+    setMovies(data.Search);
+
+    // logging data.Search onto console
+    console.log(data.Search);
+  }
+
+  fetchMovies();
+}, []);
+```
+
+- Now let's talk about the fact that when we log `console.log(data.Search)` into the console, we get 2 outputs. Basically, why we have two requests happening.
+- Well, the reason for that is React's strict mode.
+- When strict mode is activated in React 18, our effects will not run only once, by actually twice.
+- So, React will call our effects twice but, only in development.
+- So, when our application is in production, this will no longer be happening.
+- This is just so that React can identify if there are ny problems with our effects.
+- So, we remove the strict mode from our index.js file and reload the webpage, then you can see that we only get one output in the console.
+- This means that there was only one HTTP request.
+- So, the effect was only called once indeed.
+- But, keep the strict mode on because, it is somehow safer that way.
 
 ## Author
 
