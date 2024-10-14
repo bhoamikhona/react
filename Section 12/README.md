@@ -517,6 +517,14 @@ useEffect(function () {
 
 - Now we can do some conditional rendering to show the error on our UI.
 
+> [!NOTE]
+>
+> On the UI we get the message "Failed to Fetch" instead of "Something went wrong with fetching movies" why is that?
+>
+> This is because error is happened in await `` fetch(`http://www.omdbapi.com/?s=${query}&apikey=${KEY}`) `` so, `res` cannot be established. We could add catch method after it like this:
+> `` const res = await fetch(`http://www.omdbapi.com/?s=${query}&apikey=${KEY}`).catch(()=> {throw new Error("this is where error happened");}) ``
+> And you could get the right messgae "this is where error happened".
+
 ```javascript
 // Entire code at ./usepopcorn/src/App.jsx
 
