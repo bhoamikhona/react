@@ -13,6 +13,7 @@
     - [A First Look at Effects](#a-first-look-at-effects)
     - [Using an async Function](#using-an-async-function)
     - [Adding a Loading State](#adding-a-loading-state)
+    - [Handling Errors](#handling-errors)
   - [Author](#author)
 
 ## Lessons Learned
@@ -408,6 +409,299 @@ function Loader() {
 
 - Now if you reload the webpage, you will see it working.
 - With this, this whole behavior is a bit more natural and also a bit more real world because in all real applications you always have some indication to the user that some data is being fetched.
+
+### Handling Errors
+
+- Whenever we are doing any data fetching in any web application and dealing with asynchronous data, we always need to assume that something can go wrong.
+- Therefore, let's now account for that situation by handling those errors.
+- One of the things that can go wrong is your users suddenly losing their internet connection.
+- We can simulate that using the network tab in the chrome developer tools.
+- First make sure that we are on slow 3G. Then, when the movies are loading, switch it to offline.
+- So right now, you can see that our application basically never leaves the state of `isLoading`.
+- Also, when we see our console, we get an error that says "Failed to fetch", which, again, is because our user basically lost their internet connection.
+- So, when that happens, we want to display some kind of error message on the screen and not keep the application in the loading state forever.
+- This is because, if we let our app be in the loading state forever, the user will think that the data will eventually arrive, but of course it won't with no internet conenction.
+- Now, reacting to errors like this is actually not built into the `fetch()` function itself. So, we have to take care of that manually.
+- So, let's try that in our `fetchMovies()` function.
+- On the response object that we reiceve from `fetch()` exists a property called `ok` - we can check for that.
+- So basically, if the response is not `ok` then we want to throw a new error.
+  - NOTE: This is pretty standard JS code.
+
+```javascript
+// Entire code at ./usepopcorn/src/App.jsx
+
+const [movies, setMovies] = useState([]);
+const [isLoading, setIsLoading] = useState(false);
+const query = "interstellar";
+
+useEffect(function () {
+  async function fetchMovies() {
+    setIsLoading(true);
+    const res = await fetch(
+      `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${query}`
+    );
+
+    // Checking for `ok` and if it is not `ok` then throw new error.
+    if (!res.ok) throw new Error("Something went wrong with fetching movies");
+
+    const data = await res.json();
+    setMovies(data.Search);
+    setIsLoading(false);
+  }
+  fetchMovies();
+}, []);
+```
+
+- So now if we are throwing an error here, we need to wrap all of our code in a try catch block.
+
+```javascript
+// Entire code at ./usepopcorn/src/App.jsx
+
+const [movies, setMovies] = useState([]);
+const [isLoading, setIsLoading] = useState(false);
+const query = "interstellar";
+
+useEffect(function () {
+  async function fetchMovies() {
+    try {
+      setIsLoading(true);
+      const res = await fetch(
+        `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${query}`
+      );
+
+      if (!res.ok) throw new Error("Something went wrong with fetching movies");
+
+      const data = await res.json();
+      setMovies(data.Search);
+      setIsLoading(false);
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+  fetchMovies();
+}, []);
+```
+
+- Now if we want to display the error message onto the UI, we need to store that message in a state variable.
+- So, let's create another piece of state that indicates if we currently have an error or not.
+
+```javascript
+// Entire code at ./usepopcorn/src/App.jsx
+
+const [movies, setMovies] = useState([]);
+const [isLoading, setIsLoading] = useState(false);
+const [error, setError] = useState("");
+const query = "interstellar";
+
+useEffect(function () {
+  async function fetchMovies() {
+    try {
+      setIsLoading(true);
+      const res = await fetch(
+        `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${query}`
+      );
+
+      if (!res.ok) throw new Error("Something went wrong with fetching movies");
+
+      const data = await res.json();
+      setMovies(data.Search);
+      setIsLoading(false);
+    } catch (err) {
+      console.error(err.message);
+      setError(err.message);
+    }
+  }
+  fetchMovies();
+}, []);
+```
+
+- Now we can do some conditional rendering to show the error on our UI.
+
+```javascript
+// Entire code at ./usepopcorn/src/App.jsx
+
+// Error Message Component
+function ErrorMessage({ message }) {
+  return (
+    <p className="error">
+      <span>⛔</span> {message}
+    </p>
+  );
+}
+
+// JSX part
+<Box>
+  {isLoading && <Loader />}
+  {!isLoading && !error && <MovieList movies={movies} />}
+  {error && <ErrorMessage message={error} />}
+</Box>;
+```
+
+- Here the situation is indeed a bit tricky with all the 3 different state we have and with all the conditional rendering, but they are now 3 mutually exclusive conditions.
+- However, there is still a problem, because as soon as the new error is thrown, the rest of the code is not evaluated in the `try` block so, the `isLoading` state is never set to `false`.
+- To remedy that, we can use the `finally` block and set the `isLoading` state to `false` there.
+
+```javascript
+// Entire code at ./usepopcorn/src/App.jsx
+
+const [movies, setMovies] = useState([]);
+const [isLoading, setIsLoading] = useState(false);
+const [error, setError] = useState("");
+const query = "interstellar";
+
+useEffect(function () {
+  async function fetchMovies() {
+    try {
+      setIsLoading(true);
+      const res = await fetch(
+        `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${query}`
+      );
+
+      if (!res.ok) throw new Error("Something went wrong with fetching movies");
+
+      const data = await res.json();
+      setMovies(data.Search);
+    } catch (err) {
+      console.error(err.message);
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+  fetchMovies();
+}, []);
+```
+
+- Now let's handle another kind of error which is not really an error but, a situation in which we would want to display a message.
+- The situation being that we cannot find any movie for the search query.
+- Let's say that the movie search query is "ka92an" - of course the API will not find anything.
+- Before we handle that, if we just check the result of "ka92an" we get "Cannot read properties of undefined" as an error from React.
+
+```javascript
+// Entire code at ./usepopcorn/src/App.jsx
+
+const [movies, setMovies] = useState([]);
+const [isLoading, setIsLoading] = useState(false);
+const [error, setError] = useState("");
+const query = "ka92an";
+
+useEffect(function () {
+  async function fetchMovies() {
+    try {
+      setIsLoading(true);
+      const res = await fetch(
+        `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${query}`
+      );
+
+      if (!res.ok) throw new Error("Something went wrong with fetching movies");
+
+      const data = await res.json();
+      setMovies(data.Search);
+    } catch (err) {
+      console.error(err.message);
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+  fetchMovies();
+}, []);
+```
+
+- So, the problem is that the data that comes back from the API now is apparently `undefined`.
+- We can take a look at that by logging it to the console.
+
+```javascript
+// Entire code at ./usepopcorn/src/App.jsx
+
+const [movies, setMovies] = useState([]);
+const [isLoading, setIsLoading] = useState(false);
+const [error, setError] = useState("");
+const query = "ka92an";
+
+useEffect(function () {
+  async function fetchMovies() {
+    try {
+      setIsLoading(true);
+      const res = await fetch(
+        `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${query}`
+      );
+
+      if (!res.ok) throw new Error("Something went wrong with fetching movies");
+
+      const data = await res.json();
+      setMovies(data.Search);
+      console.log(data);
+    } catch (err) {
+      console.error(err.message);
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+  fetchMovies();
+}, []);
+```
+
+- This is what we get as an output:
+
+```javascript
+// output
+{Response: 'False', Error: 'Movie not found!'}
+```
+
+- Indeed, we no longer have the `Search` property in the returning object from the API.
+- So, what's happening then is that `data.Search` is being set to `undefined`.
+- Therefore, we get the error mentioned above.
+- So, as mentioned in the beginning, we always need to handle all these situations that can go wrong; and when working with data fetching there's always a lot of things that can go wrong.
+- So, working with data is a lot of work but, it is also essential in most if not all web applications.
+- Anyway, here we can now use the response `{Response: 'False', Error: 'Movie not found!'}` to our advantage, in order to throw another error in this situation.
+- So, we can check is `data.Response === "False"` then throw a new error.
+
+```javascript
+// Entire code at ./usepopcorn/src/App.jsx
+
+const [movies, setMovies] = useState([]);
+const [isLoading, setIsLoading] = useState(false);
+const [error, setError] = useState("");
+const query = "ka92an";
+
+useEffect(function () {
+  async function fetchMovies() {
+    try {
+      setIsLoading(true);
+      const res = await fetch(
+        `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${query}`
+      );
+
+      if (!res.ok) throw new Error("Something went wrong with fetching movies");
+
+      const data = await res.json();
+
+      if (data.Response === "False") throw new Error("Movie not found");
+
+      setMovies(data.Search);
+      console.log(data);
+    } catch (err) {
+      console.error(err.message);
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+  fetchMovies();
+}, []);
+```
+
+- Now it is working as expected.
+- Recap:
+- What we did was to implement another state variable, this time, specific for the error.
+- So, whenever some error occured we could store the error message in that variable and display it in the UI as soon as an error occured.
+- Now, as soon as the the error did occur, we threw a new error in the `try` block and caught it in the `catch` block - which is the standard way of catching errors in JS.
+- In this situation, we then set the error state to the message of the error that we specified when throwing new error.
+- Finally, we use the `error` state variable in order to render something on the screen conditionally.
+- That's it for now, for error handling.
+- It is a very important part that many people overlook but, it is essential to deal with these kinds of situations.
 
 ## Author
 
