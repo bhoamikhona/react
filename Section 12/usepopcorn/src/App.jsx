@@ -57,32 +57,32 @@ export default function App() {
   const [error, setError] = useState("");
   const query = "ka92an";
 
-  useEffect(function () {
-    async function fetchMovies() {
-      try {
-        setIsLoading(true);
-        const res = await fetch(
-          `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${query}`
-        );
+  // useEffect(function () {
+  //   async function fetchMovies() {
+  //     try {
+  //       setIsLoading(true);
+  //       const res = await fetch(
+  //         `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${query}`
+  //       );
 
-        if (!res.ok)
-          throw new Error("Something went wrong with fetching movies");
+  //       if (!res.ok)
+  //         throw new Error("Something went wrong with fetching movies");
 
-        const data = await res.json();
+  //       const data = await res.json();
 
-        if (data.Response === "False") throw new Error("Movie not found");
+  //       if (data.Response === "False") throw new Error("Movie not found");
 
-        setMovies(data.Search);
-        console.log(data);
-      } catch (err) {
-        console.error(err.message);
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fetchMovies();
-  }, []);
+  //       setMovies(data.Search);
+  //       console.log(data);
+  //     } catch (err) {
+  //       console.error(err.message);
+  //       setError(err.message);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   }
+  //   fetchMovies();
+  // }, []);
 
   return (
     <>
