@@ -15,6 +15,9 @@
     - [Adding a Loading State](#adding-a-loading-state)
     - [Handling Errors](#handling-errors)
     - [The useEffect Dependency Array](#the-useeffect-dependency-array)
+    - [Synchronizing Queries With Movie Data](#synchronizing-queries-with-movie-data)
+      - [Experiment 01:](#experiment-01)
+      - [Experiment 02:](#experiment-02)
   - [Author](#author)
 
 ## Lessons Learned
@@ -823,6 +826,155 @@ useEffect(
 - We are simply mentioning it here for your knowledge.
 - And actually, there are event two more holes in this timeline.
 - But, we will talk about these mystery steps by the end of this section.
+
+### Synchronizing Queries With Movie Data
+
+#### Experiment 01:
+
+- In the code below, we have a couple of effects a `console.log()`. In which order they will be executed?
+
+```javascript
+// full code at ./usepopcorn/src/App.jsx
+
+function App() {
+  const [query, setQuery] = useState("");
+
+  // use effect with empty dependency
+  useEffect(function () {
+    console.log("A");
+  }, []);
+
+  // use effect with no dependency array
+  useEffect(function () {
+    console.log("B");
+  });
+
+  // regular console.log()
+  console.log("C");
+
+  return <Search query={query} setQuery={setQuery} />;
+}
+
+function Search({ query, setQuery }) {
+  return (
+    <input
+      className="search"
+      type="text"
+      placeholder="Search movies..."
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+    />
+  );
+}
+```
+
+- Result:
+- ![image](https://github.com/user-attachments/assets/1a5a022d-07e4-4bc9-8a19-720d154303e5)
+- We have a lot of renders and results here but that's because the application has rendered and re-rendered a couple of times; and so then we got all these logs.
+- Also, keep in mind that these effects actually run twice.
+- But, what matters here is that we got C, then A, and then B.
+- So, why did we get C first?
+- The reason is that, as we just discussed before, effects actually only run after the browser paints the UI, while the render logic itself runs during render.
+- So then it makes sense that of course the `console.log("C")` is executed first during the render of the component.
+- Then we have A and B and A is rendered first simply because it appears first in the code.
+- Now if we clear the console and type something in the search bar, let's see what we get.
+- ![gif](https://github.com/user-attachments/assets/78a63c8b-e01c-49a4-b21c-aae315dfdb70)
+- We get C and B.
+- Is this what you were expecting?
+- Let's analyze this again.
+- As we typed into the search bar, we updated the `query` state and as a result, the component was re-rendered.
+- Then, just like before, the code in the `App` component was executed and therefore we see the letter C first and then after that we also have a letter B logged in the console which comes from the `useEffect` that has no dependency array which basically means that, that effect is synchronized with everything.
+- Therefore, it needs to run on every render, while the other effect that logs A to the console, is synchronized with no variable at all, which is the meaning of the empty dependency array.
+- Therefore, that effect was not executed as the component was re-rendered with the `query` state.
+- So now we can change the strings that all the effects are logging to better describe them.
+
+```javascript
+// full code at ./usepopcorn/src/App.jsx
+
+function App() {
+  const [query, setQuery] = useState("");
+
+  // use effect with empty dependency
+  useEffect(function () {
+    console.log("After initial render");
+  }, []);
+
+  // use effect with no dependency array
+  useEffect(function () {
+    console.log("After every render");
+  });
+
+  // regular console.log()
+  console.log("During render");
+
+  return <Search query={query} setQuery={setQuery} />;
+}
+
+function Search({ query, setQuery }) {
+  return (
+    <input
+      className="search"
+      type="text"
+      placeholder="Search movies..."
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+    />
+  );
+}
+```
+
+- This is only for you to keep as a reference so we can understand what is happening here.
+
+#### Experiment 02:
+
+- Let's add another `useEffect` in the mix and this time, in the dependency array, let's add `query`.
+
+```javascript
+// full code at ./usepopcorn/src/App.jsx
+
+function App() {
+  const [query, setQuery] = useState("");
+
+  // use effect with empty dependency
+  useEffect(function () {
+    console.log("After initial render");
+  }, []);
+
+  // use effect with no dependency array
+  useEffect(function () {
+    console.log("After every render");
+  });
+
+  useEffect(
+    function () {
+      console.log("D");
+    },
+    [query]
+  );
+
+  // regular console.log()
+  console.log("During render");
+
+  return <Search query={query} setQuery={setQuery} />;
+}
+
+function Search({ query, setQuery }) {
+  return (
+    <input
+      className="search"
+      type="text"
+      placeholder="Search movies..."
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+    />
+  );
+}
+```
+
+- Now, as soon as we type in the search bar, we get three logs in the console viz "During render", "After every render", and "D".
+- Now we have this we have an effect which is synchronized with the `query` variable and so, whenever `query` changes, that particular effect will be executed and it will log "D" to the console.
+- If we keep changing `query` then "D" will keep getting logged to the console, while if we changed any other state in the `App`, then "D" will not be logged to the console.
+- Now let's use all that we learned here in our app. (Go to App.jsx to see that).
 
 ## Author
 
